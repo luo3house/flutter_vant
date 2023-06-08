@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --dir=docs dev"
+  }
+}

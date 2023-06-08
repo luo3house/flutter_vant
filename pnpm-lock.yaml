@@ -1,0 +1,15 @@
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .: {}
+
+  docs: {}
+
+  icons: {}
+
+  vantui: {}
