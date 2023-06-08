@@ -37,3 +37,5 @@ export 'src/utils/vo.dart';
 export 'src/utils/nil.dart';
 export 'src/utils/std.dart';
 export 'src/utils/rendering.dart';
+
+export 'package:dart_date/dart_date.dart';
