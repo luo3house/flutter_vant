@@ -30,4 +30,4 @@ runs:
       run: pnpm i
     - name: Build web with base href
       shell: sh
-      run: pnpm build:web --base-href=${{ input.base }}
+      run: pnpm build:web --base-href=${{ inputs.base }}
