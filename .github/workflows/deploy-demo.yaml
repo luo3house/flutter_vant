@@ -5,7 +5,7 @@ on:
     branches: ['main']
 
 env:
-  BASE_HREF: /flutter_vant/demo/
+  BASE_HREF: /flutter_vant/
 
 jobs:
   build:
