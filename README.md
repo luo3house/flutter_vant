@@ -2,6 +2,13 @@
 
 轻量、快速的 Flutter 端组件，基于 Vant 风格设计。
 
+[![Pub Version](https://img.shields.io/pub/v/flutter_vantui)](https://pub.dev/packages/flutter_vantui)
+[![Github Action](https://github.com/luo3house/flutter_vant/actions/workflows/deploy-demo.yaml/badge.svg)](https://luo3house.github.io/flutter_vant/)
+
+## 在线演示
+
+[Live Demo](https://luo3house.github.io/flutter_vant/)
+
 ## 特性
 
 - 封装 30+ 常用业务组件，开箱即用
