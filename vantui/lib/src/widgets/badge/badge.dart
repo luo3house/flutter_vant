@@ -44,8 +44,10 @@ class VanBadgeState extends State<VanBadge> {
   Widget build(BuildContext context) {
     final badge = Builder(builder: (context) {
       raf(() {
-        final badgeSize = context.size;
-        if (badgeSize != size) setState(() => size = badgeSize);
+        if (mounted) {
+          final badgeSize = context.size;
+          if (badgeSize != size) setState(() => size = badgeSize);
+        }
       });
       return BadgeBody(
         content: widget.content,

@@ -16,8 +16,8 @@ class FormPage extends StatelessWidget {
     return VanForm(
       initialValue: const {
         "username": "flutter vantui authors",
-        "rate": 4,
-        "slider": 82,
+        "rate": 4.0,
+        "slider": 82.0,
       },
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         VanCellGroup(children: [
