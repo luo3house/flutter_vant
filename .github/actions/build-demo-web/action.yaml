@@ -1,0 +1,32 @@
+name: Build Demo Web
+description: Build Demo on web
+author: Luo3House
+inputs:
+  base:
+    description: Base href params for build command
+    required: false
+    default: '/'
+runs:
+  using: composite
+  steps:
+    - name: Setup Pnpm
+      shell: bash
+      run: |
+        node -v
+        npm -v
+        npm -g i pnpm
+        pnpm -v
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.3.10'
+        channel: 'stable'
+        cache: true
+        cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+        architecture: x64
+    - name: Install Dependencies For Workspace
+      shell: bash
+      run: pnpm i
+    - name: Build web with base href
+      shell: bash
+      run: pnpm build:web --base-href=${{ inputs.base }}

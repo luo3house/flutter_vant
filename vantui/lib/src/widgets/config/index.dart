@@ -40,14 +40,18 @@ class VanConfig extends StatefulWidget {
 class VanConfigState extends State<VanConfig> {
   final overlayKey = GlobalKey<OverlayState>();
 
-  VanTheme? get theme => widget.theme;
+  VanTheme? get theme => widget.theme ?? VanTheme.fallback;
 
   @override
   Widget build(BuildContext context) {
     return Provider<VanConfigState>(
       create: (_) => this,
       child: DefaultTextStyle(
-        style: TailTypo().no_underline().font_size(16).TextStyle(),
+        style: TailTypo()
+            .no_underline()
+            .font_size(16)
+            .text_color(theme?.textColor)
+            .TextStyle(),
         child: IconTheme(
           data: const IconThemeData.fallback().copyWith(size: 14),
           child: ScrollConfiguration(

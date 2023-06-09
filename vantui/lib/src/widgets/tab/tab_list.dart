@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
-import 'package:flutter_vantui/src/utils/rendering.dart';
 import 'package:flutter_vantui/src/widgets/tab/extent.dart';
 import 'package:tailstyle/tailstyle.dart';
 

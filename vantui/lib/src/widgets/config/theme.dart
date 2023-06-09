@@ -58,8 +58,8 @@ class VanTheme {
   double lineHeightLg = 22;
 
   // Animation
-  Duration durationBase = Duration(milliseconds: 300);
-  Duration durationFast = Duration(milliseconds: 200);
+  Duration durationBase = const Duration(milliseconds: 300);
+  Duration durationFast = const Duration(milliseconds: 200);
 
   // Border
   Color borderColor = const Color(0xFFebedf0);

@@ -1,6 +1,6 @@
 {
   "private": true,
   "scripts": {
-    "install": "flutter pub get"
+    "postinstall": "flutter pub get"
   }
 }

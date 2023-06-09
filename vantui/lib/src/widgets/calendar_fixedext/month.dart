@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_vantui/src/utils/date_util.dart';
-import 'package:flutter_vantui/src/utils/nil.dart';
 import 'package:flutter_vantui/src/widgets/calendar_fixedext/day.dart';
 import 'package:flutter_vantui/src/widgets/calendar_fixedext/extent.dart';
 import 'package:tailstyle/tailstyle.dart';
@@ -54,7 +53,6 @@ class CalendarMonth extends StatelessWidget {
                 .font_size(160)
                 .Text(month.toString()),
             Column(mainAxisSize: MainAxisSize.min, children: [
-              Expanded(child: nil),
               SizedBox(
                 height: headerExtent,
                 child: TailTypo().font_bold().text_center().Text(headerText),
