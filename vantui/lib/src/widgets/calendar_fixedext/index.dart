@@ -102,6 +102,7 @@ class CalendarState extends State<Calendar> {
     final selectionRange = () {
       if (type != CalendarType.range) return null;
       return Tuple2(
+        // ignore: prefer_is_empty
         values.length > 0 ? values[0] : null,
         values.length > 1 ? values[1] : null,
       );

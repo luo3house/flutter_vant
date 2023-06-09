@@ -14,8 +14,8 @@ class CalendarWeekdays extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = VanConfig.ofTheme(context);
 
-    final shadow = BoxShadow(
-      color: const Color(0x297D7E80),
+    const shadow = BoxShadow(
+      color: Color(0x297D7E80),
       offset: Offset(0, 2),
       blurRadius: 10,
     );

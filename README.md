@@ -24,6 +24,8 @@ Flutter 使用大量组合对象构建一个渲染盒以提高性能，同时也
 
 在 Flutter Vant UI 里，许多盒模型都通过 TailStyle 创建。
 
+[![Pub Version](https://img.shields.io/pub/v/tailstyle)](https://pub.dev/packages/tailstyle)
+
 ![Flutter Logo](images/icon_flutter.png)
 ![To Plus](images/icon_plus.png)
 ![TailStyle Logo](images/icon_tailstyle.png)

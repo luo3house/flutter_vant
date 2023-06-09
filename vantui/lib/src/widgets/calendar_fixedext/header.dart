@@ -7,7 +7,8 @@ import 'package:tailstyle/tailstyle.dart';
 class CalendarHeader extends StatelessWidget {
   final CalendarExtent extent;
   final DateTime? date;
-  CalendarHeader({
+  const CalendarHeader({
+    super.key,
     required this.extent,
     this.date,
   });
