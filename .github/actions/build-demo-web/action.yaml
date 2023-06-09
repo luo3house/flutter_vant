@@ -10,7 +10,6 @@ runs:
   using: composite
   steps:
     - name: Setup Pnpm
-      shell: sh
       run: |
         node -v
         npm -v
@@ -18,7 +17,6 @@ runs:
         pnpm -v
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
-      shell: sh
       with:
         flutter-version: '3.3.10'
         channel: 'stable'
@@ -26,8 +24,6 @@ runs:
         cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
         architecture: x64
     - name: Install Dependencies For Workspace
-      shell: sh
       run: pnpm i
     - name: Build web with base href
-      shell: sh
       run: pnpm build:web --base-href=${{ inputs.base }}
