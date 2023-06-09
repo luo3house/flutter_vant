@@ -18,7 +18,6 @@ runs:
         pnpm -v
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
-      shell: bash
       with:
         flutter-version: '3.3.10'
         channel: 'stable'
