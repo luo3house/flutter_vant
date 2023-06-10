@@ -1,6 +1,10 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_vantui/flutter_vantui.dart';
 import 'package:tailstyle/tailstyle.dart';
+
+import '../../utils/rendering.dart';
+import '../../utils/std.dart';
+import '../config/index.dart';
+import 'types.dart';
 
 // typedef MaxSizeInterpolate = Size Function(Size maxSize);
 

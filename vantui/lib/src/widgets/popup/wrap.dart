@@ -1,16 +1,10 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_vantui/src/utils/nil.dart';
-import 'package:flutter_vantui/src/widgets/config/index.dart';
-import 'package:flutter_vantui/src/widgets/mask/index.dart';
-import 'package:flutter_vantui/src/widgets/popup/content.dart';
+import '../../utils/nil.dart';
+import '../config/index.dart';
+import '../mask/index.dart';
+import 'content.dart';
 
 import 'types.dart';
-
-typedef _FragBuilder = List<Widget> Function(
-  double x,
-  Widget overlayFrag,
-  Widget content,
-);
 
 class VanPopupWrap extends StatefulWidget {
   final bool? show;
@@ -47,6 +41,9 @@ class VanPopupState extends State<VanPopupWrap> {
   Size? contentSize;
   BoxConstraints? layoutCon;
 
+  double get contentW => contentSize?.width ?? 0;
+  double get contentH => contentSize?.height ?? 0;
+
   @override
   void initState() {
     super.initState();
@@ -71,18 +68,21 @@ class VanPopupState extends State<VanPopupWrap> {
     final theme = VanConfig.ofTheme(context);
 
     final position = widget.position ?? VanPopupPosition.center;
+    final constraints = widget.constraints ?? const BoxConstraints();
+    final overlay = widget.overlay ?? true;
+    final closeOnClickOverlay = widget.closeOnClickOverlay ?? true;
 
-    Positioned Function(Widget child) withPosition = () {
-      if (position == VanPopupPosition.left) {
-        return (child) => Positioned.fill(left: 0, right: null, child: child);
-      } else if (widget.position == VanPopupPosition.top) {
-        return (child) => Positioned.fill(top: 0, bottom: null, child: child);
-      } else if (widget.position == VanPopupPosition.right) {
-        return (child) => Positioned.fill(right: 0, left: null, child: child);
-      } else if (widget.position == VanPopupPosition.bottom) {
-        return (child) => Positioned.fill(bottom: 0, top: null, child: child);
+    var contentCon = () {
+      const verti = {VanPopupPosition.top, VanPopupPosition.bottom};
+      const horiz = {VanPopupPosition.left, VanPopupPosition.right};
+      if (verti.contains(position)) {
+        return constraints.copyWith(
+            minWidth: double.infinity, maxWidth: double.infinity);
+      } else if (horiz.contains(position)) {
+        return constraints.copyWith(
+            minHeight: double.infinity, maxHeight: double.infinity);
       } else {
-        return (child) => Positioned.fill(child: Center(child: child));
+        return constraints;
       }
     }();
 
@@ -90,75 +90,86 @@ class VanPopupState extends State<VanPopupWrap> {
       position: widget.position,
       padding: widget.padding,
       round: widget.round,
-      constraints: widget.constraints,
-      child: widget.child,
+      constraints: contentCon,
       onLayout: (size) => contentSize = size,
+      child: widget.child,
     );
 
-    final overlay = () {
-      final overlay = widget.overlay ?? true;
-      final closeOnClickOverlay = widget.closeOnClickOverlay ?? true;
-      if (overlay) {
-        return MaskBody(
-          onTap: () => (closeOnClickOverlay ? hide : null)?.call(),
-        );
-      } else {
-        return nil;
-      }
+    final overlayFrag = () {
+      final onTap = closeOnClickOverlay ? hide : null;
+      return overlay ? MaskBody(onTap: () => onTap?.call()) : nil;
     }();
 
-    Offset Function(double) offsetInterpolate = () {
-      double h() => contentSize?.height ?? 0.0;
-      double w() => contentSize?.width ?? 0.0;
-      if (position == VanPopupPosition.top) {
-        return (x) => Offset(0, (x - 1) * h());
-      } else if (position == VanPopupPosition.bottom) {
-        return (x) => Offset(0, (1 - x) * h());
-      } else if (position == VanPopupPosition.left) {
-        return (x) => Offset((x - 1) * w(), 0);
+    final alignment = () {
+      if (position == VanPopupPosition.left) {
+        return Alignment.centerLeft;
       } else if (position == VanPopupPosition.right) {
-        return (x) => Offset((1 - x) * w(), 0);
+        return Alignment.centerRight;
+      } else if (position == VanPopupPosition.top) {
+        return Alignment.topCenter;
+      } else if (position == VanPopupPosition.bottom) {
+        return Alignment.bottomCenter;
       } else {
-        return (x) => const Offset(0, 0);
+        return Alignment.center;
       }
     }();
 
-    // ignore: prefer_function_declarations_over_variables
-    _FragBuilder animFrags = (x, overlay, content) {
-      final overlayFrag = Positioned.fill(
-        child: Opacity(opacity: x, child: x == 0 ? nil : overlay),
-      );
-
-      if (position == VanPopupPosition.center) {
-        return [
-          overlayFrag,
-          withPosition(Opacity(opacity: x, child: x == 0 ? nil : content)),
-        ];
+    final offsetInterpolate = () {
+      if (position == VanPopupPosition.left) {
+        return (double x) => Offset(contentW * (x - 1), 0);
+      } else if (position == VanPopupPosition.right) {
+        return (double x) => Offset(contentW * (1 - x), 0);
+      } else if (position == VanPopupPosition.top) {
+        return (double x) => Offset(0, contentH * (x - 1));
+      } else if (position == VanPopupPosition.bottom) {
+        return (double x) => Offset(0, contentH * (1 - x));
       } else {
-        return [
-          overlayFrag,
-          withPosition(Transform.translate(
-            offset: offsetInterpolate(x),
-            child: Offstage(offstage: x == 0, child: content),
-          )),
-        ];
+        return (double x) => Offset.zero;
       }
-    };
+    }();
 
-    return LayoutBuilder(builder: (_, con) {
-      layoutCon = con;
-      return TweenAnimationBuilder(
-        onEnd: () => {if (!_show) widget.onInvalidate?.call()},
-        tween: _show //
-            ? Tween(begin: 1.0, end: 1.0)
-            : Tween(begin: 0.0, end: 0.0),
-        curve: Curves.easeOut,
-        duration: theme.durationBase,
-        builder: (_, x, child) => Stack(
-          fit: StackFit.expand,
-          children: animFrags(x, overlay, content),
-        ),
-      );
-    });
+    final double Function(double x) opacityInterpolate = () {
+      if (position == VanPopupPosition.center) {
+        return (double x) => x;
+      } else {
+        return (double x) => 1.0;
+      }
+    }();
+
+    return TweenAnimationBuilder(
+      onEnd: () => {if (!_show) widget.onInvalidate?.call()},
+      tween: _show //
+          ? Tween(begin: 1.0, end: 1.0)
+          : Tween(begin: 0.0, end: 0.0),
+      duration: theme.durationFast,
+      curve: Curves.easeOut,
+      builder: (_, x, __) {
+        return Container(
+          clipBehavior: Clip.hardEdge,
+          decoration: const BoxDecoration(),
+          child: Stack(children: [
+            Positioned.fill(
+              child: x == 0 ? nil : Opacity(opacity: x, child: overlayFrag),
+            ),
+            Offstage(
+              offstage: x == 0,
+              child: IgnorePointer(
+                ignoring: x != 1,
+                child: Align(
+                  alignment: alignment,
+                  child: Transform.translate(
+                    offset: offsetInterpolate(x),
+                    child: Opacity(
+                      opacity: opacityInterpolate(x),
+                      child: content,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ]),
+        );
+      },
+    );
   }
 }

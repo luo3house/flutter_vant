@@ -5,6 +5,5 @@
     "dev:android": "pnpm --dir=demo dev:android",
     "dev:android:perf": "pnpm --dir=demo dev:android:perf",
     "build:web": "pnpm --dir=demo build:web"
-  },
-  "_TIPS": "add --base-href=/base/ for web deployment"
+  }
 }

@@ -182,25 +182,28 @@ class GridItem extends VanGrid {
       }
     }();
 
-    return Pressable((pressed) {
-      final bg = clickable && pressed ? theme.gray3 : theme.background2;
+    return GestureDetector(
+      onTap: () => onTap?.call(),
+      child: Pressable((pressed) {
+        final bg = clickable && pressed ? theme.gray3 : theme.background2;
 
-      return TailBox()
-          .bg(bg)
-          .py(py)
-          .px(px)
-          .mt(measure.gutter)
-          .mr(measure.gutter)
-          .border_l(border, child == null && measure.gutter > 0 ? 1 : 0)
-          .border_t(border, child == null && measure.gutter > 0 ? 1 : 0)
-          .border_r(border, child == null ? 1 : 0)
-          .border_b(border, child == null ? 1 : 0)
-          .Container(
-            width: measure.width,
-            height: measure.height,
-            child: inner,
-          );
-    });
+        return TailBox()
+            .bg(bg)
+            .py(py)
+            .px(px)
+            .mt(measure.gutter)
+            .mr(measure.gutter)
+            .border_l(border, child == null && measure.gutter > 0 ? 1 : 0)
+            .border_t(border, child == null && measure.gutter > 0 ? 1 : 0)
+            .border_r(border, child == null ? 1 : 0)
+            .border_b(border, child == null ? 1 : 0)
+            .Container(
+              width: measure.width,
+              height: measure.height,
+              child: inner,
+            );
+      }),
+    );
   }
 }
 

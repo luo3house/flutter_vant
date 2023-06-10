@@ -20,9 +20,21 @@
 
 于 `pubspec.yaml` 添加依赖。
 
+添加 pub.dev 上发布的较稳定版本。
+
 ```yaml
 dependencies: 
   flutter_vantui: <latest version>
+```
+
+或使用 Github 更新较活跃的版本。
+
+```yaml
+dependencies:
+  flutter_vantui:
+    git:
+      url: https://github.com/luo3house/flutter_vant.git
+      # ref: <branch or commit hash>
 ```
 
 ## 辅助开发
