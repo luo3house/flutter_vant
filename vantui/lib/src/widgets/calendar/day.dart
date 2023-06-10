@@ -85,7 +85,7 @@ class CalendarDay extends StatelessWidget {
     }();
 
     final textStyle = () {
-      final typo = TailTypo();
+      final typo = TailTypo().font_size(theme.fontSizeMd);
       if (disabled) {
         typo.text_color(theme.textColor3);
       } else if (selection.isRangeFirst(date) ||
@@ -109,7 +109,7 @@ class CalendarDay extends StatelessWidget {
           clipBehavior: Clip.hardEdge,
           width: width,
           height: extent.getDayHeight(),
-          child: DefaultTextStyle(
+          child: DefaultTextStyle.merge(
             style: textStyle,
             child: Stack(alignment: Alignment.center, children: [
               Positioned(top: 6, bottom: 0, child: top),
