@@ -34,6 +34,7 @@ class VanSwipeCell extends StatefulWidget {
 class VanSwipeCellState extends State<VanSwipeCell> {
   Size? leftSize;
   Size? rightSize;
+  late _BlurState _blurState;
   final touch = Touch();
   double currentOffset = 0;
 
@@ -56,6 +57,19 @@ class VanSwipeCellState extends State<VanSwipeCell> {
   @override
   void initState() {
     super.initState();
+    _blurState = _BlurState(
+      getGlobalRect: () {
+        return tryCatch(() {
+          final box = context.findRenderObject() as RenderBox;
+          final size = box.size;
+          return Rect.fromPoints(
+            box.localToGlobal(Offset.zero),
+            box.localToGlobal(Offset(size.width, size.height)),
+          );
+        });
+      },
+      onBlur: () => close(),
+    );
     WidgetsBinding.instance.pointerRouter.addGlobalRoute(handleGlobalRoute);
   }
 
@@ -66,16 +80,11 @@ class VanSwipeCellState extends State<VanSwipeCell> {
   }
 
   handleGlobalRoute(PointerEvent e) {
-    if (!e.down) return;
-    tryCatch(() {
-      final box = context.findRenderObject() as RenderBox;
-      final size = box.size;
-      final globalRect = Rect.fromPoints(
-        box.localToGlobal(Offset.zero),
-        box.localToGlobal(Offset(size.width, size.height)),
-      );
-      if (!globalRect.contains(e.position)) close();
-    });
+    if (e.down) {
+      _blurState.onGlobalDown(e.position);
+    } else {
+      _blurState.onGlobalUp(e.position);
+    }
   }
 
   /// snap to nearest offset
@@ -194,5 +203,28 @@ class _ChildrenOverflowableRenderStack extends RenderStack {
       return true;
     }
     return false;
+  }
+}
+
+class _BlurState {
+  final Rect? Function() getGlobalRect;
+  final Function() onBlur;
+  _BlurState({
+    required this.getGlobalRect,
+    required this.onBlur,
+  });
+
+  var down = false;
+  onGlobalDown(Offset globalPos) {
+    if (down) return;
+    if (getGlobalRect()?.contains(globalPos) == true) {
+      down = true;
+    } else {
+      onBlur();
+    }
+  }
+
+  onGlobalUp(Offset globalPos) {
+    down = false;
   }
 }
