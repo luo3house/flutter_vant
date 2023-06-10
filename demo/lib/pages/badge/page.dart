@@ -13,7 +13,7 @@ class BadgePage extends StatelessWidget {
     badgeWrap(Widget child) => TailBox().ml(16).Container(child: child);
     final cube = TailBox()
         .rounded(4)
-        .bg(Colors.grey.shade200)
+        .bg(Colors.grey.shade300)
         .Container(width: 40, height: 40);
 
     return ListView(children: [
