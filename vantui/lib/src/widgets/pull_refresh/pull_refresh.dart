@@ -37,6 +37,7 @@ class VanPullRefresh extends StatefulWidget {
   final double? headHeight;
   final HeadBuilder? drawHead;
   final ScrollController? controller;
+  final bool? lockDuringRefresh;
   final Widget? child;
 
   const VanPullRefresh({
@@ -44,6 +45,7 @@ class VanPullRefresh extends StatefulWidget {
     this.headHeight,
     this.drawHead,
     this.controller,
+    this.lockDuringRefresh,
     this.child,
     super.key,
   });
@@ -66,6 +68,7 @@ class VanPullRefreshState extends State<VanPullRefresh> with SafeSetStateMixin {
   var ignoreTouchTrigger = false;
   var currentOffset = 0.0;
 
+  bool get lockDuringRefresh => widget.lockDuringRefresh == true;
   double get headHeight => widget.headHeight ?? 40;
   bool satisfyRefresh() => currentOffset >= headHeight;
   Duration get stayDuration => const Duration(seconds: 1);
@@ -95,6 +98,7 @@ class VanPullRefreshState extends State<VanPullRefresh> with SafeSetStateMixin {
   }
 
   void handleAgnosticDrag(double negativableDragOffset) {
+    print("status: ${status}");
     if (status != _pull) return;
     if (negativableDragOffset > 0) {
       status = _ready;
@@ -107,7 +111,7 @@ class VanPullRefreshState extends State<VanPullRefresh> with SafeSetStateMixin {
 
   void handleScrollNotification(double negativableOffset) {
     // print("from scroll: ${negativableOffset}");
-    ignoreTouchTrigger = true;
+    if (negativableOffset > 0) ignoreTouchTrigger = true;
     handleAgnosticDrag(
       negativableOffset + (touch.negativableOffset ?? 0),
     );
@@ -170,8 +174,8 @@ class VanPullRefreshState extends State<VanPullRefresh> with SafeSetStateMixin {
   Widget build(BuildContext context) {
     final theme = VanConfig.ofTheme(context);
 
-    final shouldUseAnim = [_back, _refresh].contains(status);
-    final shouldShowHead = [_pull, _refresh, _stay].contains(status);
+    final shouldUseAnim = const {_back, _refresh}.contains(status);
+    final shouldShowHead = const {_pull, _refresh, _stay}.contains(status);
 
     final headTextStyle = TailTypo() //
         .text_color(theme.textColor2)
@@ -221,6 +225,9 @@ class VanPullRefreshState extends State<VanPullRefresh> with SafeSetStateMixin {
       child: widget.child,
     );
 
+    final ignorePointer = lockDuringRefresh && //
+        const {_refresh, _stay}.contains(status);
+
     return Stack(
       clipBehavior: Clip.hardEdge,
       alignment: Alignment.topCenter,
@@ -233,18 +240,21 @@ class VanPullRefreshState extends State<VanPullRefresh> with SafeSetStateMixin {
             child: animatedHead,
           ),
         ),
-        Listener(
-          onPointerDown: (e) => handlePointerDown(e.position),
-          onPointerMove: (e) => handlePointerMove(e.position),
-          onPointerUp: (e) => handlePointerUp(e.position),
-          child: NotificationListener<ScrollNotification>(
-            onNotification: (e) {
-              handleScrollNotification(e.metrics.pixels);
-              return false;
-            },
-            child: ClipRect(
-              clipBehavior: Clip.hardEdge,
-              child: animatedChild,
+        IgnorePointer(
+          ignoring: ignorePointer,
+          child: Listener(
+            onPointerDown: (e) => handlePointerDown(e.position),
+            onPointerMove: (e) => handlePointerMove(e.position),
+            onPointerUp: (e) => handlePointerUp(e.position),
+            child: NotificationListener<ScrollNotification>(
+              onNotification: (e) {
+                handleScrollNotification(e.metrics.pixels);
+                return false;
+              },
+              child: ClipRect(
+                clipBehavior: Clip.hardEdge,
+                child: animatedChild,
+              ),
             ),
           ),
         ),
