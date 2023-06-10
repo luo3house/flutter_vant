@@ -20,11 +20,7 @@ class DemoLayout extends StatelessWidget {
         height: con.maxHeight,
         color: const Color(0xFFF0F2F5),
         child: Column(children: [
-          VanNavBar(
-            title: title ?? "Flutter Vant UI",
-            // leftArrow: window.history.length > 1,
-            // onLeftTap: () => window.history.back(),
-          ),
+          VanNavBar(title: title ?? "Flutter Vant UI"),
           Expanded(child: child),
         ]),
       );

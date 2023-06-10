@@ -11,32 +11,36 @@ class IconPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WithModel("", (model) {
-      return ListView(children: [
+      return Column(children: [
         const DocTitle("Icons"),
         VanInput(
           hint: "Search",
           value: model.value,
           onChange: (v) => model.value = v,
         ),
-        const SizedBox(height: 10),
-        GridView.count(
-          crossAxisCount: 4,
-          shrinkWrap: true,
-          children: [
-            ...kVanIconsMap.entries
-                .where((entry) => entry.key.contains(model.value))
-                .map((entry) {
-              final label = entry.key, name = entry.value;
-              return Center(
-                key: Key(label),
-                child: Column(children: [
-                  VanIcon(name),
+        Expanded(
+          child: CustomScrollView(slivers: [
+            SliverGrid(
+              delegate: SliverChildListDelegate.fixed(List.of(kVanIconsMap
+                  .entries
+                  .where((entry) => entry.key.contains(model.value))
+                  .map((entry) {
+                final label = entry.key, name = entry.value;
+                return Column(children: [
+                  Expanded(
+                    child: FittedBox(
+                        child: TailBox().p(10).Container(child: VanIcon(name))),
+                  ),
+                  TailTypo().font_size(14).text_center().Text(label),
                   const SizedBox(height: 10),
-                  TailTypo().font_size(12).text_center().Text(label),
-                ]),
-              );
-            })
-          ],
+                ]);
+              }))),
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 150,
+                childAspectRatio: 1,
+              ),
+            ),
+          ]),
         ),
       ]);
     });
