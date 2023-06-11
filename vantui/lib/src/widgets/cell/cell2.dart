@@ -101,6 +101,7 @@ class VanCellState extends State<VanCell> {
       return TailBox().mt(theme.paddingBase).Container(
             child: TailTypo()
                 .text_color(theme.textColor2)
+                .font_size(theme.fontSizeSm)
                 .text_left()
                 .Text(this.label.toString()),
           );
@@ -158,10 +159,7 @@ class VanCellState extends State<VanCell> {
     }));
 
     return DefaultTextStyle.merge(
-      style: TailTypo()
-          .font_size(theme.fontSizeMd)
-          .line_height(20 / theme.fontSizeMd)
-          .TextStyle(),
+      style: TailTypo().font_size(theme.fontSizeMd).TextStyle(),
       child: GestureDetector(
         onTap: () => (clickable ? onTap : null)?.call(),
         child: Pressable(
