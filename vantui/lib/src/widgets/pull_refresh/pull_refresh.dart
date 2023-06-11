@@ -98,7 +98,6 @@ class VanPullRefreshState extends State<VanPullRefresh> with SafeSetStateMixin {
   }
 
   void handleAgnosticDrag(double negativableDragOffset) {
-    print("status: ${status}");
     if (status != _pull) return;
     if (negativableDragOffset > 0) {
       status = _ready;
