@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
 
@@ -14,24 +15,12 @@ class DemoLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (_, con) {
-      return Container(
-        width: con.maxWidth,
-        height: con.maxHeight,
-        color: const Color(0xFFF0F2F5),
-        child: Column(children: [
-          VanNavBar(title: title ?? "Flutter Vant UI"),
-          Expanded(child: child),
-        ]),
-      );
-    });
-
-    // Material inside Scaffold changes the default text style
-    // https://github.com/flutter/flutter/issues/120334
-    //
-    // return Scaffold(
-    //   backgroundColor: Color(0xFFF0F2F5),
-    //   body: child,
-    // );
+    return VanConfig(
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF0F2F5),
+        appBar: VanNavBar(title: title ?? "Flutter Vant UI"),
+        body: SafeArea(child: child),
+      ),
+    );
   }
 }
