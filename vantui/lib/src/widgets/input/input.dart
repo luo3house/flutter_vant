@@ -2,11 +2,10 @@
 
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_vantui/src/utils/rendering.dart';
-import 'package:flutter_vantui/src/widgets/config/index.dart';
-import 'package:flutter_vantui/src/widgets/form/types.dart';
 import 'package:tailstyle/tailstyle.dart';
 
+import '../config/index.dart';
+import '../form/types.dart';
 import '../../utils/nil.dart';
 
 class VanInput extends StatefulWidget implements FormItemChild<String> {
@@ -91,7 +90,7 @@ class VanInputState extends State<VanInput>
   final focusNode = FocusNode();
   final focusNodeFocus = ValueNotifier(false);
   final controller = TextEditingController();
-  final keyboardVisible = ValueNotifier(false);
+  late TextSelectionGestureDetectorBuilder gestureDetectorBuilder;
 
   int? get maxLines => obscureText ? 1 : widget.maxLines;
   bool get autoFocus => widget.autoFocus ?? false;
@@ -111,12 +110,8 @@ class VanInputState extends State<VanInput>
   @override
   void initState() {
     super.initState();
+    gestureDetectorBuilder = VanInputStateSelectionBuilder(this);
     controller.text = widget.value ?? controller.text;
-    keyboardVisible.addListener(
-      () => raf(() {
-        if (!keyboardVisible.value) blur();
-      }),
-    );
     focusNode.addListener(() {
       focusNodeFocus.value = focusNode.hasPrimaryFocus;
     });
@@ -135,9 +130,6 @@ class VanInputState extends State<VanInput>
     if (controller.text != widget.value) {
       controller.text = widget.value ?? '';
     }
-    if (keyboardVisible.value && disabled) {
-      blur();
-    }
   }
 
   @override
@@ -153,14 +145,8 @@ class VanInputState extends State<VanInput>
   void dispose() {
     focusNode.dispose();
     controller.dispose();
-    keyboardVisible.dispose();
     focusNodeFocus.dispose();
     super.dispose();
-  }
-
-  handleTap() {
-    if (disabled) return;
-    focus();
   }
 
   handleChanged(String value) {
@@ -181,10 +167,6 @@ class VanInputState extends State<VanInput>
   Widget build(BuildContext context) {
     final theme = VanConfig.ofTheme(context);
     final showHint = controller.text.isEmpty;
-    raf(() {
-      keyboardVisible.value =
-          WidgetsBinding.instance.window.viewInsets.bottom > 0;
-    });
 
     final textStyle = () {
       var style = DefaultTextStyle.of(context).style;
@@ -213,6 +195,7 @@ class VanInputState extends State<VanInput>
       textInputAction: widget.textInputAction,
       selectionColor: selectionColor,
       inputFormatters: [maxLengthFormatter()],
+      rendererIgnoresPointer: true,
     );
 
     final hint = () {
@@ -233,21 +216,70 @@ class VanInputState extends State<VanInput>
 
     final bg = widget.bgColor ?? theme.background2;
 
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () => handleTap(),
-      child: (widget.as ?? defaultAs).call(TailBox().bg(bg).py(0).as((s) {
-        return s.Container(
-          clipBehavior: Clip.hardEdge,
-          child: Stack(alignment: Alignment.centerLeft, children: [
-            Positioned.fill(child: Container(color: bg)),
-            TextSelectionGestureDetectorBuilder(delegate: this)
-                .buildGestureDetector(child: editable),
-            IgnorePointer(child: hint),
-            disabledMask,
-          ]),
-        );
-      })),
+    final wrap = (widget.as ?? defaultAs).call(TailBox().bg(bg).py(0).as((s) {
+      return s.Container(
+        clipBehavior: Clip.hardEdge,
+        child: Stack(alignment: Alignment.centerLeft, children: [
+          Positioned.fill(child: Container(color: bg)),
+          editable,
+          IgnorePointer(child: hint),
+          disabledMask,
+        ]),
+      );
+    }));
+
+    return FocusTrapArea(
+      focusNode: focusNode,
+      child: gestureDetectorBuilder.buildGestureDetector(
+        behavior: HitTestBehavior.translucent,
+        child: wrap,
+      ),
     );
+  }
+}
+
+class VanInputStateSelectionBuilder
+    extends TextSelectionGestureDetectorBuilder {
+  final VanInputState state;
+  VanInputStateSelectionBuilder(this.state) : super(delegate: state);
+
+  @override
+  void onForcePressStart(ForcePressDetails details) {
+    super.onForcePressStart(details);
+    if (delegate.selectionEnabled && shouldShowSelectionToolbar) {
+      editableText.showToolbar();
+    }
+  }
+
+  @override
+  void onForcePressEnd(ForcePressDetails details) {
+    // Not required.
+  }
+
+  @override
+  void onSingleLongTapMoveUpdate(LongPressMoveUpdateDetails details) {
+    if (delegate.selectionEnabled) {
+      renderEditable.selectPositionAt(
+        from: details.globalPosition,
+        cause: SelectionChangedCause.longPress,
+      );
+    }
+  }
+
+  @override
+  void onSingleTapUp(TapUpDetails details) {
+    editableText.hideToolbar();
+    super.onSingleTapUp(details);
+    state.editableTextKey.currentState?.requestKeyboard();
+  }
+
+  @override
+  void onSingleLongTapStart(LongPressStartDetails details) {
+    if (delegate.selectionEnabled) {
+      renderEditable.selectPositionAt(
+        from: details.globalPosition,
+        cause: SelectionChangedCause.longPress,
+      );
+    }
   }
 }
