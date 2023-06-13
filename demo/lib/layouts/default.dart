@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
 
 class DemoLayout extends StatelessWidget {
@@ -16,10 +15,12 @@ class DemoLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return VanConfig(
-      child: Scaffold(
-        backgroundColor: const Color(0xFFF0F2F5),
-        appBar: VanNavBar(title: title ?? "Flutter Vant UI"),
-        body: SafeArea(child: child),
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: const Color(0xFFF0F2F5),
+          appBar: VanNavBar(title: title ?? "Flutter Vant UI"),
+          body: child,
+        ),
       ),
     );
   }
