@@ -3,25 +3,25 @@ import 'package:flutter/widgets.dart';
 import '../../utils/nil.dart';
 import '../../utils/rendering.dart';
 
-class OverlayTeleport extends StatefulWidget {
+class TeleportOverlay extends StatefulWidget {
   final OverlayState? to;
-  final Widget remote;
+  final Widget child;
   final Widget? local;
 
-  const OverlayTeleport({
+  const TeleportOverlay({
     this.to,
-    required this.remote,
     this.local,
+    required this.child,
     super.key,
   });
 
   @override
   State<StatefulWidget> createState() {
-    return OverlayTeleportState();
+    return TeleportOverlayState();
   }
 }
 
-class OverlayTeleportState extends State<OverlayTeleport> {
+class TeleportOverlayState extends State<TeleportOverlay> {
   Function()? removeEntry;
   Function()? remoteSetState;
 
@@ -31,7 +31,7 @@ class OverlayTeleportState extends State<OverlayTeleport> {
     final entry = OverlayEntry(builder: (_) {
       return StatefulBuilder(builder: (_, setState) {
         remoteSetState = () => setState(() {});
-        return widget.remote;
+        return widget.child;
       });
     });
     raf(() {
@@ -45,7 +45,7 @@ class OverlayTeleportState extends State<OverlayTeleport> {
   }
 
   @override
-  void didUpdateWidget(covariant OverlayTeleport oldWidget) {
+  void didUpdateWidget(covariant TeleportOverlay oldWidget) {
     super.didUpdateWidget(oldWidget);
     raf(() {
       if (mounted) remoteSetState?.call();

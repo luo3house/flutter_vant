@@ -30,7 +30,7 @@ export 'src/widgets/navbar/index.dart';
 export 'src/widgets/tabbar/index.dart';
 export 'src/widgets/date_picker/index.dart';
 export 'src/widgets/time_picker/index.dart';
-export 'src/widgets/overlay_teleport/index.dart';
+export 'src/widgets/teleport_overlay/index.dart';
 export 'src/widgets/index_bar/index.dart';
 
 export 'src/utils/vo.dart';

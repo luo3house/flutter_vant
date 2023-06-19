@@ -1,3 +1,4 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/widgets.dart';
 import '../../utils/nil.dart';
 import '../config/index.dart';
@@ -44,10 +45,27 @@ class VanPopupState extends State<VanPopupWrap> {
   double get contentW => contentSize?.width ?? 0;
   double get contentH => contentSize?.height ?? 0;
 
+  bool backInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    if (stopDefaultButtonEvent) return false;
+    if (_show) {
+      hide();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _show = widget.show == true;
+    BackButtonInterceptor.add(backInterceptor);
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(backInterceptor);
+    super.dispose();
   }
 
   @override
@@ -136,6 +154,21 @@ class VanPopupState extends State<VanPopupWrap> {
       }
     }();
 
+    Widget buildAnimatedContent(double x) {
+      // draw or not
+      if (x == 0) return nil;
+      Widget child;
+      // with opacity
+      child = Opacity(opacity: opacityInterpolate(x), child: content);
+      // with transform
+      child = Transform.translate(offset: offsetInterpolate(x), child: child);
+      // with alignment
+      child = Align(alignment: alignment, child: child);
+      // with offstage
+      child = Offstage(offstage: x == 0 || contentSize == null, child: child);
+      return child;
+    }
+
     return TweenAnimationBuilder(
       onEnd: () => {if (!_show) widget.onInvalidate?.call()},
       tween: _show //
@@ -144,30 +177,18 @@ class VanPopupState extends State<VanPopupWrap> {
       duration: theme.durationFast,
       curve: Curves.easeOut,
       builder: (_, x, __) {
-        return Container(
-          clipBehavior: Clip.hardEdge,
-          decoration: const BoxDecoration(),
-          child: Stack(children: [
-            Positioned.fill(
-              child: x == 0 ? nil : Opacity(opacity: x, child: overlayFrag),
-            ),
-            Offstage(
-              offstage: x == 0,
-              child: IgnorePointer(
-                ignoring: x != 1,
-                child: Align(
-                  alignment: alignment,
-                  child: Transform.translate(
-                    offset: offsetInterpolate(x),
-                    child: Opacity(
-                      opacity: opacityInterpolate(x),
-                      child: content,
-                    ),
-                  ),
-                ),
+        return IgnorePointer(
+          ignoring: x != 1,
+          child: Container(
+            clipBehavior: Clip.hardEdge,
+            decoration: const BoxDecoration(),
+            child: Stack(children: [
+              Positioned.fill(
+                child: x == 0 ? nil : Opacity(opacity: x, child: overlayFrag),
               ),
-            ),
-          ]),
+              buildAnimatedContent(x),
+            ]),
+          ),
         );
       },
     );

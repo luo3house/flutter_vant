@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 
-import '../_util/default_constraint.dart';
 import '../_util/with_value.dart';
 import '../picker/toolbar.dart';
 import 'panel.dart';
@@ -38,22 +37,17 @@ class VanDatePicker extends DatePickerPanel {
           onCancel: () => onCancel?.call(model.value),
           onConfirm: () => onConfirm?.call(model.value),
         ),
-        LayoutBuilder(builder: (_, con) {
-          return DefaultConstraint(
-            maxHeight: 264,
-            child: DatePickerPanel(
-              value: model.value,
-              onChange: (value) {
-                model.value = value;
-                onChange?.call(value);
-              },
-              columnsType: columnsType,
-              minDate: minDate,
-              maxDate: maxDate,
-              formatter: formatter,
-            ),
-          );
-        }),
+        DatePickerPanel(
+          value: model.value,
+          onChange: (value) {
+            model.value = value;
+            onChange?.call(value);
+          },
+          columnsType: columnsType,
+          minDate: minDate,
+          maxDate: maxDate,
+          formatter: formatter,
+        ),
       ]);
     });
   }

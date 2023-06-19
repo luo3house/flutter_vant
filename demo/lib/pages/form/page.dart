@@ -81,9 +81,9 @@ class FormPage extends StatelessWidget {
             child: VanFormItem<List<int>>(
               name: "time_picker",
               builder: (model) {
-                return OverlayTeleport(
+                return TeleportOverlay(
                   local: Text(model.value?.toString() ?? '选择时间'),
-                  remote: ValueListenableBuilder(
+                  child: ValueListenableBuilder(
                     valueListenable: timePickerDialog,
                     builder: (_, dialog, __) {
                       return VanPopup(
