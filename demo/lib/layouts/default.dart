@@ -14,14 +14,6 @@ class DemoLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return VanConfig(
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: const Color(0xFFF0F2F5),
-          appBar: VanNavBar(title: title ?? "Flutter Vant UI"),
-          body: child,
-        ),
-      ),
-    );
+    return VanConfig(child: SafeArea(child: child));
   }
 }

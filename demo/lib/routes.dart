@@ -28,17 +28,31 @@ import 'package:demo/pages/tabbar/page.dart';
 import 'package:demo/pages/tag/page.dart';
 import 'package:demo/pages/time_picker/page.dart';
 import 'package:demo/pages/toast/page.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_vantui/flutter_vantui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:demo/layouts/default.dart';
 import 'package:demo/pages/button/page.dart';
 import 'package:demo/pages/index/page.dart';
 
-GoRouterPageBuilder withPage(Widget Function(Uri location) locaitonBuilder) {
+typedef LocationBuilder = Widget Function(Uri location);
+
+GoRouterPageBuilder withTransition(LocationBuilder builder) {
   return (BuildContext context, GoRouterState state) {
     return NoTransitionPage(child: Builder(builder: (context) {
-      return locaitonBuilder(Uri.parse(state.location));
+      return builder(Uri.parse(state.location));
     }));
+  };
+}
+
+LocationBuilder withScaffold(LocationBuilder builder) {
+  return (location) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF0F2F5),
+      appBar: const VanNavBar(title: "Flutter Vant UI"),
+      body: builder(location),
+    );
   };
 }
 
@@ -46,162 +60,162 @@ final kRoutes = [
   GoRoute(
     path: "/",
     name: "Index",
-    pageBuilder: withPage((uri) => IndexPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => IndexPage(uri))),
   ),
   GoRoute(
     path: "/button",
     name: "Button",
-    pageBuilder: withPage((uri) => ButtonPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => ButtonPage(uri))),
   ),
   GoRoute(
     path: "/icon",
     name: "Icon",
-    pageBuilder: withPage((uri) => IconPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => IconPage(uri))),
   ),
   GoRoute(
     path: "/cell",
     name: "Cell",
-    pageBuilder: withPage((uri) => CellPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => CellPage(uri))),
   ),
   GoRoute(
     path: "/layout",
     name: "Layout",
-    pageBuilder: withPage((uri) => LayoutPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => LayoutPage(uri))),
   ),
   GoRoute(
     path: "/toast",
     name: "Toast",
-    pageBuilder: withPage((uri) => ToastPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => ToastPage(uri))),
   ),
   GoRoute(
     path: "/popup",
     name: "Popup",
-    pageBuilder: withPage((uri) => PopupPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => PopupPage(uri))),
   ),
   GoRoute(
     path: "/calendar",
     name: "Calendar",
-    pageBuilder: withPage((uri) => CalendarPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => CalendarPage(uri))),
   ),
   GoRoute(
     path: "/tab",
     name: "Tab",
-    pageBuilder: withPage((uri) => TabPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => TabPage(uri))),
   ),
   GoRoute(
     path: "/swipe",
     name: "Swipe",
-    pageBuilder: withPage((uri) => SwipePage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => SwipePage(uri))),
   ),
   GoRoute(
     path: "/cascader",
     name: "Cascader",
-    pageBuilder: withPage((uri) => CascaderPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => CascaderPage(uri))),
   ),
   GoRoute(
     path: "/checkbox",
     name: "Checkbox",
-    pageBuilder: withPage((uri) => CheckboxPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => CheckboxPage(uri))),
   ),
   GoRoute(
     path: "/picker",
     name: "Picker",
-    pageBuilder: withPage((uri) => PickerPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => PickerPage(uri))),
   ),
   GoRoute(
     path: "/radio",
     name: "Radio",
-    pageBuilder: withPage((uri) => RadioPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => RadioPage(uri))),
   ),
   GoRoute(
     path: "/rate",
     name: "Rate",
-    pageBuilder: withPage((uri) => RatePage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => RatePage(uri))),
   ),
   GoRoute(
     path: "/slider",
     name: "Slider",
-    pageBuilder: withPage((uri) => SliderPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => SliderPage(uri))),
   ),
   GoRoute(
     path: "/input",
     name: "Input",
-    pageBuilder: withPage((uri) => InputPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => InputPage(uri))),
   ),
   GoRoute(
     path: "/switch",
     name: "Switch",
-    pageBuilder: withPage((uri) => SwitchPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => SwitchPage(uri))),
   ),
   GoRoute(
     path: "/form",
     name: "Form",
-    pageBuilder: withPage((uri) => FormPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => FormPage(uri))),
   ),
   GoRoute(
     path: "/actionsheet",
     name: "ActionSheet",
-    pageBuilder: withPage((uri) => ActionSheetPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => ActionSheetPage(uri))),
   ),
   GoRoute(
     path: "/dialog",
     name: "Dialog",
-    pageBuilder: withPage((uri) => DialogPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => DialogPage(uri))),
   ),
   GoRoute(
     path: "/pull_to_refresh",
     name: "PullToRefresh",
-    pageBuilder: withPage((uri) => PullToRefreshPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => PullToRefreshPage(uri))),
   ),
   GoRoute(
     path: "/swipe_cell",
     name: "SwipeCell",
-    pageBuilder: withPage((uri) => SwipeCellPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => SwipeCellPage(uri))),
   ),
   GoRoute(
     path: "/badge",
     name: "Badge",
-    pageBuilder: withPage((uri) => BadgePage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => BadgePage(uri))),
   ),
   GoRoute(
     path: "/divider",
     name: "Divider",
-    pageBuilder: withPage((uri) => DividerPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => DividerPage(uri))),
   ),
   GoRoute(
     path: "/tag",
     name: "Tag",
-    pageBuilder: withPage((uri) => TagPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => TagPage(uri))),
   ),
   GoRoute(
     path: "/grid",
     name: "Grid",
-    pageBuilder: withPage((uri) => GridPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => GridPage(uri))),
   ),
   GoRoute(
     path: "/navbar",
     name: "NavBar",
-    pageBuilder: withPage((uri) => NavBarPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => NavBarPage(uri))),
   ),
   GoRoute(
     path: "/tabbar",
     name: "TabBar",
-    pageBuilder: withPage((uri) => TabBarPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => TabBarPage(uri))),
   ),
   GoRoute(
     path: "/date_picker",
     name: "DatePicker",
-    pageBuilder: withPage((uri) => DatePickerPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => DatePickerPage(uri))),
   ),
   GoRoute(
     path: "/time_picker",
     name: "TimePicker",
-    pageBuilder: withPage((uri) => TimePickerPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => TimePickerPage(uri))),
   ),
   GoRoute(
     path: "/index_bar",
     name: "IndexBar",
-    pageBuilder: withPage((uri) => IndexBarPage(uri)),
+    pageBuilder: withTransition(withScaffold((uri) => IndexBarPage(uri))),
   ),
 ];
 

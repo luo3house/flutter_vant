@@ -9,8 +9,11 @@ class NavBarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      const DocTitle("Basic Usage"),
+      const DocTitle("基本用法（自动发现路由返回）"),
       const VanNavBar(title: "Title"),
+
+      const DocTitle("禁用自动路由返回"),
+      const VanNavBar(title: "Title", leftArrow: false),
 
       //
       const DocTitle("Left"),

@@ -40,6 +40,13 @@ class VanNavBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final theme = VanConfig.ofTheme(context);
+    final nav = Navigator.maybeOf(context);
+
+    final leftArrow = this.leftArrow ?? nav?.canPop() == true;
+
+    final onLeftTap = (this.leftArrow != null || this.onLeftTap != null)
+        ? this.onLeftTap
+        : (nav?.canPop() == true ? () => nav?.maybePop() : null);
 
     final sideTextStyle = TailTypo()
         .font_size(theme.fontSizeMd)
