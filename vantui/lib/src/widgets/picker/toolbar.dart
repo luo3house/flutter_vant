@@ -26,6 +26,7 @@ class PickerToolBar extends StatelessWidget {
 
     return VanNavBar(
       title: title ?? "选择时间",
+      leftArrow: false,
       leftText: TailTypo() //
           .text_color(theme.textColor2)
           .Text(cancelText ?? '取消'),

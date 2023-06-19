@@ -6,7 +6,7 @@ import 'package:dart_date/dart_date.dart';
 
 import '../../utils/std.dart';
 import '../../utils/vo.dart';
-import '../picker/picker.dart';
+import '../picker/panel.dart';
 import 'types.dart';
 
 class DatePickerPanel extends StatelessWidget {
@@ -111,7 +111,7 @@ class DatePickerPanel extends StatelessWidget {
       }
     }
 
-    return VanPicker(
+    return PickerPanel(
       columns: options,
       values: normalizeValues,
       onChange: (values, colIndex) {

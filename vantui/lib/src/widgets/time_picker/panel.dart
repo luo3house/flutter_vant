@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import '../../utils/std.dart';
 import '../../utils/vo.dart';
 import '../date_picker/types.dart';
-import '../picker/picker.dart';
+import '../picker/panel.dart';
 import 'types.dart';
 
 class TimePickerPanel extends StatelessWidget {
@@ -101,7 +101,7 @@ class TimePickerPanel extends StatelessWidget {
       }
     }
 
-    return VanPicker(
+    return PickerPanel(
       columns: options,
       values: normalizeValue,
       onChange: (values, _) => onChange?.call(List.from(values)),
