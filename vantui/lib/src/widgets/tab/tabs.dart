@@ -5,6 +5,7 @@ import 'package:flutter_vantui/src/widgets/config/index.dart';
 import 'package:flutter_vantui/src/widgets/tab/types.dart';
 import 'package:tailstyle/tailstyle.dart';
 
+import '../../utils/nil.dart';
 import 'tab.dart';
 import 'tab_list.dart';
 
@@ -14,6 +15,7 @@ class Tabs extends StatefulWidget {
   final List<Tab>? children;
   final Function(NamedIndex e)? onChange;
   final bool? expanded;
+  final bool? keepAlive;
 
   const Tabs({
     this.shrink,
@@ -21,6 +23,7 @@ class Tabs extends StatefulWidget {
     this.children,
     this.onChange,
     this.expanded,
+    this.keepAlive,
     super.key,
   });
 
@@ -84,10 +87,18 @@ class TabsState extends State<Tabs> {
 
     final titles = _mapTabTitles(tabs);
 
-    Widget child = Stack(children: List.of(tabs.map((tab) {
-      final selected = active == tab.name;
-      return Offstage(offstage: !selected, child: tab);
-    })));
+    Widget child = Stack(
+      children: List.generate(tabs.length, (index) {
+        final selected = activeIndex == index;
+        final tab = tabs[index];
+        final keepAlive = tab.keepAlive ?? widget.keepAlive ?? false;
+        return Offstage(
+          offstage: !selected,
+          child: selected || keepAlive ? tab : nil,
+        );
+      }),
+    );
+
     if (widget.expanded == true) {
       child = Expanded(child: child);
     }

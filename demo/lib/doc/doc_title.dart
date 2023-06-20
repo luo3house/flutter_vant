@@ -12,3 +12,13 @@ class DocTitle extends StatelessWidget {
         );
   }
 }
+
+class DocPadding extends StatelessWidget {
+  final Widget child;
+  const DocPadding(this.child, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TailBox().px(16).mb(10).Container(child: child);
+  }
+}

@@ -239,7 +239,7 @@ class TabIndicatorState extends State<TabIndicator> {
     final offset = left + max(0.0, (tabWidth - width) / 2);
 
     return TweenAnimationBuilder(
-      tween: Tween(begin: 0.0, end: offset),
+      tween: Tween(begin: offset, end: offset),
       duration: theme.durationBase,
       curve: Curves.easeOut,
       builder: (_, dx, child) {

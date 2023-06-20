@@ -10,37 +10,92 @@ class IconPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Tabs(expanded: true, children: [
+      Tab(
+        "用法",
+        child: IconTheme(
+          data: const IconThemeData(size: 32),
+          child: ListView(children: [
+            const DocTitle("基本使用"),
+            DocPadding(Wrap(spacing: 20, runSpacing: 20, children: const [
+              VanIcon(VanIcons.chat_o),
+            ])),
+            const DocTitle("颜色"),
+            DocPadding(Wrap(spacing: 20, runSpacing: 20, children: const [
+              VanIcon(VanIcons.cart_o, color: Color(0xFF1989fa)),
+              VanIcon(VanIcons.fire_o, color: Color(0xFFee0a24)),
+            ])),
+            const DocTitle("大小"),
+            DocPadding(Wrap(spacing: 20, runSpacing: 20, children: const [
+              VanIcon(VanIcons.chat_o, size: 32),
+              VanIcon(VanIcons.chat_o, size: 48),
+            ])),
+            const DocTitle("基础图标"),
+            const VanGrid(columnNum: 3, children: [
+              GridItem(icon: VanIcons.arrow, text: "arrow"),
+              GridItem(icon: VanIcons.arrow_left, text: "arrow_left"),
+              GridItem(icon: VanIcons.arrow_up, text: "arrow_up"),
+              GridItem(icon: VanIcons.arrow_down, text: "arrow_down"),
+              GridItem(icon: VanIcons.success, text: "success"),
+              GridItem(icon: VanIcons.cross, text: "cross"),
+              GridItem(icon: VanIcons.plus, text: "plus"),
+              GridItem(icon: VanIcons.minus, text: "minus"),
+              GridItem(icon: VanIcons.fail, text: "fail"),
+              GridItem(icon: VanIcons.circle, text: "circle"),
+            ]),
+          ]),
+        ),
+      ),
+      Tab("浏览", child: _IconsBrowseTab()),
+    ]);
+  }
+}
+
+class _IconsBrowseTab extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return WithModel("", (model) {
       return Column(children: [
-        const DocTitle("Icons"),
         VanInput(
-          hint: "Search",
+          hint: "搜索",
           value: model.value,
           onChange: (v) => model.value = v,
+          autoFocus: true,
+          as: (child) => TailBox()
+              .m(10)
+              .mb(0)
+              .p(5)
+              .rounded()
+              .border(TailColors.zinc_400)
+              .Container(child: child),
         ),
         Expanded(
-          child: CustomScrollView(slivers: [
-            SliverGrid(
-              delegate: SliverChildListDelegate.fixed(List.of(kVanIconsMap
-                  .entries
-                  .where((entry) => entry.key.contains(model.value))
-                  .map((entry) {
-                final label = entry.key, name = entry.value;
-                return Column(children: [
-                  Expanded(
-                    child: FittedBox(
-                        child: TailBox().p(10).Container(child: VanIcon(name))),
-                  ),
-                  TailTypo().font_size(14).text_center().Text(label),
-                  const SizedBox(height: 10),
-                ]);
-              }))),
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 150,
-                childAspectRatio: 1,
+          child: CustomScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            slivers: [
+              SliverGrid(
+                delegate: SliverChildListDelegate.fixed(List.of(kVanIconsMap
+                    .entries
+                    .where((entry) => entry.key.contains(model.value))
+                    .map((entry) {
+                  final label = entry.key, name = entry.value;
+                  return TailBox().p(10).as((s) {
+                    return s.Container(
+                      child: Column(children: [
+                        VanIcon(name, size: 32),
+                        const SizedBox(height: 10),
+                        TailTypo().font_size(12).text_center().Text(label),
+                      ]),
+                    );
+                  });
+                }))),
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 80,
+                  mainAxisExtent: 100,
+                ),
               ),
-            ),
-          ]),
+            ],
+          ),
         ),
       ]);
     });

@@ -7,12 +7,14 @@ class Tab extends StatelessWidget {
   final String name;
   final dynamic title;
   final dynamic child;
+  final bool? keepAlive;
   final Color? bgColor;
 
   const Tab(
     this.name, {
     this.title,
     this.child,
+    this.keepAlive,
     this.bgColor,
     super.key,
   });
