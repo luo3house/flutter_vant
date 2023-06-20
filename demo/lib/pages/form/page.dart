@@ -118,13 +118,12 @@ class FormPage extends StatelessWidget {
             label: "Custom",
             child: VanFormItem(
               builder: (model) {
-                return Row(children: [
+                return Wrap(spacing: 5, runSpacing: 5, children: [
                   VanBtn(
                     size: VanBtnSize.small,
                     onTap: () => model.form?.setFieldValues({}),
                     text: "Reset form values",
                   ),
-                  const SizedBox(width: 4),
                   VanBtn(
                     size: VanBtnSize.small,
                     text: "Reset to initial",
