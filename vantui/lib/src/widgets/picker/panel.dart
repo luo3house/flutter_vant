@@ -1,18 +1,23 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_vantui/src/utils/list_util.dart';
 import 'package:flutter_vantui/src/widgets/_util/event_insensitive_box_decoration.dart';
 import 'package:flutter_vantui/src/widgets/picker/extent.dart';
 import 'package:tailstyle/tailstyle.dart';
+import 'package:tuple/tuple.dart';
 
 import '../../utils/std.dart';
 import '../../utils/vo.dart';
 import '../config/index.dart';
 import 'column.dart';
+import 'types.dart';
+
+typedef GeneralColumns = List<List<PickerOption>>;
+typedef NamedValueColumns = List<List<NamedValue>>;
+typedef CascadeColumns = List<PickerOption>;
 
 class PickerPanel extends StatefulWidget {
-  final List<List<NamedValue>> columns;
+  final dynamic columns;
   final List? values;
-  final Function(List values, int colIndex)? onChange;
+  final Function(List values)? onChange;
   final bool? loop;
 
   PickerPanel({
@@ -22,7 +27,11 @@ class PickerPanel extends StatefulWidget {
     this.loop,
     super.key,
   }) {
-    assert(columns.isNotEmpty, "shoud have at least 1 column");
+    assert(
+        columns is GeneralColumns ||
+            columns is CascadeColumns ||
+            columns is NamedValueColumns,
+        "columns should be subtype of PickerOption[][], or PickerOption[] for cascading");
   }
 
   @override
@@ -32,38 +41,79 @@ class PickerPanel extends StatefulWidget {
 }
 
 class PickerPanelState extends State<PickerPanel> {
-  var keys = <GlobalKey<PickerColumnState>>[];
-  var values = <dynamic>[];
+  static Tuple2<List<List<PickerOption>>, List> normalizeCascade(
+      List<PickerOption>? hierColumns, List? values) {
+    final normalizeValues = [];
+    final normalizeColumns = <List<PickerOption>>[];
+    int valueIndex = 0;
+    while (hierColumns != null) {
+      if (hierColumns.isEmpty) break;
+      normalizeColumns.add(hierColumns);
+      final value = tryCatch(() => values?[valueIndex]);
+      final match = PickerOption.findByValue(hierColumns, value) ?? //
+          hierColumns.first;
+      hierColumns = match.children ?? [];
+      normalizeValues.add(match.value);
+      valueIndex++;
+    }
+    return Tuple2(normalizeColumns, normalizeValues);
+  }
 
-  List<List<NamedValue>> get columns => widget.columns;
+  // values & columns here should be normalized
+  var values = <dynamic>[];
+  var columns = <List<PickerOption>>[];
+  late final List<GlobalKey<PickerColumnState>> keys;
+  late final int columnCount;
+
   bool get loop => widget.loop == true;
 
-  handleColumnChange(int colIndex, NamedValue selected) {
+  Tuple2<GeneralColumns, List> _normalize(dynamic columns, List? values) {
+    if (columns is NamedValueColumns) {
+      columns = List<List<PickerOption>>.of(
+        columns.map(
+          (os) => List<PickerOption>.of(
+              os.map((o) => PickerOption.fromNamedValue(o))),
+        ),
+      );
+    }
+    return columns is CascadeColumns
+        ? normalizeCascade(columns, values)
+        : Tuple2(columns as GeneralColumns, values ?? const []);
+  }
+
+  _handleColumnChange(int colIndex, NamedValue selected) {
     final newValues = List<dynamic>.generate(columns.length, (_) => null)
       // ..setAll(0, values.sublist(0, colIndex + 1))
       ..setAll(0, values)
       ..setAll(colIndex, [selected.value]);
-    values = newValues;
+    // normalize for onChange
+    final normalized = _normalize(widget.columns, newValues);
+    columns = normalized.item1;
+    values = normalized.item2;
     setState(() {});
-    widget.onChange?.call(values, colIndex);
+    widget.onChange?.call(values);
   }
 
   @override
   void initState() {
     super.initState();
-    keys = List.generate(columns.length, (_) => GlobalKey());
-    values = widget.values ?? [];
+    // here normalize to probe length of columns
+    final normalized = _normalize(widget.columns, widget.values);
+    columns = normalized.item1;
+    values = normalized.item2;
+    columnCount = columns.length;
+    keys = List.generate(columnCount, (_) => GlobalKey());
   }
 
   @override
   void didUpdateWidget(covariant PickerPanel oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (columns.length != oldWidget.columns.length) {
-      keys = List.generate(columns.length, (_) => GlobalKey());
-    }
-    if (!ListUtil.shallowEq(values, widget.values ?? [])) {
-      values = [...?widget.values];
-    }
+    // do nothing, should normalize at sequent build()
+    // if (!ListUtil.shallowEq(values, widget.values ?? [])) {
+    //   final normalized = _normalize(widget.columns, widget.values);
+    //   columns = normalized.item1;
+    //   values = normalized.item2;
+    // }
   }
 
   @override
@@ -71,12 +121,9 @@ class PickerPanelState extends State<PickerPanel> {
     final theme = VanConfig.ofTheme(context);
     const extent = PickerExtent();
 
-    final columns = this.columns;
-    // final values = List<dynamic>.generate(columns.length, (colIndex) {
-    //   var value = tryCatch(() => this.values.elementAt(colIndex));
-    //   value ??= tryCatch(() => columns.elementAt(colIndex).first.value);
-    //   return value;
-    // });
+    final normalized = _normalize(widget.columns, widget.values);
+    columns = normalized.item1;
+    values = normalized.item2;
 
     final colChildren = List.generate(columns.length, (colIndex) {
       return PickerColumn(
@@ -85,7 +132,7 @@ class PickerPanelState extends State<PickerPanel> {
         items: columns[colIndex],
         loop: loop,
         value: tryCatch(() => values[colIndex]),
-        onChange: (selected) => handleColumnChange(colIndex, selected),
+        onChange: (selected) => _handleColumnChange(colIndex, selected),
       );
     });
 
@@ -95,11 +142,9 @@ class PickerPanelState extends State<PickerPanel> {
         constraints: con,
         child: Stack(alignment: Alignment.center, children: [
           Positioned.fill(child: TailBox().bg(theme.background2).Container()),
-          Row(
-            children: List.of(colChildren.map((child) {
-              return Expanded(child: child);
-            })),
-          ),
+          Row(children: List.of(colChildren.map((child) {
+            return Expanded(child: child);
+          }))),
           const PositionedGradientMask(extent: extent),
           const PositionedHairline(extent: extent),
         ]),

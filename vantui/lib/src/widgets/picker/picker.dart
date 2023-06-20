@@ -44,9 +44,9 @@ class VanPickerState extends State<VanPicker> {
         ),
         PickerPanel(
           values: model.value,
-          onChange: (values, _) {
+          onChange: (values) {
             model.value = values;
-            widget.onChange?.call(values, _);
+            widget.onChange?.call(values);
           },
           columns: widget.columns,
           loop: widget.loop,

@@ -104,7 +104,7 @@ class TimePickerPanel extends StatelessWidget {
     return PickerPanel(
       columns: options,
       values: normalizeValue,
-      onChange: (values, _) => onChange?.call(List.from(values)),
+      onChange: (values) => onChange?.call(List.from(values)),
     );
   }
 }

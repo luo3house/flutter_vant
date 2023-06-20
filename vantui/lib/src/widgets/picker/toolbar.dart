@@ -25,7 +25,7 @@ class PickerToolBar extends StatelessWidget {
     final theme = VanConfig.ofTheme(context);
 
     return VanNavBar(
-      title: title ?? "选择时间",
+      title: title ?? "标题",
       leftArrow: false,
       leftText: TailTypo() //
           .text_color(theme.textColor2)

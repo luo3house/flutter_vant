@@ -1,7 +1,7 @@
 import 'package:tuple/tuple.dart';
 
 class NamedValue<T> extends Tuple2<String, T> {
-  const NamedValue(super.item1, super.item2);
+  const NamedValue(String name, T value) : super(name, value);
   String get name => item1;
   T get value => item2;
   @override

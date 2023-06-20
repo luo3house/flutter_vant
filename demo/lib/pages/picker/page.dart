@@ -16,29 +16,52 @@ class PickerPageState extends State<PickerPage> {
   final popupShow = ValueNotifier(false);
   final popupValues = ValueNotifier([]);
 
-  List<List<NamedValue>> get citiesColumns => const [
+  List<List<PickerOption>> get citiesColumns => const [
         [
-          NamedValue("杭州", "Hangzhou"),
-          NamedValue("宁波", "Ningbo"),
-          NamedValue("温州", "Wenzhou"),
-          NamedValue("绍兴", "Shaoxing"),
-          NamedValue("湖州", "Huzhou"),
+          PickerOption("杭州", "Hangzhou"),
+          PickerOption("宁波", "Ningbo"),
+          PickerOption("温州", "Wenzhou"),
+          PickerOption("绍兴", "Shaoxing"),
+          PickerOption("湖州", "Huzhou"),
         ]
       ];
 
-  List<List<NamedValue>> get weekTimesColumns => const [
+  List<List<PickerOption>> get weekTimesColumns => const [
         [
-          NamedValue("周一", "Mon"),
-          NamedValue("周二", "Tue"),
-          NamedValue("周三", "Wed"),
-          NamedValue("周四", "Thu"),
-          NamedValue("周五", "Fri"),
+          PickerOption("周一", "Mon"),
+          PickerOption("周二", "Tue"),
+          PickerOption("周三", "Wed"),
+          PickerOption("周四", "Thu"),
+          PickerOption("周五", "Fri"),
         ],
         [
-          NamedValue("上午", "Morning"),
-          NamedValue("下午", "Afternoon"),
-          NamedValue("晚上", "Eve"),
+          PickerOption("上午", "Morning"),
+          PickerOption("下午", "Afternoon"),
+          PickerOption("晚上", "Eve"),
         ],
+      ];
+
+  List<PickerOption> get cascadeCities => const [
+        PickerOption("浙江", "Zhejiang", [
+          PickerOption("杭州", "Hangzhou", [
+            PickerOption("西湖", "Xihu"),
+            PickerOption("余杭", "Yuhang"),
+          ]),
+          PickerOption("温州", "Wenzhou", [
+            PickerOption("鹿城", "Lucheng"),
+            PickerOption("瓯海", "Ouhai"),
+          ]),
+        ]),
+        PickerOption("福建", "Fujian", [
+          PickerOption("福州", "Fuzhou", [
+            PickerOption("鼓楼", "Gulou"),
+            PickerOption("台江", "Taijiang"),
+          ]),
+          PickerOption("厦门", "Xiamen", [
+            PickerOption("思明", "Siming"),
+            PickerOption("海沧", "Haicang"),
+          ]),
+        ]),
       ];
 
   @override
@@ -47,10 +70,11 @@ class PickerPageState extends State<PickerPage> {
       const DocTitle("Basic Usage"),
       VanPicker(
         // ignore: avoid_print
-        onChange: (values, _) => print(values),
+        onChange: (values) => print(values),
         columns: citiesColumns,
       ),
-
+      const DocTitle("无限滑动"),
+      VanPicker(columns: citiesColumns, loop: true),
       const DocTitle("搭配弹出层使用"),
       ValueListenableBuilder(
         valueListenable: popupValues,
@@ -79,7 +103,7 @@ class PickerPageState extends State<PickerPage> {
                     onConfirm: (_) => popupShow.value = false,
                     columns: citiesColumns,
                     values: values,
-                    onChange: (values, _) => popupValues.value = values,
+                    onChange: (values) => popupValues.value = values,
                   );
                 },
               ),
@@ -87,38 +111,10 @@ class PickerPageState extends State<PickerPage> {
           },
         ),
       ),
-
       const DocTitle("多列选择"),
       VanPicker(columns: weekTimesColumns),
-      // const DocTitle("Loop"),
-      // WithModel<dynamic>(const ["C", "5"], (model) {
-      //   return Column(children: [
-      //     Text(model.value.join(",")),
-      //     VanPicker(
-      //       values: model.value,
-      //       loop: true,
-      //       onChange: (vs, _) => model.value = vs,
-      //       columns: const [
-      //         [
-      //           NamedValue("A", "A"),
-      //           NamedValue("B", "B"),
-      //           NamedValue("C", "C"),
-      //           NamedValue("D", "D"),
-      //           NamedValue("E", "E"),
-      //           NamedValue("F", "F"),
-      //         ],
-      //         [
-      //           NamedValue("1", "1"),
-      //           NamedValue("2", "2"),
-      //           NamedValue("3", "3"),
-      //           NamedValue("4", "4"),
-      //           NamedValue("5", "5"),
-      //           NamedValue("6", "6"),
-      //         ],
-      //       ],
-      //     ),
-      //   ]);
-      // }),
+      const DocTitle("级联选择"),
+      VanPicker(columns: cascadeCities),
     ]);
   }
 }

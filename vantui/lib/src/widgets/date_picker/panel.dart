@@ -114,7 +114,7 @@ class DatePickerPanel extends StatelessWidget {
     return PickerPanel(
       columns: options,
       values: normalizeValues,
-      onChange: (values, colIndex) {
+      onChange: (values) {
         final newDate = fromValue(List<int>.from(values), columnsType);
         final clampDate = newDate.isBefore(minDate)
             ? minDate
