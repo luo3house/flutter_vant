@@ -12,24 +12,26 @@ class CheckboxPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(children: [
       const DocTitle("Basic Usage"),
-      WithModel(
+      DocPadding(WithModel(
         false,
         (model) => VanCheckbox(
           label: "Checkbox",
           checked: model.value,
           onChange: (v) => model.value = v,
         ),
-      ),
+      )),
 
       //
       const DocTitle("Disabled"),
-      const VanCheckbox(label: "Checkbox", disabled: true),
+      const DocPadding(VanCheckbox(label: "Checkbox", disabled: true)),
       const SizedBox(height: 8),
-      const VanCheckbox(label: "Checkbox", disabled: true, checked: true),
+      const DocPadding(
+        VanCheckbox(label: "Checkbox", disabled: true, checked: true),
+      ),
 
       //
       const DocTitle("Shape"),
-      WithModel(
+      DocPadding(WithModel(
         false,
         (model) => VanCheckbox(
           label: "Checkbox",
@@ -37,11 +39,11 @@ class CheckboxPage extends StatelessWidget {
           shape: BoxShape.rectangle,
           onChange: (v) => model.value = v,
         ),
-      ),
+      )),
 
       //
       const DocTitle("Color"),
-      WithModel(
+      DocPadding(WithModel(
         false,
         (model) => VanCheckbox(
           label: "Checkbox",
@@ -49,11 +51,11 @@ class CheckboxPage extends StatelessWidget {
           checkedColor: const Color(0xFFEE0A24),
           onChange: (v) => model.value = v,
         ),
-      ),
+      )),
 
       //
       const DocTitle("Icon"),
-      WithModel(
+      DocPadding(WithModel(
         false,
         (model) => VanCheckbox(
           label: "Icon",
@@ -66,7 +68,7 @@ class CheckboxPage extends StatelessWidget {
             return FittedBox(child: Icon(icon));
           },
         ),
-      ),
+      )),
     ]);
   }
 }

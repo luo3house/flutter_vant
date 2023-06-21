@@ -169,6 +169,12 @@ class VanPullRefreshState extends State<VanPullRefresh> with SafeSetStateMixin {
     return Center(child: Text(text ?? '下拉刷新'));
   }
 
+  double interpolateY(double y) {
+    // y = x, when y < head
+    // y = head + (y - head)  / 10, when y >= head (overdrag)
+    return y < headHeight ? y : headHeight + ((y - headHeight) / 10);
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = VanConfig.ofTheme(context);
@@ -190,7 +196,7 @@ class VanPullRefreshState extends State<VanPullRefresh> with SafeSetStateMixin {
     final headLimitOverflow = ClipRect(
       clipBehavior: Clip.hardEdge,
       child: OverflowBox(
-        alignment: Alignment.bottomCenter,
+        alignment: Alignment.center,
         minHeight: 0,
         maxHeight: headHeight,
         child: shouldShowHead
@@ -205,7 +211,7 @@ class VanPullRefreshState extends State<VanPullRefresh> with SafeSetStateMixin {
           ? theme.durationFast
           : Duration.zero,
       builder: (_, y, headLimitOverflow) => SizedBox(
-        height: y,
+        height: interpolateY(y),
         child: headLimitOverflow,
       ),
       child: headLimitOverflow,
@@ -218,7 +224,7 @@ class VanPullRefreshState extends State<VanPullRefresh> with SafeSetStateMixin {
           : Duration.zero,
       onEnd: () => onAnimationEnd(),
       builder: (_, y, child) => Transform.translate(
-        offset: Offset(0, y),
+        offset: Offset(0, interpolateY(y)),
         child: child,
       ),
       child: widget.child,

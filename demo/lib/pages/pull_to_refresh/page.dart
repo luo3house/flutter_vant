@@ -1,10 +1,8 @@
 import 'dart:math';
 
-import 'package:demo/doc/doc_title.dart';
 import 'package:demo/widgets/with_value.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter/material.dart' show Colors;
 
 class PullToRefreshPage extends StatelessWidget {
   final Uri location;
@@ -12,84 +10,86 @@ class PullToRefreshPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(children: [
-      const DocTitle("Basic Usage"),
-      WithModel(ScrollController(), (model) {
-        final controller = model.value;
-        return Container(
-          color: Colors.white,
-          height: 200,
-          child: VanPullRefresh(
-            controller: controller,
-            // ignore: avoid_print
-            onRefresh: () => Future.sync(() => print("refresh"))
-                .then((_) => Future.delayed(const Duration(seconds: 1))),
-            child: ListView(
-              controller: controller,
-              itemExtent: 50,
-              children: List.generate(100, (index) {
-                return Center(child: Text("$index"));
-              }),
-            ),
-          ),
-        );
-      }),
-
-      //
-      const DocTitle("自定义绘制"),
-      WithModel(ScrollController(), (model) {
-        final controller = model.value;
-        return Container(
-          color: Colors.white,
-          height: 200,
-          child: VanPullRefresh(
-            controller: controller,
-            // ignore: avoid_print
-            onRefresh: () => Future.sync(() => print("refresh"))
-                .then((_) => Future.delayed(const Duration(seconds: 1))),
-            drawHead: (args) {
-              return Image.network(
-                args.status == PullRefreshStatus.pull
-                    ? "https://fastly.jsdelivr.net/npm/@vant/assets/doge.png"
-                    : "https://fastly.jsdelivr.net/npm/@vant/assets/doge-fire.jpeg",
-                fit: BoxFit.fitHeight,
-                height: min(args.headHeight, args.visibleHeight),
-              );
-            },
-            child: ListView(
-              controller: controller,
-              itemExtent: 50,
-              children: List.generate(100, (index) {
-                return Center(child: Text("$index"));
-              }),
-            ),
-          ),
-        );
-      }),
-
-      //
-      const DocTitle("刷新期间禁止与列表交互"),
-      WithModel(ScrollController(), (model) {
-        final controller = model.value;
-        return Container(
-          color: Colors.white,
-          height: 200,
-          child: VanPullRefresh(
-            controller: controller,
-            lockDuringRefresh: true,
-            // ignore: avoid_print
-            onRefresh: () => Future.sync(() => print("refresh"))
-                .then((_) => Future.delayed(const Duration(seconds: 1))),
-            child: ListView(
-              controller: controller,
-              itemExtent: 50,
-              children: List.generate(100, (index) {
-                return Center(child: Text("$index"));
-              }),
-            ),
-          ),
-        );
-      }),
+    return Tabs(expanded: true, children: [
+      Tab("基本用法", child: _BasicUsage()),
+      Tab("自定义绘制", child: _CustomHead()),
+      Tab("刷新时禁用", child: _DisableDuringRefresh()),
     ]);
+  }
+}
+
+class _BasicUsage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return WithModel(ScrollController(), (model) {
+      final controller = model.value;
+      return VanPullRefresh(
+        controller: controller,
+        // ignore: avoid_print
+        onRefresh: () => Future.sync(() => print("refresh"))
+            .then((_) => Future.delayed(const Duration(seconds: 1))),
+        child: ListView(
+          controller: controller,
+          itemExtent: 50,
+          children: List.generate(100, (index) {
+            return Center(child: Text("Item $index"));
+          }),
+        ),
+      );
+    });
+  }
+}
+
+class _CustomHead extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return WithModel(ScrollController(), (model) {
+      final controller = model.value;
+      return VanPullRefresh(
+        controller: controller,
+        // ignore: avoid_print
+        onRefresh: () => Future.sync(() => print("refresh"))
+            .then((_) => Future.delayed(const Duration(seconds: 1))),
+        drawHead: (args) {
+          return Image.network(
+            args.status == PullRefreshStatus.pull
+                ? "https://fastly.jsdelivr.net/npm/@vant/assets/doge.png"
+                : "https://fastly.jsdelivr.net/npm/@vant/assets/doge-fire.jpeg",
+            fit: BoxFit.fitHeight,
+            height: min(args.headHeight, args.visibleHeight),
+          );
+        },
+        child: ListView(
+          controller: controller,
+          itemExtent: 50,
+          children: List.generate(100, (index) {
+            return Center(child: Text("Item $index"));
+          }),
+        ),
+      );
+    });
+  }
+}
+
+class _DisableDuringRefresh extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return WithModel(ScrollController(), (model) {
+      final controller = model.value;
+      return VanPullRefresh(
+        controller: controller,
+        lockDuringRefresh: true,
+        // ignore: avoid_print
+        onRefresh: () => Future.sync(() => print("refresh"))
+            .then((_) => Future.delayed(const Duration(seconds: 1))),
+        child: ListView(
+          controller: controller,
+          itemExtent: 50,
+          children: List.generate(100, (index) {
+            return Center(child: Text("Item $index"));
+          }),
+        ),
+      );
+    });
   }
 }

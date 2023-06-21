@@ -2,9 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_vantui/flutter_vantui.dart';
 
+import '../../utils/nil.dart';
+import '../../utils/std.dart';
+import '../config/index.dart';
 import '../form/types.dart';
+import '../icon/index.dart';
 
 class VanRate extends StatefulWidget implements FormItemChild<double> {
   @override
@@ -13,6 +16,8 @@ class VanRate extends StatefulWidget implements FormItemChild<double> {
   final Function(double v)? onChange;
   final int? count;
   final double? size;
+  final dynamic voidIcon;
+  final dynamic icon;
   final Color? color;
   final Color? voidColor;
   final double? gap;
@@ -22,6 +27,8 @@ class VanRate extends StatefulWidget implements FormItemChild<double> {
     this.value,
     this.count,
     this.size,
+    this.voidIcon,
+    this.icon,
     this.color,
     this.voidColor,
     this.gap,
@@ -61,6 +68,8 @@ class VanRateState extends State<VanRate> {
   double get size => widget.size ?? 20;
   double get gap => widget.gap ?? 4;
   bool get allowHalf => widget.allowHalf ?? false;
+  dynamic get voidIcon => widget.voidIcon ?? VanIcons.star_o;
+  dynamic get icon => widget.icon ?? VanIcons.star;
 
   onPointerDown(Offset pos) {
     panBase = tryCatch(() => (context.findRenderObject() as RenderBox) //
@@ -110,6 +119,18 @@ class VanRateState extends State<VanRate> {
     return clampDouble(value.toDouble(), 0, count.toDouble());
   }
 
+  Widget probeIcon(dynamic icon) {
+    if (icon is Widget) {
+      return icon;
+    } else if (icon is IconData) {
+      return Icon(icon);
+    } else if (icon is String) {
+      return Text(icon);
+    } else {
+      return nil;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = VanConfig.ofTheme(context);
@@ -117,12 +138,21 @@ class VanRateState extends State<VanRate> {
     final color = widget.color ?? theme.dangerColor;
     final voidColor = widget.voidColor ?? theme.gray5;
 
+    final icon = probeIcon(this.icon);
+    final voidIcon = probeIcon(this.voidIcon);
+
     final baseStars = List.generate(count, (_) {
-      return VanIcon(VanIcons.star_o, color: voidColor, size: size);
+      return IconTheme(
+        data: IconThemeData(color: voidColor, size: size),
+        child: voidIcon,
+      );
     });
 
     final filledStars = List.generate(count, (index) {
-      final fillStar = VanIcon(VanIcons.star, color: color, size: size);
+      final fillStar = IconTheme(
+        data: IconThemeData(color: color, size: size),
+        child: icon,
+      );
       final min = index, max = index + 1;
       if (value >= max) {
         return fillStar;

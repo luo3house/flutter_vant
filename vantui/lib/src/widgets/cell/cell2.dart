@@ -15,6 +15,7 @@ class VanCell extends StatefulWidget {
   final dynamic icon;
   final dynamic arrow;
   final bool? center;
+  final Widget? prefix;
   final bool? clickable;
   final Function()? onTap;
 
@@ -24,6 +25,7 @@ class VanCell extends StatefulWidget {
     this.label,
     this.icon,
     this.arrow,
+    this.prefix,
     this.center,
     this.clickable,
     this.onTap,
@@ -64,6 +66,16 @@ class VanCellState extends State<VanCell> {
     });
   }
 
+  Widget probeIcon(dynamic icon) {
+    if (icon is Widget) {
+      return TailBox().mr(4).Container(child: icon);
+    }
+    if (icon is IconData) {
+      return TailBox().mr(4).Container(child: Icon(icon));
+    }
+    return nil;
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = VanConfig.ofTheme(context);
@@ -80,15 +92,9 @@ class VanCellState extends State<VanCell> {
     const px = 16.0;
     const py = 10.0;
 
-    final prefix = () {
-      if (icon is Widget) {
-        return TailBox().mr(4).Container(child: icon);
-      }
-      if (icon is IconData) {
-        return TailBox().mr(4).Container(child: Icon(icon));
-      }
-      return nil;
-    }();
+    final prefix = probeIcon(widget.prefix);
+
+    final icon = probeIcon(widget.icon);
 
     final title = () {
       if (this.title is Widget) return this.title as Widget;
@@ -132,31 +138,43 @@ class VanCellState extends State<VanCell> {
       true: CrossAxisAlignment.center,
     }[center]!;
 
-    final left = flexProvider.flexLeft(Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    final left = flexProvider.flexLeft(Row(
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [prefix, title],
-        ),
-        label
+        prefix,
+        SizedBox(width: prefix == nil ? 0 : px / 2),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [icon, title],
+            ),
+            label,
+          ],
+        )
       ],
     ));
 
-    final right = flexProvider.flexRight(LayoutBuilder(builder: (_, con) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Expanded(
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: value,
-            ),
-          ),
-          arrow
-        ],
-      );
-    }));
+    final right = () {
+      if (widget.value == null && widget.arrow == null) {
+        return nil;
+      } else {
+        return flexProvider.flexRight(LayoutBuilder(builder: (_, con) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: value,
+                ),
+              ),
+              arrow
+            ],
+          );
+        }));
+      }
+    }();
 
     return DefaultTextStyle.merge(
       style: TailTypo().font_size(theme.fontSizeMd).TextStyle(),

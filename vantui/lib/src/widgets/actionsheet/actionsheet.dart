@@ -36,6 +36,8 @@ class VanActionSheet extends StatelessWidget {
     final fontSize =
         DefaultTextStyle.of(context).style.fontSize ?? theme.fontSizeMd;
 
+    final closeOnClickAction = this.closeOnClickAction ?? true;
+
     final description = () {
       if (this.description == null) {
         return nil;
@@ -62,7 +64,7 @@ class VanActionSheet extends StatelessWidget {
           onTap: () {
             if (disabled == true) return;
             onSelect?.call(action);
-            if (closeOnClickAction == true) onClose?.call();
+            if (closeOnClickAction) onClose?.call();
           },
           child: action,
         );

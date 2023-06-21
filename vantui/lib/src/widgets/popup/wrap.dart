@@ -44,11 +44,16 @@ class VanPopupState extends State<VanPopupWrap> {
 
   double get contentW => contentSize?.width ?? 0;
   double get contentH => contentSize?.height ?? 0;
+  VanPopupPosition get position => widget.position ?? VanPopupPosition.center;
+  BoxConstraints get constraints =>
+      widget.constraints ?? const BoxConstraints();
+  bool get overlay => widget.overlay ?? true;
+  bool get closeOnClickOverlay => widget.closeOnClickOverlay ?? true;
 
   bool backInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
     if (stopDefaultButtonEvent) return false;
     if (_show) {
-      hide();
+      if (closeOnClickOverlay) hide();
       return true;
     } else {
       return false;
@@ -84,11 +89,6 @@ class VanPopupState extends State<VanPopupWrap> {
   @override
   Widget build(BuildContext context) {
     final theme = VanConfig.ofTheme(context);
-
-    final position = widget.position ?? VanPopupPosition.center;
-    final constraints = widget.constraints ?? const BoxConstraints();
-    final overlay = widget.overlay ?? true;
-    final closeOnClickOverlay = widget.closeOnClickOverlay ?? true;
 
     var contentCon = () {
       const verti = {VanPopupPosition.top, VanPopupPosition.bottom};

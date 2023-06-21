@@ -43,7 +43,7 @@ class VanDialog extends StatelessWidget {
         ),
         onInvalidate: onInvalidate,
         onClose: onClose,
-        closeOnClickOverlay: closeOnClickOverlay == true,
+        closeOnClickOverlay: closeOnClickOverlay,
         round: true,
         child: VanDialogBody(
           title: title,

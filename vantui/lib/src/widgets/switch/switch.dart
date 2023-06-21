@@ -58,6 +58,12 @@ class VanSwitch extends StatelessWidget {
           .Container(width: width, height: height),
     );
 
+    final thumbIconTheme =
+        IconTheme.of(context).copyWith(color: value ? bgOnColor : bgOffColor);
+
+    final thumbTextStyle =
+        TailTypo().text_color(value ? bgOnColor : bgOffColor).TextStyle();
+
     final thumb = TweenAnimationBuilder(
       tween: Tween(begin: thumbLeft, end: thumbLeft),
       duration: theme.durationBase,
@@ -66,16 +72,22 @@ class VanSwitch extends StatelessWidget {
         child: child,
       ),
       curve: const Cubic(.3, 1.05, .4, 1.05),
-      child: TailBox()
-          .shadow(const [thumbShadow])
-          .rounded(rounded)
-          .bg(thumbBg)
-          .Container(
-            width: thumbSize,
-            height: thumbSize,
-            clipBehavior: Clip.hardEdge,
-            child: drawThumb?.call(value),
-          ),
+      child: DefaultTextStyle.merge(
+        style: thumbTextStyle,
+        child: IconTheme.merge(
+          data: thumbIconTheme,
+          child: TailBox()
+              .shadow(const [thumbShadow])
+              .rounded(rounded)
+              .bg(thumbBg)
+              .Container(
+                width: thumbSize,
+                height: thumbSize,
+                clipBehavior: Clip.hardEdge,
+                child: drawThumb?.call(value),
+              ),
+        ),
+      ),
     );
 
     return SizedBox(

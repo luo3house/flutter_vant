@@ -15,9 +15,9 @@ class ActionSheetPage extends StatelessWidget {
       return Stack(
         children: [
           ListView(children: [
-            const DocTitle("Basic Usage"),
+            const DocTitle("基本用法"),
             VanCell(
-              title: "Basic Usage",
+              title: "基本用法",
               clickable: true,
               onTap: () {
                 model.value = _State()
@@ -25,19 +25,17 @@ class ActionSheetPage extends StatelessWidget {
                   ..onClose = (() {
                     model.value = model.value.clone()..show = false;
                   })
-                  ..closeOnClickAction = true
                   ..actions = [
-                    const VanActionSheetItem("Option1"),
-                    const VanActionSheetItem("Option2"),
-                    const VanActionSheetItem("Option3"),
+                    const VanActionSheetItem("选项 1"),
+                    const VanActionSheetItem("选项 2"),
+                    const VanActionSheetItem("选项 3"),
                   ]
-                  ..onSelect = (item) {
-                    VanToastStatic.show(context, message: item.name);
-                  };
+                  ..onSelect = (item) =>
+                      VanToastStatic.show(context, message: item.name);
               },
             ),
             VanCell(
-              title: "With Cancel",
+              title: "展示取消按钮",
               clickable: true,
               onTap: () {
                 model.value = _State()
@@ -46,17 +44,17 @@ class ActionSheetPage extends StatelessWidget {
                     model.value = model.value.clone()..show = false;
                   })
                   ..actions = [
-                    const VanActionSheetItem("Option1"),
-                    const VanActionSheetItem("Option2"),
+                    const VanActionSheetItem("选项 1"),
+                    const VanActionSheetItem("选项 2"),
                   ]
-                  ..cancelText = "Cancel"
+                  ..cancelText = "取消"
                   ..onCancel = () {
                     VanToastStatic.show(context, message: "Cancel");
                   };
               },
             ),
             VanCell(
-              title: "With Description",
+              title: "展示描述信息",
               clickable: true,
               onTap: () {
                 model.value = _State()
@@ -64,19 +62,19 @@ class ActionSheetPage extends StatelessWidget {
                   ..onClose = (() {
                     model.value = model.value.clone()..show = false;
                   })
-                  ..description = "My Description"
-                  ..cancelText = "Cancel"
+                  ..description = "描述信息"
+                  ..cancelText = "取消"
                   ..actions = [
-                    const VanActionSheetItem("Option1"),
-                    const VanActionSheetItem("Option2"),
+                    const VanActionSheetItem("选项 1"),
+                    const VanActionSheetItem("选项 2"),
                   ];
               },
             ),
 
             //
-            const DocTitle("Custom"),
+            const DocTitle("自定义选项"),
             VanCell(
-              title: "Custom",
+              title: "自定义选项",
               clickable: true,
               onTap: () {
                 model.value = _State()
@@ -84,15 +82,17 @@ class ActionSheetPage extends StatelessWidget {
                   ..onClose = (() {
                     model.value = model.value.clone()..show = false;
                   })
-                  ..description = "My Description"
+                  ..description = "描述信息"
                   ..actions = [
                     VanActionSheetItem(
-                      "Option1",
-                      child: TailTypo() //
-                          .text_color(Colors.red)
-                          .Text("Option1"),
+                      "option1",
+                      child: TailTypo().text_color(Colors.red).Text("选项 1"),
                     ),
-                    const VanActionSheetItem("Option2", disabled: true),
+                    const VanActionSheetItem(
+                      "option2",
+                      disabled: true,
+                      child: Text("禁用选项"),
+                    ),
                   ];
               },
             ),

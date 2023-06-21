@@ -16,6 +16,9 @@ class VanSlider extends StatefulWidget implements FormItemChild<double> {
   final double? step;
   final Function(double v)? onChangeEnd;
   final Widget Function(double v)? drawThumb;
+  final Color? activeBg;
+  final Color? inactiveBg;
+  final double? barHeight;
 
   const VanSlider({
     this.value,
@@ -25,6 +28,9 @@ class VanSlider extends StatefulWidget implements FormItemChild<double> {
     this.onChange,
     this.onChangeEnd,
     this.drawThumb,
+    this.activeBg,
+    this.inactiveBg,
+    this.barHeight,
     super.key,
   });
 
@@ -147,18 +153,21 @@ class VanSliderState extends State<VanSlider> {
     final instant = this.instant;
     this.instant = false;
 
-    const barHeight = 2.0;
+    final barHeight = widget.barHeight ?? 2.0;
+
+    final inactiveBg = widget.inactiveBg ?? theme.gray3;
+    final activeBg = widget.activeBg ?? theme.primaryColor;
 
     return LayoutBuilder(builder: (_, con) {
       final left = value / max * con.maxWidth;
 
       final inactiveBar = TailBox() //
-          .bg(theme.gray3)
+          .bg(inactiveBg)
           .rounded(999)
           .Container(height: barHeight, width: con.maxWidth);
 
       final activeBar = TailBox() //
-          .bg(theme.primaryColor)
+          .bg(activeBg)
           .rounded(999)
           .Container(height: barHeight, width: con.maxWidth);
 

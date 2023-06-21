@@ -11,46 +11,44 @@ class RadioPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(children: [
       const DocTitle("Basic Usage"),
-      WithModel(false, (model) {
+      DocPadding(WithModel(false, (model) {
         return VanRadio(
           checked: model.value,
           onChange: (v) => model.value = v,
-          label: "Radio",
+          label: "单选框",
         );
-      }),
+      })),
 
       //
-      const DocTitle("Typically Group"),
-      WithModel<String?>("a", (model) {
+      const DocTitle("单选框组"),
+      DocPadding(WithModel<String?>("1", (model) {
         return VanRadioGroup(
           value: model.value,
           onChange: (name) => model.value = name,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
-              VanRadio(name: "a"),
+              VanRadio(name: "1", label: "单选框 1"),
               SizedBox(height: 10),
-              VanRadio(name: "b"),
+              VanRadio(name: "2", label: "单选框 2"),
             ],
           ),
         );
-      }),
+      })),
 
       //
-      const DocTitle("Horizontal"),
-      WithModel<String?>("a", (model) {
+      const DocTitle("水平排列"),
+      DocPadding(WithModel<String?>("2", (model) {
         return VanRadioGroup(
           value: model.value,
           onChange: (name) => model.value = name,
           child: Row(children: const [
-            VanRadio(name: "a"),
+            VanRadio(name: "1", label: "单选框 1"),
             SizedBox(width: 10),
-            VanRadio(name: "b"),
+            VanRadio(name: "2", label: "单选框 2"),
           ]),
         );
-      }),
-
-      //
+      })),
     ]);
   }
 }

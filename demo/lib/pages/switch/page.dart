@@ -16,47 +16,62 @@ class SwitchPage extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const DocTitle("Basic Usage"),
-            VanSwitch(
+            const DocTitle("基础用法"),
+            DocPadding(VanSwitch(
               onChange: (v) => model.value = v,
               value: model.value,
-            ),
-            const DocTitle("Disabled"),
-            VanSwitch(
+            )),
+            const DocTitle("禁用状态"),
+            DocPadding(VanSwitch(
               value: model.value,
               disabled: true,
-            )
+            )),
           ],
         );
       }),
-      const DocTitle("Size"),
-      WithModel(true, (model) {
+
+      //
+      const DocTitle("自定义大小"),
+      DocPadding(WithModel(true, (model) {
         return VanSwitch(
           value: model.value,
           onChange: (v) => model.value = v,
           size: 20,
         );
-      }),
-      const DocTitle("Custom Color"),
-      WithModel(true, (model) {
+      })),
+
+      //
+      const DocTitle("自定义颜色"),
+      DocPadding(WithModel(true, (model) {
         return VanSwitch(
           value: model.value,
           onChange: (v) => model.value = v,
           bgOnColor: const Color(0xFFEE0A24),
         );
-      }),
-      const DocTitle("Custom Draw Thumb"),
-      WithModel(true, (model) {
+      })),
+
+      //
+      const DocTitle("自定义按钮"),
+      DocPadding(WithModel(true, (model) {
         return VanSwitch(
           value: model.value,
           onChange: (v) => model.value = v,
-          drawThumb: (v) => Center(
-            child: TailTypo() //
-                .text_color(Colors.grey)
-                .Text(v ? "On" : "Off"),
-          ),
+          drawThumb: (v) => Icon(v ? VanIcons.success : VanIcons.cross),
         );
-      }),
+      })),
+
+      //
+      const DocTitle("搭配单元格使用"),
+      VanCell(
+        title: "标题",
+        center: true,
+        value: WithModel(true, (model) {
+          return VanSwitch(
+            value: model.value,
+            onChange: (v) => model.value = v,
+          );
+        }),
+      ),
     ]);
   }
 }
