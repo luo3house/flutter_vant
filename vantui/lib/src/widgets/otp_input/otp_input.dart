@@ -5,6 +5,7 @@ import 'package:flutter_vantui/src/widgets/_util/with_value.dart';
 import 'package:tailstyle/tailstyle.dart';
 
 import '../../utils/nil.dart';
+import '../_util/hidden.dart';
 import '../config/index.dart';
 import '../input/input.dart';
 
@@ -93,8 +94,10 @@ class OTPInputState extends State<OTPInput> {
         onChange: (v) => handleCharsChange(v),
         inputFormatters: [FilteringTextInputFormatter.allow(digitRE)],
         as: (input) {
-          return Stack(children: [
-            Offstage(offstage: true, child: input),
+          return Stack(alignment: Alignment.bottomLeft, children: [
+            // paint render box is required to get caret size to scrolling widget to screen
+            // but Opacity(opacity: 0) skips painting and only performs layout, and Offstage as well
+            Hidden(child: input),
             TailBox().border(borderC, borderW).mx(mx).as((s) {
               return s.Container(
                 height: height,
@@ -103,6 +106,8 @@ class OTPInputState extends State<OTPInput> {
                   return Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: List.generate(length, (index) {
+                      final slotFocusing = index == chars.length ||
+                          (chars.length == length && index + 1 == length);
                       final borderW = index == 0 ? 0.0 : 1.0;
                       return TailBox()
                           .ml(index == 0 ? 0.0 : gaps.subsequentLeft)
@@ -111,7 +116,7 @@ class OTPInputState extends State<OTPInput> {
                             width: gaps.itemDim,
                             child: _OTPInputSlot(
                               obsecure: obsecure,
-                              focusing: isFocusing && index == chars.length,
+                              focusing: isFocusing && slotFocusing,
                               char: chars.length > index ? chars[index] : '',
                             ),
                           );
@@ -154,19 +159,15 @@ class _OTPInputSlot extends StatelessWidget {
       decoration: BoxDecoration(color: color, shape: BoxShape.circle),
     );
 
-    twnBegin() => Tween(begin: 0.0, end: 1.0);
-    twnEnd() => Tween(begin: 1.0, end: 0.0);
-
     return LayoutBuilder(builder: (_, con) {
       final height = con.maxHeight * .4;
-      final cursorAnim = WithValue(twnBegin(), (model) {
-        final tween = model.value;
+      final cursorAnim = WithValue(true, (model) {
         return TweenAnimationBuilder(
-          tween: tween,
+          tween: model.value
+              ? Tween(begin: 0.0, end: 1.0)
+              : Tween(begin: 1.0, end: 0.0),
           duration: const Duration(milliseconds: 500),
-          onEnd: () {
-            model.value = tween.begin == 0.0 ? twnEnd() : twnBegin();
-          },
+          onEnd: () => model.value = !model.value,
           builder: (_, x, child) => Opacity(opacity: x, child: child),
           child: Container(color: color, height: height, width: 1),
         );

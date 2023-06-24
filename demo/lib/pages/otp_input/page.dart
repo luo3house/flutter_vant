@@ -1,3 +1,4 @@
+import 'package:demo/widgets/with_value.dart';
 import 'package:flutter/widgets.dart';
 import 'package:demo/doc/doc_title.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
@@ -8,15 +9,24 @@ class OTPInputPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(children: const [
-      DocTitle("基本用法"),
-      OTPInput(autoFocus: true, value: "123"),
-      DocTitle("自定义长度"),
-      OTPInput(length: 4, value: "123"),
-      DocTitle("间距"),
-      OTPInput(gutter: 10, value: "123456"),
-      DocTitle("隐藏文字"),
-      OTPInput(obsecure: true, value: "123"),
-    ]);
+    return ListView(
+      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+      children: [
+        const DocTitle("基本用法"),
+        WithModel("123", (model) {
+          return OTPInput(
+            autoFocus: true,
+            value: model.value,
+            onChange: (v) => model.value = v,
+          );
+        }),
+        const DocTitle("自定义长度"),
+        const OTPInput(length: 4, value: "123"),
+        const DocTitle("间距"),
+        const OTPInput(gutter: 10, value: "12345"),
+        const DocTitle("隐藏文字"),
+        const OTPInput(obsecure: true, value: "123"),
+      ],
+    );
   }
 }
