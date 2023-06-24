@@ -58,6 +58,7 @@ class IndexPage extends StatelessWidget {
       "DatePicker 日期选择器": () => push(context, "/date_picker"),
       "TimePicker 时间选择器": () => push(context, "/time_picker"),
       "IndexBar 索引列表": () => push(context, "/index_bar"),
+      "OTPInput 密码输入框": () => push(context, "/otp_input"),
     };
 
     final h1 = TailTypo().text_xl().font_bold();

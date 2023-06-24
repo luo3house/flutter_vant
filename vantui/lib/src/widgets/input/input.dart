@@ -11,12 +11,15 @@ import '../../utils/nil.dart';
 class VanInput extends StatefulWidget implements FormItemChild<String> {
   final String? value;
   final bool? autoFocus;
+  final FocusNode? focusNode;
   final bool? obscureText;
   final String? hint;
   final int? minLines;
   final int? maxLines;
   final bool? disabled;
   final int? maxLength;
+  final TextEditingController? controller;
+  final List<TextInputFormatter>? inputFormatters;
   final Function(String v)? onChange;
   final Function()? onFocus;
   final Function()? onBlur;
@@ -32,12 +35,15 @@ class VanInput extends StatefulWidget implements FormItemChild<String> {
   const VanInput({
     this.value,
     this.autoFocus,
+    this.focusNode,
     this.obscureText,
     this.hint,
     this.minLines,
     this.maxLines,
     this.maxLength,
     this.disabled,
+    this.controller,
+    this.inputFormatters,
     this.keyboardType,
     this.textInputAction,
     this.onChange,
@@ -69,6 +75,8 @@ class VanInput extends StatefulWidget implements FormItemChild<String> {
       maxLines: maxLines,
       maxLength: maxLength,
       disabled: disabled,
+      controller: controller,
+      focusNode: focusNode,
       keyboardType: keyboardType,
       textInputAction: textInputAction,
       onChange: onChange,
@@ -87,9 +95,9 @@ class VanInput extends StatefulWidget implements FormItemChild<String> {
 class VanInputState extends State<VanInput>
     implements TextSelectionGestureDetectorBuilderDelegate {
   final textKey = GlobalKey<EditableTextState>();
-  final focusNode = FocusNode();
+  late FocusNode focusNode;
   final focusNodeFocus = ValueNotifier(false);
-  final controller = TextEditingController();
+  late TextEditingController controller;
   late TextSelectionGestureDetectorBuilder gestureDetectorBuilder;
 
   int? get maxLines => obscureText ? 1 : widget.maxLines;
@@ -111,6 +119,8 @@ class VanInputState extends State<VanInput>
   void initState() {
     super.initState();
     gestureDetectorBuilder = VanInputStateSelectionBuilder(this);
+    focusNode = widget.focusNode ?? FocusNode();
+    controller = widget.controller ?? TextEditingController();
     controller.text = widget.value ?? controller.text;
     focusNode.addListener(() {
       focusNodeFocus.value = focusNode.hasPrimaryFocus;
@@ -143,8 +153,8 @@ class VanInputState extends State<VanInput>
 
   @override
   void dispose() {
-    focusNode.dispose();
-    controller.dispose();
+    if (widget.focusNode == null) focusNode.dispose();
+    if (widget.controller == null) controller.dispose();
     focusNodeFocus.dispose();
     super.dispose();
   }
@@ -194,7 +204,7 @@ class VanInputState extends State<VanInput>
       cursorWidth: 1.5,
       textInputAction: widget.textInputAction,
       selectionColor: selectionColor,
-      inputFormatters: [maxLengthFormatter()],
+      inputFormatters: [maxLengthFormatter(), ...?widget.inputFormatters],
       rendererIgnoresPointer: true,
     );
 
@@ -270,7 +280,7 @@ class VanInputStateSelectionBuilder
   void onSingleTapUp(TapUpDetails details) {
     editableText.hideToolbar();
     super.onSingleTapUp(details);
-    state.editableTextKey.currentState?.requestKeyboard();
+    editableText.requestKeyboard();
   }
 
   @override

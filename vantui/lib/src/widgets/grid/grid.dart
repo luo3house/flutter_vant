@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_vantui/src/widgets/_util/value_provider.dart';
 import 'package:tailstyle/tailstyle.dart';
 
 import '../../utils/nil.dart';
+import '../_util/value_provider.dart';
 import '../badge/badge.dart';
 import '../button/pressable.dart';
 import '../config/index.dart';

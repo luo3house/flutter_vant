@@ -14,6 +14,7 @@ import 'package:demo/pages/input/page.dart';
 import 'package:demo/pages/icon/page.dart';
 import 'package:demo/pages/layout/page.dart';
 import 'package:demo/pages/navbar/page.dart';
+import 'package:demo/pages/otp_input/page.dart';
 import 'package:demo/pages/picker/page.dart';
 import 'package:demo/pages/popup/page.dart';
 import 'package:demo/pages/pull_to_refresh/page.dart';
@@ -216,6 +217,11 @@ final kRoutes = [
     path: "/index_bar",
     name: "IndexBar",
     pageBuilder: withTransition(withScaffold((uri) => IndexBarPage(uri))),
+  ),
+  GoRoute(
+    path: "/otp_input",
+    name: "OTPInput",
+    pageBuilder: withTransition(withScaffold((uri) => OTPInputPage(uri))),
   ),
 ];
 

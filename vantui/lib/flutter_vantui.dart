@@ -32,6 +32,7 @@ export 'src/widgets/date_picker/index.dart';
 export 'src/widgets/time_picker/index.dart';
 export 'src/widgets/teleport_overlay/index.dart';
 export 'src/widgets/index_bar/index.dart';
+export 'src/widgets/otp_input/index.dart';
 
 export 'src/utils/vo.dart';
 export 'src/utils/nil.dart';

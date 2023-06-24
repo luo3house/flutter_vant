@@ -12,11 +12,11 @@ class WithValue<T> extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return WithModelState<T>();
+    return _WithValueState<T>();
   }
 }
 
-class WithModelState<T> extends State<WithValue<T>> {
+class _WithValueState<T> extends State<WithValue<T>> {
   late ValueNotifier<T> value;
   @override
   void initState() {

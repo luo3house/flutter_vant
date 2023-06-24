@@ -62,7 +62,7 @@ class VanTheme {
   Duration durationFast = const Duration(milliseconds: 200);
 
   // Border
-  Color borderColor = const Color(0xFFebedf0);
+  Color borderColor = const Color(0xFFEBEDF0);
   double borderWidth = 1;
   double radiusSm = 2;
   double radiusMd = 4;
