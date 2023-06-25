@@ -80,7 +80,7 @@ class OTPInputState extends State<OTPInput> {
 
     final mx = theme.paddingMd;
 
-    final borderW = gutter > 0 ? 1.0 : 0.0;
+    final borderW = gutter > 0 ? 0.0 : 1.0;
     final borderC = theme.borderColor;
 
     return FocusTrapArea(
