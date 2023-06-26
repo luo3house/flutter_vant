@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart' show Colors;
 import 'package:flutter/widgets.dart';
 import 'package:demo/doc/doc_title.dart';
 import 'package:demo/widgets/with_value.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
-import 'package:tailstyle/tailstyle.dart';
 
 class SwitchPage extends StatelessWidget {
   final Uri location;

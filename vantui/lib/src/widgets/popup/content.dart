@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:tailstyle/tailstyle.dart';
 
-import '../../utils/nil.dart';
 import '../../utils/rendering.dart';
 import '../../utils/std.dart';
 import '../config/index.dart';

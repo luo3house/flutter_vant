@@ -29,7 +29,7 @@ import 'package:demo/pages/tabbar/page.dart';
 import 'package:demo/pages/tag/page.dart';
 import 'package:demo/pages/time_picker/page.dart';
 import 'package:demo/pages/toast/page.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' show Scaffold;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
 import 'package:go_router/go_router.dart';

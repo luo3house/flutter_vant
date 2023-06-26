@@ -221,7 +221,7 @@ class TabsState extends State<Tabs> {
     final tabs = this.tabs;
     if (active is int) {
       active = active.clamp(0, tabs.length);
-      return tabs.length > active ? tabs.elementAt(active).name : this._active;
+      return tabs.length > active ? tabs.elementAt(active).name : _active;
     } else {
       return "$active";
     }
