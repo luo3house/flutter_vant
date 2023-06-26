@@ -10,7 +10,7 @@ class PullToRefreshPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Tabs(expanded: true, children: [
+    return Tabs(expands: true, children: [
       Tab("基本用法", child: _BasicUsage()),
       Tab("自定义绘制", child: _CustomHead()),
       Tab("刷新时禁用", child: _DisableDuringRefresh()),

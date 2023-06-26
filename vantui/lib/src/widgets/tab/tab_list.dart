@@ -25,7 +25,7 @@ class TabList extends StatefulWidget {
   }
 }
 
-class TabListState extends State<TabList> {
+class TabListState extends State<TabList> with WidgetsBindingObserver {
   final scroller = ScrollController();
   final indicatorKey = GlobalKey<TabIndicatorState>();
   late TabListExtent extent;
@@ -64,8 +64,19 @@ class TabListState extends State<TabList> {
   }
 
   @override
+  void didChangeMetrics() {
+    super.didChangeMetrics();
+    raf(
+      () => {
+        if (mounted) indicatorKey.currentState?.refreshTabSizes(immediate: true)
+      },
+    );
+  }
+
+  @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _clearSizeGetters();
     extent = const TabListExtent();
     activeIndex = widget.activeIndex ?? 0;
@@ -75,6 +86,7 @@ class TabListState extends State<TabList> {
   @override
   void dispose() {
     scroller.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -192,13 +204,15 @@ class TabIndicator extends StatefulWidget {
 
 class TabIndicatorState extends State<TabIndicator> {
   List<Size>? sizes;
+  bool immediate = false;
 
-  refreshTabSizes() {
+  refreshTabSizes({bool immediate = false}) {
     final sizes = widget //
         .tabSizeGetters
         .map((get) => get())
         .toList(growable: false);
     if (sizes.fold(true, (pre, cur) => pre && cur != null)) {
+      this.immediate = immediate;
       setState(() => this.sizes = List.from(sizes));
     }
   }
@@ -238,9 +252,12 @@ class TabIndicatorState extends State<TabIndicator> {
         .fold(0.0, (pre, cur) => pre + cur.width);
     final offset = left + max(0.0, (tabWidth - width) / 2);
 
+    final immediate = this.immediate;
+    this.immediate = false;
+
     return TweenAnimationBuilder(
       tween: Tween(begin: offset, end: offset),
-      duration: theme.durationBase,
+      duration: immediate ? Duration.zero : theme.durationBase,
       curve: Curves.easeOut,
       builder: (_, dx, child) {
         return Transform.translate(

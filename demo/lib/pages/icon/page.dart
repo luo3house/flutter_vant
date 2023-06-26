@@ -10,7 +10,7 @@ class IconPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Tabs(expanded: true, children: [
+    return Tabs(expands: true, children: [
       Tab(
         "用法",
         child: IconTheme(

@@ -4,9 +4,13 @@ class WithValue<T> extends StatefulWidget {
   final T value;
   final Widget Function(ValueNotifier<T> model) builder;
 
+  /// compare between value in state and value from widget
+  final bool Function(T a, T b)? shouldSync;
+
   const WithValue(
     this.value,
     this.builder, {
+    this.shouldSync,
     super.key,
   });
 
@@ -33,7 +37,10 @@ class _WithValueState<T> extends State<WithValue<T>> {
   @override
   void didUpdateWidget(covariant WithValue<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    value.value = widget.value;
+    final shouldSync = widget.shouldSync ?? ((a, b) => a != b);
+    if (shouldSync(value.value, widget.value)) {
+      value.value = widget.value;
+    }
   }
 
   @override

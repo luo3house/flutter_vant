@@ -121,7 +121,7 @@ class VanCascaderState extends State<VanCascader> {
         valueListenable: currentTab,
         builder: (_, index, __) {
           return Tabs(
-            shrink: true,
+            shrinkTabs: true,
             active: index,
             onChange: (e) => currentTab.value = e.index,
             children: tabs,

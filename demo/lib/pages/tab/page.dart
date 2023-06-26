@@ -1,6 +1,8 @@
+import 'package:demo/widgets/with_value.dart';
 import 'package:flutter/widgets.dart';
 import 'package:demo/doc/doc_title.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
+import 'package:tailstyle/tailstyle.dart';
 
 class TabPage extends StatelessWidget {
   final Uri location;
@@ -8,72 +10,112 @@ class TabPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tabBox = TailBox().px().px(15).py(30);
     return ListView(children: [
-      const DocTitle("Basic Usage"),
-      const Tabs(active: "A", children: [
-        Tab("A", child: Text("Tab A")),
-        Tab("B", child: Text("Tab B")),
-        Tab("C", child: Text("Tab C")),
-        Tab("D", child: Text("Tab D")),
-        Tab("E", child: Text("Tab E")),
-        Tab("F", child: Text("Tab F")),
-        Tab("G", child: Text("Tab G")),
-        Tab("H", child: Text("Tab H")),
-        Tab("I", child: Text("Tab I")),
-        Tab("J", child: Text("Tab J")),
-        Tab("K", child: Text("Tab K")),
-        Tab("L", child: Text("Tab L")),
+      const DocTitle("基本用法"),
+      Tabs(active: "标签 1", children: [
+        Tab("标签 1", child: tabBox.Container(child: const Text("标签 1"))),
+        Tab("标签 2", child: tabBox.Container(child: const Text("标签 2"))),
+        Tab("标签 3", child: tabBox.Container(child: const Text("标签 3"))),
+        Tab("标签 4", child: tabBox.Container(child: const Text("标签 4"))),
       ]),
-      const DocTitle("Navigation"),
-      Builder(builder: (context) {
-        final scroller = ScrollController();
-        final index = ValueNotifier(0);
-        return Column(children: [
-          ValueListenableBuilder(
-            valueListenable: index,
-            builder: (_, index, __) {
-              return Tabs(
-                active: index,
-                onChange: (e) => scroller.animateTo(
-                  e.index * 150.0,
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOut,
-                ),
-                children: const [
-                  Tab("A"),
-                  Tab("B"),
-                  Tab("C"),
-                  Tab("D"),
-                  Tab("E"),
-                  Tab("F"),
-                ],
-              );
-            },
-          ),
-          NotificationListener<ScrollNotification>(
-            onNotification: (e) {
-              index.value = (e.metrics.pixels / 150.0).floor();
-              return false;
-            },
-            child: Container(
-              color: const Color(0xFFFFFFFF),
-              height: 80,
-              child: ListView(
-                controller: scroller,
-                itemExtent: 150,
-                children: const [
-                  Text("Tab Content A"),
-                  Text("Tab Content B"),
-                  Text("Tab Content C"),
-                  Text("Tab Content D"),
-                  Text("Tab Content E"),
-                  Text("Tab Content F"),
-                ],
-              ),
-            ),
-          ),
+
+      const DocTitle("收缩布局"),
+      Tabs(active: "标签 1", children: [
+        Tab("标签 1", child: tabBox.Container(child: const Text("标签 1"))),
+        Tab("标签 2", child: tabBox.Container(child: const Text("标签 2"))),
+        Tab("标签 3", child: tabBox.Container(child: const Text("标签 3"))),
+        Tab("标签 4", child: tabBox.Container(child: const Text("标签 4"))),
+        Tab("标签 5", child: tabBox.Container(child: const Text("标签 5"))),
+        Tab("标签 6", child: tabBox.Container(child: const Text("标签 6"))),
+        Tab("标签 7", child: tabBox.Container(child: const Text("标签 7"))),
+        Tab("标签 8", child: tabBox.Container(child: const Text("标签 8"))),
+      ]),
+
+      const DocTitle("自定义标签"),
+      WithModel("1", (model) {
+        final title = Row(mainAxisSize: MainAxisSize.min, children: const [
+          Icon(VanIcons.more_o),
+          SizedBox(width: 5),
+          Text("标签")
+        ]);
+        return Tabs(active: model.value, children: [
+          Tab("1",
+              title: title, child: tabBox.Container(child: const Text("标签 1"))),
+          Tab("2",
+              title: title, child: tabBox.Container(child: const Text("标签 2"))),
         ]);
       }),
+
+      const DocTitle("切换动画"),
+      Tabs(active: "标签 1", animated: true, children: [
+        Tab("标签 1", child: tabBox.Container(child: const Text("标签 1"))),
+        Tab("标签 2", child: tabBox.Container(child: const Text("标签 2"))),
+        Tab("标签 3", child: tabBox.Container(child: const Text("标签 3"))),
+        Tab("标签 4", child: tabBox.Container(child: const Text("标签 4"))),
+      ]),
+
+      const DocTitle("手势滑动"),
+      Tabs(active: "标签 1", swipeable: true, children: [
+        Tab("标签 1", child: tabBox.Container(child: const Text("标签 1"))),
+        Tab("标签 2", child: tabBox.Container(child: const Text("标签 2"))),
+        Tab("标签 3", child: tabBox.Container(child: const Text("标签 3"))),
+        Tab("标签 4", child: tabBox.Container(child: const Text("标签 4"))),
+      ]),
+
+      //
+      const DocTitle("滚动导航"),
+      Builder(builder: (context) {
+        const len = 6;
+        final tabs = List.generate(len, (i) => Tab("标签 $i"));
+        final tabContents = List.generate(
+          len,
+          (i) => TailBox().px(10).as((s) {
+            return s.Container(child: Text("标签 $i 区域"));
+          }),
+        );
+        const contentExtent = 80.0;
+        final tabsKey = GlobalKey<TabsState>();
+        tabsState() => tabsKey.currentState;
+        return WithModel(ScrollController(), (model) {
+          final contentScroller = model.value;
+          return Tabs(
+            key: tabsKey,
+            children: tabs,
+            onChange: (e) => tabsState()?.animateToIndex(
+              e.index,
+              animateToImpl: (index, duration, curve) {
+                contentScroller.animateTo(
+                  e.index * contentExtent,
+                  duration: duration,
+                  curve: curve,
+                );
+              },
+            ),
+            builder: (_) => WithModel(ScrollController(), (model) {
+              return NotificationListener<ScrollNotification>(
+                onNotification: (e) {
+                  final scrollIndex =
+                      (e.metrics.pixels / contentExtent).floor();
+                  tabsState()?.handleScrollToActiveIndexEvent(scrollIndex);
+                  return false;
+                },
+                child: Container(
+                  color: const Color(0xFFFFFFFF),
+                  height: 100,
+                  child: ListView(
+                    controller: contentScroller,
+                    itemExtent: contentExtent,
+                    children: tabContents,
+                  ),
+                ),
+              );
+            }),
+          );
+        });
+      }),
+
+      const SizedBox(height: 50),
     ]);
   }
 }

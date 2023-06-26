@@ -8,7 +8,7 @@ class IndexBarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-    return Tabs(expanded: true, active: "generic", children: [
+    return Tabs(expands: true, active: "generic", children: [
       Tab(
         "generic",
         bgColor: const Color(0x00000000),
