@@ -1,15 +1,15 @@
 import 'dart:convert';
 
+import 'package:demo/widgets/dialog_state.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
-import 'package:tuple/tuple.dart';
 
 class FormPage extends StatelessWidget {
   final Uri location;
   FormPage(this.location, {super.key});
 
   final formKey = GlobalKey<VanFormState>();
-  final timePickerDialog = ValueNotifier(ShowWithValue(false, <int>[]));
+  final timePicker = ValueNotifier(const ModalState(false, <int>[]));
 
   @override
   Widget build(BuildContext context) {
@@ -77,32 +77,30 @@ class FormPage extends StatelessWidget {
           VanField(
             label: "TimePicker",
             clickable: true,
-            onTap: () => timePickerDialog.value = ShowWithValue(true, []),
+            onTap: () => timePicker.value = const ModalState(true, <int>[]),
             child: VanFormItem<List<int>>(
               name: "time_picker",
               builder: (model) {
                 return TeleportOverlay(
                   local: Text(model.value?.toString() ?? '选择时间'),
                   child: ValueListenableBuilder(
-                    valueListenable: timePickerDialog,
+                    valueListenable: timePicker,
                     builder: (_, dialog, __) {
                       return VanPopup(
                         show: dialog.show,
                         onClose: () {
-                          timePickerDialog.value = dialog.copyWith(show: false);
+                          timePicker.value = dialog.copyWith(show: false);
                         },
                         round: true,
                         position: VanPopupPosition.bottom,
                         child: TimePicker(
                           value: dialog.value,
                           onCancel: (_) {
-                            timePickerDialog.value =
-                                dialog.copyWith(show: false);
+                            timePicker.value = dialog.copyWith(show: false);
                           },
                           onConfirm: (value) {
                             model.setValue(value ?? []);
-                            timePickerDialog.value =
-                                dialog.copyWith(show: false);
+                            timePicker.value = dialog.copyWith(show: false);
                           },
                         ),
                       );
@@ -154,12 +152,4 @@ class FormPage extends StatelessWidget {
       ]),
     );
   }
-}
-
-class ShowWithValue<T> extends Tuple2<bool, T> {
-  ShowWithValue(super.item1, super.item2);
-  bool get show => item1;
-  T get value => item2;
-  ShowWithValue<T> copyWith({bool? show, T? value}) =>
-      ShowWithValue<T>(show ?? this.show, value ?? this.value);
 }

@@ -1,10 +1,6 @@
 import 'package:flutter/widgets.dart';
-import '../../utils/nil.dart';
-import '../../utils/rendering.dart';
-import '../../utils/std.dart';
+import 'package:flutter_vantui/flutter_vantui.dart';
 import '../_util/has_next_widget.dart';
-import '../button/pressable.dart';
-import '../config/index.dart';
 import '_flex.dart';
 import 'package:tailstyle/tailstyle.dart';
 
@@ -123,10 +119,12 @@ class VanCellState extends State<VanCell> {
     }();
 
     final arrow = () {
-      if (this.arrow is Widget) {
-        return TailBox().ml(4).Container(child: this.arrow);
-      } else if (this.arrow is IconData) {
-        return TailBox().ml(4).Container(child: Icon(this.arrow));
+      var arrow = this.arrow;
+      if (arrow == true) arrow = VanIcons.arrow;
+      if (arrow is Widget) {
+        return TailBox().ml(4).Container(child: arrow);
+      } else if (arrow is IconData) {
+        return TailBox().ml(4).Container(child: Icon(arrow));
       } else {
         return nil;
       }
