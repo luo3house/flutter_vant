@@ -1,16 +1,15 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_vantui/src/utils/std.dart';
-import 'package:flutter_vantui/src/widgets/config/index.dart';
 
+import '../_util/overlay_static.dart';
 import 'types.dart';
-import 'wrap2.dart';
+import 'wrap.dart';
 
 class VanToastStatic {
   VanToastStatic._();
 
   static const defaultInstanceKey = "VAN_TOAST_DEFAULT_KEY";
 
-  static final _instances = <String, GlobalKey<VanToastWrapState>>{};
+  static final _instances = <String, Function()>{};
 
   static Function() show(
     BuildContext context, {
@@ -26,18 +25,17 @@ class VanToastStatic {
     String? key,
   }) {
     final instanceKey = key ?? defaultInstanceKey;
-    final overlayState = tryCatch(
-      () => Overlay.of(context),
-      orElse: (e) => VanConfig.ofOverlay(context),
-    );
-    assert(overlayState != null,
-        "should have either Overlay or VanConfigProvider");
-    final globalKey = GlobalKey<VanToastWrapState>();
-    late OverlayEntry entry;
-    entry = OverlayEntry(
-      builder: (context) => VanToastWrap(
+    _instances.remove(instanceKey)?.call();
+
+    final handle = OverlayStatic.show<VanToastWrap>(context, (
+        {required key, required onInvalidate}) {
+      return VanToastWrap(
+        key: key,
+        onInvalidate: () {
+          _instances.remove(instanceKey);
+          onInvalidate();
+        },
         show: true,
-        key: globalKey,
         position: position,
         duration: duration,
         overlay: overlay,
@@ -46,23 +44,14 @@ class VanToastStatic {
         padding: padding,
         icon: icon,
         child: message,
-        onInvalidate: () {
-          _instances.remove(instanceKey);
-          entry.remove();
-        },
-      ),
-    );
-    hide(key: instanceKey);
-    _instances[instanceKey] = globalKey;
-    overlayState!.insert(entry);
-
-    return () => hide(key: instanceKey);
+      );
+    });
+    _instances[instanceKey] = handle.remove;
+    return handle.remove;
   }
 
   static hide({String? key}) {
     final instanceKey = key ?? defaultInstanceKey;
-    final instance = _instances[instanceKey];
-    _instances.remove(instanceKey);
-    instance?.currentState?.hide(true);
+    _instances.remove(instanceKey)?.call();
   }
 }

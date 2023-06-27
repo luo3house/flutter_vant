@@ -120,43 +120,40 @@ class VanToastWrapState extends State<VanToastWrap> {
       );
     }();
 
-    final contentFrag = () {
-      if (position == VanToastPosition.center) {
-        return Center(child: child);
-      } else {
-        return LayoutBuilder(builder: (_, con) {
+    return LayoutBuilder(builder: (_, con) {
+      final contentFrag = () {
+        if (position == VanToastPosition.center) {
+          return Center(child: child);
+        } else {
           final offset = con.maxHeight * .2;
           final top = position == VanToastPosition.top ? offset : null;
           final bottom = position == VanToastPosition.bottom ? offset : null;
           return Positioned(
-            width: con.maxWidth,
             top: top,
             bottom: bottom,
-            child: child,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: con.maxWidth),
+              child: child,
+            ),
           );
-        });
-      }
-    }();
+        }
+      }();
 
-    final overlayFrag = () {
       final overlay = widget.overlay == true;
-      final closeOnClickOverlay = widget.closeOnClickOverlay;
-      if (overlay || widget.type == VanToastType.loading) {
-        return Positioned.fill(
-          child: GestureDetector(
-            onTap: () {
-              (closeOnClickOverlay == true ? () => hide() : null)?.call();
-            },
-            child: Container(color: const Color(0x00000000)),
-          ),
-        );
-      } else {
-        return nil;
-      }
-    }();
+      final closeOnClickOverlay = widget.closeOnClickOverlay == true;
 
-    return overlayFrag != nil
-        ? Stack(fit: StackFit.expand, children: [overlayFrag, contentFrag])
-        : contentFrag;
+      return Stack(alignment: Alignment.center, children: [
+        Positioned.fill(
+          child: IgnorePointer(
+            ignoring: !overlay && widget.type != VanToastType.loading,
+            child: GestureDetector(
+              onTap: () => (closeOnClickOverlay ? hide : null)?.call(),
+              child: Container(color: const Color(0x00000000)),
+            ),
+          ),
+        ),
+        contentFrag,
+      ]);
+    });
   }
 }

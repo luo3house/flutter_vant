@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'types.dart';
 export 'types.dart';
 
-import 'wrap2.dart';
-export 'static2.dart';
+import 'wrap.dart';
+export 'static.dart';
 
 class VanToast extends StatelessWidget {
   final bool? show;

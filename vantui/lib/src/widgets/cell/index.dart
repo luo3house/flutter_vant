@@ -1,2 +1,2 @@
-export 'cell2.dart';
+export 'cell.dart';
 export 'group.dart';
