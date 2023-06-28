@@ -2,4 +2,4 @@ import '../../utils/vo.dart';
 
 enum TimePickerColumn { hour, minute, second }
 
-typedef OptionFilter = List<NamedValue> Function(List<NamedValue> options);
+typedef OptionFilter = List<INamedValue> Function(List<INamedValue> options);

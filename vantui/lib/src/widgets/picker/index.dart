@@ -1,2 +1,2 @@
 export 'picker.dart';
-export 'types.dart';
+export 'panel.dart';

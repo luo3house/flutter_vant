@@ -39,16 +39,21 @@ class TimePickerPanel extends StatelessWidget {
     super.key,
   });
 
-  NamedValue Function(NamedValue) getFormatter(TimePickerColumn typ) {
+  INamedValue Function(INamedValue) getFormatter(TimePickerColumn typ) {
     return formatter?[typ] ?? (option) => option;
   }
 
-  List<NamedValue> applyFilter(TimePickerColumn typ, List<NamedValue> options) {
+  List<INamedValue> applyFilter(
+      TimePickerColumn typ, List<INamedValue> options) {
     return filter?[typ]?.call(options) ?? options;
   }
 
-  NamedValue padStartFormatter(NamedValue option) {
-    return option.copyWith(name: option.name.padLeft(2, '0'));
+  INamedValue padStartFormatter(INamedValue option) {
+    return NamedValue("${option.value}".padLeft(2, '0'), option.value);
+  }
+
+  PickerOption toPickerOption(INamedValue option) {
+    return PickerOption(option.name, option.value);
   }
 
   @override
@@ -60,7 +65,7 @@ class TimePickerPanel extends StatelessWidget {
     final minSecond = this.minSecond ?? 0;
     final maxSecond = this.maxSecond ?? 59;
 
-    final options = <List<NamedValue>>[];
+    final options = <List<PickerOption>>[];
     final columnsType = this.columnsType ?? defaultColumnsType;
     final normalizeValue = <int>[];
 
@@ -68,35 +73,35 @@ class TimePickerPanel extends StatelessWidget {
       if (columnsType.elementAt(i) == TimePickerColumn.hour) {
         normalizeValue.add(tryCatch(() => value!.elementAt(i)) ?? minHour);
         options.add(
-          applyFilter(
+          List.of(applyFilter(
             TimePickerColumn.hour,
             List.of(range(minHour, maxHour)
                 .map((h) => NamedValue(h.toString(), h))
                 .map(padStartFormatter)
                 .map(getFormatter(TimePickerColumn.hour))),
-          ),
+          ).map(toPickerOption)),
         );
       } else if (columnsType.elementAt(i) == TimePickerColumn.minute) {
         normalizeValue.add(tryCatch(() => value!.elementAt(i)) ?? minMinute);
         options.add(
-          applyFilter(
+          List.of(applyFilter(
             TimePickerColumn.minute,
             List.of(range(minMinute, maxMinute)
                 .map((m) => NamedValue(m.toString(), m))
                 .map(padStartFormatter)
                 .map(getFormatter(TimePickerColumn.minute))),
-          ),
+          ).map(toPickerOption)),
         );
       } else if (columnsType.elementAt(i) == TimePickerColumn.second) {
         normalizeValue.add(tryCatch(() => value!.elementAt(i)) ?? minSecond);
         options.add(
-          applyFilter(
+          List.of(applyFilter(
             TimePickerColumn.second,
             List.of(range(minSecond, maxSecond)
                 .map((s) => NamedValue(s.toString(), s))
                 .map(padStartFormatter)
                 .map(getFormatter(TimePickerColumn.second))),
-          ),
+          ).map(toPickerOption)),
         );
       }
     }

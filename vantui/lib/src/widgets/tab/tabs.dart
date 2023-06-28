@@ -141,6 +141,15 @@ class TabsState extends State<Tabs> {
     // ignore: prefer_const_literals_to_create_immutables
     return WithValue(shouldSync: (a, b) => false, <int, Size>{}, (mSizes) {
       final sizes = mSizes.value;
+      handleSizeChange(int index, BuildContext c) {
+        final siz = tryCatch(() => c.size!);
+        final curSiz = sizes[index];
+        if (siz != null && (curSiz == null || sizes[index] != siz)) {
+          sizes[index] = siz;
+          mSizes.value = Map.from(sizes);
+        }
+      }
+
       return WithValue(
         shouldSync: (a, b) => b != null && a != b,
         sizes[activeIndex]?.height,
@@ -164,12 +173,7 @@ class TabsState extends State<Tabs> {
                 return OverflowBox(
                   maxHeight: double.infinity,
                   child: WithRaf(
-                    (c) => tryCatch(() {
-                      if (!sizes.containsKey(index)) {
-                        sizes[index] = c.size ?? Size.zero;
-                        mSizes.value = Map.from(sizes);
-                      }
-                    }),
+                    (c) => handleSizeChange(index, c),
                     child: tab,
                   ),
                 );

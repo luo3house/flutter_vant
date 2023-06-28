@@ -16,7 +16,7 @@ class PickerPageState extends State<PickerPage> {
   final popupShow = ValueNotifier(false);
   final popupValues = ValueNotifier([]);
 
-  List<List<PickerOption>> get citiesColumns => const [
+  List<List<PickerOption>> get citiesColumns => [
         [
           PickerOption("杭州", "Hangzhou"),
           PickerOption("宁波", "Ningbo"),
@@ -26,7 +26,7 @@ class PickerPageState extends State<PickerPage> {
         ]
       ];
 
-  List<List<PickerOption>> get weekTimesColumns => const [
+  List<List<PickerOption>> get weekTimesColumns => [
         [
           PickerOption("周一", "Mon"),
           PickerOption("周二", "Tue"),
@@ -41,7 +41,7 @@ class PickerPageState extends State<PickerPage> {
         ],
       ];
 
-  List<PickerOption> get cascadeCities => const [
+  List<PickerOption> get cascadeCities => [
         PickerOption("浙江", "Zhejiang", [
           PickerOption("杭州", "Hangzhou", [
             PickerOption("西湖", "Xihu"),

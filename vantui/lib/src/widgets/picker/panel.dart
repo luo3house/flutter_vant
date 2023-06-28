@@ -6,13 +6,21 @@ import 'package:tuple/tuple.dart';
 
 import '../../utils/std.dart';
 import '../../utils/vo.dart';
+import '../cascader/types.dart';
 import '../config/index.dart';
 import 'column.dart';
-import 'types.dart';
 
-typedef GeneralColumns = List<List<PickerOption>>;
-typedef NamedValueColumns = List<List<NamedValue>>;
-typedef CascadeColumns = List<PickerOption>;
+typedef GeneralColumns = List<List<INamedValueOption>>;
+typedef CascadeColumns = List<INamedValueOption>;
+
+class PickerOption extends NamedValueOption {
+  PickerOption(
+    super.name,
+    super.value, [
+    super.children,
+    super.disabled = false,
+  ]);
+}
 
 class PickerPanel extends StatefulWidget {
   final dynamic columns;
@@ -27,11 +35,8 @@ class PickerPanel extends StatefulWidget {
     this.loop,
     super.key,
   }) {
-    assert(
-        columns is GeneralColumns ||
-            columns is CascadeColumns ||
-            columns is NamedValueColumns,
-        "columns should be subtype of PickerOption[][], or PickerOption[] for cascading");
+    assert(columns is GeneralColumns || columns is CascadeColumns,
+        "columns should be subtype of PickerOption[][], or PickerOption[] for cascading, got: ${columns.runtimeType}");
   }
 
   @override
@@ -41,47 +46,21 @@ class PickerPanel extends StatefulWidget {
 }
 
 class PickerPanelState extends State<PickerPanel> {
-  static Tuple2<List<List<PickerOption>>, List> normalizeCascade(
-      List<PickerOption>? hierColumns, List? values) {
-    final normalizeValues = [];
-    final normalizeColumns = <List<PickerOption>>[];
-    int valueIndex = 0;
-    while (hierColumns != null) {
-      if (hierColumns.isEmpty) break;
-      normalizeColumns.add(hierColumns);
-      final value = tryCatch(() => values?[valueIndex]);
-      final match = PickerOption.findByValue(hierColumns, value) ?? //
-          hierColumns.first;
-      hierColumns = match.children ?? [];
-      normalizeValues.add(match.value);
-      valueIndex++;
-    }
-    return Tuple2(normalizeColumns, normalizeValues);
-  }
-
   // values & columns here should be normalized
   var values = <dynamic>[];
-  var columns = <List<PickerOption>>[];
+  var columns = <List<INamedValueOption>>[];
   late final List<GlobalKey<PickerColumnState>> keys;
   late final int columnCount;
 
   bool get loop => widget.loop == true;
 
   Tuple2<GeneralColumns, List> _normalize(dynamic columns, List? values) {
-    if (columns is NamedValueColumns) {
-      columns = List<List<PickerOption>>.of(
-        columns.map(
-          (os) => List<PickerOption>.of(
-              os.map((o) => PickerOption.fromNamedValue(o))),
-        ),
-      );
-    }
     return columns is CascadeColumns
-        ? normalizeCascade(columns, values)
+        ? normalizePick(columns, values)
         : Tuple2(columns as GeneralColumns, values ?? const []);
   }
 
-  _handleColumnChange(int colIndex, NamedValue selected) {
+  _handleColumnChange(int colIndex, INamedValue selected) {
     final newValues = List<dynamic>.generate(columns.length, (_) => null)
       // ..setAll(0, values.sublist(0, colIndex + 1))
       ..setAll(0, values)
@@ -145,21 +124,18 @@ class PickerPanelState extends State<PickerPanel> {
           Row(children: List.of(colChildren.map((child) {
             return Expanded(child: child);
           }))),
-          const PositionedGradientMask(extent: extent),
-          const PositionedHairline(extent: extent),
+          const _PositionedGradientMask(extent),
+          const _PositionedHairline(extent),
         ]),
       );
     });
   }
 }
 
-class PositionedHairline extends StatelessWidget {
+class _PositionedHairline extends StatelessWidget {
   final PickerExtent extent;
 
-  const PositionedHairline({
-    required this.extent,
-    super.key,
-  });
+  const _PositionedHairline(this.extent);
 
   @override
   Widget build(BuildContext context) {
@@ -180,12 +156,9 @@ class PositionedHairline extends StatelessWidget {
   }
 }
 
-class PositionedGradientMask extends StatelessWidget {
+class _PositionedGradientMask extends StatelessWidget {
   final PickerExtent extent;
-  const PositionedGradientMask({
-    required this.extent,
-    super.key,
-  });
+  const _PositionedGradientMask(this.extent);
 
   static const graident = [
     Color.fromRGBO(255, 255, 255, .9),
@@ -215,4 +188,24 @@ class PositionedGradientMask extends StatelessWidget {
       ]),
     );
   }
+}
+
+/// HO = [A(a(1), aa), B(b, bb(2))], V = [A, aa]
+/// FO = [[A, B], [a, aa], [1]], NV = [A, aa, 1]
+Tuple2<List<List<T>>, List> normalizePick<T extends INamedValueOption>(
+    List<T>? hierOptions, List? values) {
+  final normalizeValues = [];
+  final flattenOptions = <List<T>>[];
+  int valueIndex = 0;
+  while (hierOptions != null) {
+    if (hierOptions.isEmpty) break;
+    flattenOptions.add(hierOptions);
+    final value = tryCatch(() => values?[valueIndex]);
+    final match = INamedValue.findByValue(hierOptions, value) ?? //
+        hierOptions!.first;
+    hierOptions = List<T>.from(match.children ?? []);
+    normalizeValues.add(match.value);
+    valueIndex++;
+  }
+  return Tuple2(flattenOptions, normalizeValues);
 }

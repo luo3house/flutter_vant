@@ -52,9 +52,9 @@ class DatePickerPage extends StatelessWidget {
           value: model.value,
           onChange: (value) => model.value = value,
           formatter: {
-            VanDateColumn.year: (opt) => opt.copyWith(name: "${opt.value}年"),
-            VanDateColumn.month: (opt) => opt.copyWith(name: "${opt.value}月"),
-            VanDateColumn.day: (opt) => opt.copyWith(name: "${opt.value}日"),
+            VanDateColumn.year: (opt) => opt..name = "${opt.value}年",
+            VanDateColumn.month: (opt) => opt..name = "${opt.value}月",
+            VanDateColumn.day: (opt) => opt..name = "${opt.value}日",
           },
         );
       }),

@@ -10,10 +10,10 @@ import 'physics.dart';
 
 class PickerColumn extends StatefulWidget {
   final PickerExtent extent;
-  final List<NamedValue> items;
+  final List<INamedValue> items;
   final bool? loop;
   final dynamic value;
-  final Function(NamedValue v)? onChange;
+  final Function(INamedValue v)? onChange;
 
   PickerColumn({
     required this.extent,
@@ -35,7 +35,7 @@ class PickerColumn extends StatefulWidget {
 class PickerColumnState extends State<PickerColumn> {
   late FixedExtentScrollController scroller;
 
-  List<NamedValue> get items => widget.items;
+  List<INamedValue> get items => widget.items;
   int get currentIndex => scroller.selectedItem;
   int get currentTrueIndex => currentIndex % items.length;
 

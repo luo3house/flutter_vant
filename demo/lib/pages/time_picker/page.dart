@@ -66,11 +66,11 @@ class TimePickerPage extends StatelessWidget {
               },
               formatter: {
                 TimePickerColumn.hour: (option) =>
-                    option.copyWith(name: "${option.value}时"),
+                    option..name = "${option.value}时",
                 TimePickerColumn.minute: (option) =>
-                    option.copyWith(name: "${option.value}分"),
+                    option..name = "${option.value}分",
                 TimePickerColumn.second: (option) =>
-                    option.copyWith(name: "${option.value}秒"),
+                    option..name = "${option.value}秒",
               },
               value: model.value,
               onChange: (value) => model.value = value,

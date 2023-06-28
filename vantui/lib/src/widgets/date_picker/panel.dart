@@ -66,8 +66,12 @@ class DatePickerPanel extends StatelessWidget {
     super.key,
   });
 
-  NamedValue Function(NamedValue) getFormatter(VanDateColumn typ) {
+  INamedValue Function(INamedValue) getFormatter(VanDateColumn typ) {
     return formatter?[typ] ?? (option) => option;
+  }
+
+  PickerOption toPickerOption(INamedValue option) {
+    return PickerOption(option.name, option.value);
   }
 
   @override
@@ -76,7 +80,7 @@ class DatePickerPanel extends StatelessWidget {
     final maxDate = this.maxDate ?? DateTime.now().addYears(10);
     final columnsType = this.columnsType ?? defaultColumnsType;
 
-    final options = <List<NamedValue>>[];
+    final options = <List<PickerOption>>[];
     final normalizeValues = <int>[];
     int? curYear;
     int? curMonth;
@@ -90,7 +94,8 @@ class DatePickerPanel extends StatelessWidget {
         options.add(
           List.of(DateRangeUtil.rangeYears(minDate, maxDate)
               .map((year) => NamedValue(year.toString(), year))
-              .map(getFormatter(VanDateColumn.year))),
+              .map(getFormatter(VanDateColumn.year))
+              .map(toPickerOption)),
         );
       } else if (col == VanDateColumn.month) {
         curMonth = tryCatch(() => value!.elementAt(i)) ?? minDate.month;
@@ -98,7 +103,8 @@ class DatePickerPanel extends StatelessWidget {
         options.add(
           List.of(DateRangeUtil.rangeMonths(minDate, maxDate, curYear)
               .map((year) => NamedValue(year.toString(), year))
-              .map(getFormatter(VanDateColumn.month))),
+              .map(getFormatter(VanDateColumn.month))
+              .map(toPickerOption)),
         );
       } else if (col == VanDateColumn.day) {
         curDay = tryCatch(() => value!.elementAt(i)) ?? minDate.day;
@@ -106,7 +112,8 @@ class DatePickerPanel extends StatelessWidget {
         options.add(
           List.of(DateRangeUtil.rangeDays(minDate, maxDate, curYear, curMonth)
               .map((year) => NamedValue(year.toString(), year))
-              .map(getFormatter(VanDateColumn.day))),
+              .map(getFormatter(VanDateColumn.day))
+              .map(toPickerOption)),
         );
       }
     }
