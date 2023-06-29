@@ -57,7 +57,7 @@ class _Single extends StatelessWidget {
           round: true,
           position: VanPopupPosition.bottom,
           onClose: () => model.value = state.withShow(false),
-          child: VanCalendar(
+          child: Calendar(
             expands: true,
             value: state.value,
             onCancel: (_) => model.value = state.withShow(false),
@@ -94,7 +94,7 @@ class _Multiple extends StatelessWidget {
           round: true,
           position: VanPopupPosition.bottom,
           onClose: () => model.value = state.withShow(false),
-          child: VanCalendar(
+          child: Calendar(
             expands: true,
             type: CalendarType.multiple,
             value: state.value,
@@ -134,7 +134,7 @@ class _Range extends StatelessWidget {
           round: true,
           position: VanPopupPosition.bottom,
           onClose: () => model.value = state.withShow(false),
-          child: VanCalendar(
+          child: Calendar(
             expands: true,
             type: CalendarType.range,
             value: state.value,
@@ -172,7 +172,7 @@ class _DateRange extends StatelessWidget {
           round: true,
           position: VanPopupPosition.bottom,
           onClose: () => model.value = state.withShow(false),
-          child: VanCalendar(
+          child: Calendar(
             minDate: DateTime(2010, 1).startOfMonth,
             maxDate: DateTime(2010, 1).endOfMonth,
             expands: true,

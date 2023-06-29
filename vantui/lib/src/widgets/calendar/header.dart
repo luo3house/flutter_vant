@@ -5,10 +5,10 @@ import '../../utils/nil.dart';
 import '../config/index.dart';
 import 'extent.dart';
 
-class CalendarHeader extends StatelessWidget {
+class CalendarStickyHeader extends StatelessWidget {
   final CalendarExtent extent;
   final DateTime? date;
-  const CalendarHeader({
+  const CalendarStickyHeader({
     required this.extent,
     this.date,
     super.key,
@@ -30,7 +30,7 @@ class CalendarHeader extends StatelessWidget {
     }();
 
     return SizedBox(
-      height: extent.getHeaderHeight(),
+      height: extent.getStickyHeaderHeight(),
       child: child,
     );
   }

@@ -8,9 +8,11 @@ class CalendarExtent {
   const CalendarExtent({this.dayHeight});
 
   double getDayHeight() => dayHeight ?? 64;
+  double getHeaderHeight() => getDayHeight();
+
+  double getStickyHeaderHeight() => 50;
 
   double getWeekdaysHeight() => 30;
-  double getHeaderHeight() => 44;
 
   /// MonthBodyExtent = HeaderE + rows * dayE
   double getMonthBodyHeight(int year, int month) {
@@ -18,7 +20,7 @@ class CalendarExtent {
         DateUtil.getWeekRowsByYearMonth(year, month) * getDayHeight();
   }
 
-  double getMonthHeaderHeight() => 44;
+  double getMonthHeaderHeight() => getDayHeight();
 
   int getStickyIndexByScrollOffset(
     double offset,

@@ -4,14 +4,14 @@ import 'package:flutter_vantui/src/widgets/calendar/panel.dart';
 import '../_util/with_value.dart';
 import '../picker/toolbar.dart';
 
-class VanCalendar extends CalendarPanel {
+class Calendar extends CalendarPanel {
   final dynamic title;
   final String? confirmText;
   final String? cancelText;
   final Function(List<DateTime>? value)? onConfirm;
   final Function(List<DateTime>? value)? onCancel;
 
-  const VanCalendar({
+  const Calendar({
     this.title,
     this.confirmText,
     this.cancelText,
@@ -29,11 +29,11 @@ class VanCalendar extends CalendarPanel {
 
   @override
   State createState() {
-    return _VanCalendarState();
+    return _CalendarState();
   }
 }
 
-class _VanCalendarState extends State<VanCalendar> {
+class _CalendarState extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
     final title = widget.title;

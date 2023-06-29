@@ -8,7 +8,7 @@ import 'extent.dart';
 import 'selection_provider.dart';
 
 class CalendarDay extends StatelessWidget {
-  final double width;
+  final double? width;
   final CalendarExtent extent;
   final DateTime date;
   final bool? disabled;
@@ -16,9 +16,9 @@ class CalendarDay extends StatelessWidget {
   final dynamic bottom;
 
   const CalendarDay({
-    required this.width,
     required this.extent,
     required this.date,
+    this.width,
     this.disabled,
     this.top,
     this.bottom,

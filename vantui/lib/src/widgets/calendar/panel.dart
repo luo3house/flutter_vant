@@ -95,6 +95,43 @@ class CalendarPanelState extends State<CalendarPanel> {
     super.dispose();
   }
 
+  onDayTap(DateTime date) {
+    date = date.startOfDay;
+    if (type == CalendarType.single) {
+      setState(() => values = [date]);
+      widget.onChange?.call(values);
+    } else if (type == CalendarType.multiple) {
+      final index = values.indexWhere((e) => e.equals(date));
+      setState(() {
+        if (index != -1) {
+          values.removeAt(index);
+        } else {
+          values.add(date);
+        }
+      });
+      widget.onChange?.call(values);
+    } else if (type == CalendarType.range) {
+      if (values.isEmpty) {
+        // select from
+        setState(() => values = [date]);
+      } else if (values.length == 1) {
+        // select to
+        if (values[0].isBefore(date)) {
+          setState(() => values.add(date));
+          widget.onChange?.call(values);
+        } else if (values[0].isAfter(date)) {
+          // but to is before from, so reset from
+          setState(() => values = [date]);
+        } else {
+          // from = to, do nothing
+        }
+      } else if (values.length == 2) {
+        // re-select
+        setState(() => values = [date]);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = VanConfig.ofTheme(context);
@@ -116,55 +153,37 @@ class CalendarPanelState extends State<CalendarPanel> {
     bool isDayDisabled(DateTime date) =>
         date.isBefore(minDate) || date.isAfter(maxDate);
 
-    final selectionRange = () {
-      if (type != CalendarType.range) return null;
-      return Tuple2(
-        // ignore: prefer_is_empty
-        values.length > 0 ? values[0] : null,
-        values.length > 1 ? values[1] : null,
+    final selectionRange = type != CalendarType.range
+        ? null
+        : Tuple2(
+            // ignore: prefer_is_empty
+            values.length > 0 ? values[0] : null,
+            values.length > 1 ? values[1] : null,
+          );
+
+    final selectionMultiple = type != CalendarType.range ? values : null;
+
+    var sliverChildIndex = 0;
+    final sliverChilds = <Widget>[];
+    for (var i = 0; i < months.length; i++) {
+      // sticky header presented at index 0
+      final shouldShowHeader = i > 0;
+      final calendarMonth = CalendarMonth(
+        extent: extent,
+        date: months[i],
+        disabledDayIf: isDayDisabled,
       );
-    }();
-
-    final selectionMultiple = () {
-      if (type == CalendarType.range) return null;
-      return values;
-    }();
-
-    onDayTap(DateTime date) {
-      date = date.startOfDay;
-      if (type == CalendarType.single) {
-        setState(() => values = [date]);
-        widget.onChange?.call(values);
-      } else if (type == CalendarType.multiple) {
-        final index = values.indexWhere((e) => e.equals(date));
-        setState(() {
-          if (index != -1) {
-            values.removeAt(index);
-          } else {
-            values.add(date);
-          }
-        });
-        widget.onChange?.call(values);
-      } else if (type == CalendarType.range) {
-        if (values.isEmpty) {
-          // select from
-          setState(() => values = [date]);
-        } else if (values.length == 1) {
-          // select to
-          if (values[0].isBefore(date)) {
-            setState(() => values.add(date));
-            widget.onChange?.call(values);
-          } else if (values[0].isAfter(date)) {
-            // but to is before from, so reset from
-            setState(() => values = [date]);
-          } else {
-            // from = to, do nothing
-          }
-        } else if (values.length == 2) {
-          // re-select
-          setState(() => values = [date]);
-        }
+      if (shouldShowHeader) {
+        sliverChildIndex++;
+        sliverChilds.add(calendarMonth.buildSliverHead());
       }
+      final rows = calendarMonth.buildSliverDaysRows();
+      sliverChilds.addAll(rows);
+
+      final anchorOffset =
+          sliverChildIndex * extent.getDayHeight() - extent.getWeekdaysHeight();
+      sliverChildIndex += rows.length;
+      offsetDateIndexMap[anchorOffset] = i;
     }
 
     return CalendarSelectionProvider(
@@ -179,7 +198,7 @@ class CalendarPanelState extends State<CalendarPanel> {
         child: Column(mainAxisSize: MainAxisSize.max, children: [
           ValueListenableBuilder(
             valueListenable: currentStickyIndex,
-            builder: (_, index, __) => CalendarHeader(
+            builder: (_, index, __) => CalendarStickyHeader(
               extent: extent,
               date: months[index],
             ),
@@ -189,38 +208,40 @@ class CalendarPanelState extends State<CalendarPanel> {
             child: CustomScrollView(
               controller: controller,
               slivers: [
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    childCount: months.length,
-                    (sliverCtx, monthIndex) {
-                      final date = months.elementAt(monthIndex);
-                      final constraints = BoxConstraints.tightFor(
-                        height: extent.getMonthBodyHeight(
-                          date.year,
-                          date.month,
-                        ),
-                      );
-                      return WithRaf(
-                        (indexCtx) {
-                          tryCatch(() {
-                            offsetDateIndexMap.putIfAbsent(
-                              getChildOffsetInSliverList(sliverCtx, indexCtx) ??
-                                  0,
-                              () => monthIndex,
-                            );
-                          });
-                        },
-                        child: WithDelayed(
-                          constraints: constraints,
-                          () => CalendarMonth(
-                            extent: extent,
-                            date: date,
-                            disabledDayIf: isDayDisabled,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                SliverFixedExtentList(
+                  itemExtent: extent.getDayHeight(),
+                  delegate: SliverChildListDelegate.fixed(sliverChilds),
+                  // delegate: SliverChildBuilderDelegate(
+                  //   childCount: months.length,
+                  //   (sliverCtx, monthIndex) {
+                  //     final date = months.elementAt(monthIndex);
+                  //     final constraints = BoxConstraints.tightFor(
+                  //       height: extent.getMonthBodyHeight(
+                  //         date.year,
+                  //         date.month,
+                  //       ),
+                  //     );
+                  //     return WithRaf(
+                  //       (indexCtx) {
+                  //         tryCatch(() {
+                  //           offsetDateIndexMap.putIfAbsent(
+                  //             getChildOffsetInSliverList(sliverCtx, indexCtx) ??
+                  //                 0,
+                  //             () => monthIndex,
+                  //           );
+                  //         });
+                  //       },
+                  //       child: WithDelayed(
+                  //         constraints: constraints,
+                  //         () => CalendarMonth(
+                  //           extent: extent,
+                  //           date: date,
+                  //           disabledDayIf: isDayDisabled,
+                  //         ),
+                  //       ),
+                  //     );
+                  //   },
+                  // ),
                 ),
               ],
             ),
