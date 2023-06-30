@@ -91,9 +91,9 @@ class VanActionSheet extends StatelessWidget {
         : TailBox().bg(theme.background).Container(height: theme.paddingXs);
 
     return LayoutBuilder(builder: (_, con) {
-      return VanPopup(
+      return Popup(
         show: show,
-        position: VanPopupPosition.bottom,
+        position: PopupPosition.bottom,
         constraints: BoxConstraints(maxHeight: con.maxHeight * .85),
         onInvalidate: onInvalidate,
         onClose: onClose,

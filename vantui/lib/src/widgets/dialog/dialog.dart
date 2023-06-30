@@ -34,9 +34,9 @@ class VanDialog extends StatelessWidget {
     );
 
     return LayoutBuilder(builder: (_, con) {
-      return VanPopup(
+      return Popup(
         show: show,
-        position: VanPopupPosition.center,
+        position: PopupPosition.center,
         constraints: BoxConstraints(
           maxWidth: con.maxWidth * .85,
           maxHeight: con.maxHeight * .85,

@@ -1,4 +1,5 @@
 import 'package:demo/doc/doc_title.dart';
+import 'package:demo/widgets/watch_model.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
 import 'package:flutter/widgets.dart';
 
@@ -67,14 +68,18 @@ class PickerPageState extends State<PickerPage> {
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      const DocTitle("Basic Usage"),
+      const DocTitle("基本用法"),
       VanPicker(
         // ignore: avoid_print
         onChange: (values) => print(values),
         columns: citiesColumns,
       ),
+
+      //
       const DocTitle("无限滑动"),
       VanPicker(columns: citiesColumns, loop: true),
+
+      //
       const DocTitle("搭配弹出层使用"),
       ValueListenableBuilder(
         valueListenable: popupValues,
@@ -86,33 +91,26 @@ class PickerPageState extends State<PickerPage> {
           );
         },
       ),
-      TeleportOverlay(
-        child: ValueListenableBuilder(
-          valueListenable: popupShow,
-          builder: (_, show, __) {
-            return VanPopup(
-              round: true,
-              show: show,
-              onClose: () => popupShow.value = false,
-              position: VanPopupPosition.bottom,
-              child: ValueListenableBuilder(
-                valueListenable: popupValues,
-                builder: (_, values, __) {
-                  return VanPicker(
-                    onCancel: (_) => popupShow.value = false,
-                    onConfirm: (_) => popupShow.value = false,
-                    columns: citiesColumns,
-                    values: values,
-                    onChange: (values) => popupValues.value = values,
-                  );
-                },
-              ),
-            );
-          },
-        ),
+      Popup(
+        show: popupShow,
+        round: true,
+        position: PopupPosition.bottom,
+        child: WatchModel(popupValues, (model) {
+          return VanPicker(
+            onCancel: (_) => popupShow.value = false,
+            onConfirm: (_) => popupShow.value = false,
+            columns: citiesColumns,
+            values: model.value,
+            onChange: (values) => popupValues.value = values,
+          );
+        }),
       ),
+
+      //
       const DocTitle("多列选择"),
       VanPicker(columns: weekTimesColumns),
+
+      //
       const DocTitle("级联选择"),
       VanPicker(columns: cascadeCities),
     ]);

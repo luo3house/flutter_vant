@@ -1,12 +1,31 @@
 import 'package:demo/doc/doc_title.dart';
-import 'package:demo/widgets/dialog_state.dart';
+import 'package:demo/widgets/watch_model.dart';
 import 'package:demo/widgets/with_value.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
 import 'package:flutter/widgets.dart';
 
-class CalendarPage extends StatelessWidget {
+class CalendarPage extends StatefulWidget {
   final Uri location;
   const CalendarPage(this.location, {super.key});
+
+  @override
+  State<StatefulWidget> createState() {
+    return CalendarPageState();
+  }
+}
+
+class CalendarPageState extends State<CalendarPage> {
+  final singleShow = ValueNotifier(false);
+  final singleValues = ValueNotifier(<DateTime>[]);
+
+  final multipleShow = ValueNotifier(false);
+  final multipleValues = ValueNotifier(<DateTime>[]);
+
+  final rangeShow = ValueNotifier(false);
+  final rangeValues = ValueNotifier(<DateTime>[]);
+
+  final minmaxShow = ValueNotifier(false);
+  final minmaxValues = ValueNotifier(<DateTime>[]);
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +35,124 @@ class CalendarPage extends StatelessWidget {
       return ListView(children: [
         const DocTitle("基本用法"),
         VanCellGroup(children: [
-          _Single(height),
-          _Multiple(height),
-          _Range(height),
+          VanCell(
+            clickable: true,
+            onTap: () => singleShow.value = true,
+            title: "选择单个日期",
+            arrow: true,
+            value: WatchModel(singleValues, (model) {
+              final dates = model.value;
+              return Text(dates.isEmpty ? '' : dates.first.format("y/M/d"));
+            }),
+          ),
+          VanCell(
+            clickable: true,
+            onTap: () => multipleShow.value = true,
+            title: "选择多个日期",
+            arrow: true,
+            value: WatchModel(multipleValues, (model) {
+              final dates = model.value;
+              return Text(dates.isEmpty ? '' : '已选 ${dates.length} 个日期');
+            }),
+          ),
+          VanCell(
+            clickable: true,
+            onTap: () => rangeShow.value = true,
+            title: "选择日期区间",
+            arrow: true,
+            value: WatchModel(rangeValues, (model) {
+              final dates = model.value;
+              return Text(dates.length != 2
+                  ? ''
+                  : '${dates.first.format('M/d')} - ${dates.last.format('M/d')}');
+            }),
+          ),
         ]),
+        Popup(
+          show: singleShow,
+          round: true,
+          constraints: BoxConstraints.tightFor(height: height),
+          position: PopupPosition.bottom,
+          child: WatchModel(singleValues, (model) {
+            return Calendar(
+              expands: true,
+              value: model.value,
+              onCancel: (_) => singleShow.value = false,
+              onConfirm: (value) {
+                singleShow.value = false;
+                singleValues.value = value ?? const [];
+              },
+            );
+          }),
+        ),
+        Popup(
+          show: multipleShow,
+          round: true,
+          constraints: BoxConstraints.tightFor(height: height),
+          position: PopupPosition.bottom,
+          child: WatchModel(multipleValues, (model) {
+            return Calendar(
+              expands: true,
+              value: model.value,
+              type: CalendarType.multiple,
+              onCancel: (_) => multipleShow.value = false,
+              onConfirm: (value) {
+                multipleShow.value = false;
+                multipleValues.value = value ?? const [];
+              },
+            );
+          }),
+        ),
+        Popup(
+          show: rangeShow,
+          round: true,
+          constraints: BoxConstraints.tightFor(height: height),
+          position: PopupPosition.bottom,
+          child: WatchModel(rangeValues, (model) {
+            return Calendar(
+              expands: true,
+              value: model.value,
+              type: CalendarType.range,
+              onCancel: (_) => rangeShow.value = false,
+              onConfirm: (value) {
+                rangeShow.value = false;
+                rangeValues.value = value ?? const [];
+              },
+            );
+          }),
+        ),
 
         //
         const DocTitle("自定义日历"),
-        _DateRange(height),
+        VanCell(
+          clickable: true,
+          onTap: () => minmaxShow.value = true,
+          title: "自定义日期范围",
+          arrow: true,
+          value: WatchModel(minmaxValues, (model) {
+            final dates = model.value;
+            return Text(dates.isEmpty ? '' : dates.first.format("y/M/d"));
+          }),
+        ),
+        Popup(
+          show: minmaxShow,
+          round: true,
+          constraints: BoxConstraints.tightFor(height: height),
+          position: PopupPosition.bottom,
+          child: WatchModel(minmaxValues, (model) {
+            return Calendar(
+              minDate: DateTime(2010, 1).startOfMonth,
+              maxDate: DateTime(2010, 1).endOfMonth,
+              expands: true,
+              value: model.value,
+              onCancel: (_) => minmaxShow.value = false,
+              onConfirm: (value) {
+                minmaxShow.value = false;
+                minmaxValues.value = value ?? const [];
+              },
+            );
+          }),
+        ),
 
         //
         const DocTitle("平铺展示"),
@@ -31,160 +160,6 @@ class CalendarPage extends StatelessWidget {
 
         const SizedBox(height: 50),
       ]);
-    });
-  }
-}
-
-class _Single extends StatelessWidget {
-  final double height;
-  const _Single(this.height);
-  @override
-  Widget build(BuildContext context) {
-    return WithModel(const ModalState(false, <DateTime>[]), (model) {
-      final state = model.value;
-      final dates = state.value;
-      return TeleportOverlay(
-        local: VanCell(
-          clickable: true,
-          onTap: () => model.value = state.withShow(true),
-          title: "选择单个日期",
-          arrow: true,
-          value: dates.isEmpty ? '' : dates.first.format("y/M/d"),
-        ),
-        child: VanPopup(
-          constraints: BoxConstraints.tightFor(height: height),
-          show: state.show,
-          round: true,
-          position: VanPopupPosition.bottom,
-          onClose: () => model.value = state.withShow(false),
-          child: Calendar(
-            expands: true,
-            value: state.value,
-            onCancel: (_) => model.value = state.withShow(false),
-            onConfirm: (value) => model.value = state.copyWith(
-              show: false,
-              value: value ?? [],
-            ),
-          ),
-        ),
-      );
-    });
-  }
-}
-
-class _Multiple extends StatelessWidget {
-  final double height;
-  const _Multiple(this.height);
-  @override
-  Widget build(BuildContext context) {
-    return WithModel(const ModalState(false, <DateTime>[]), (model) {
-      final state = model.value;
-      final dates = state.value;
-      return TeleportOverlay(
-        local: VanCell(
-          clickable: true,
-          onTap: () => model.value = state.withShow(true),
-          title: "选择多个日期",
-          arrow: true,
-          value: dates.isEmpty ? '' : '已选 ${dates.length} 个日期',
-        ),
-        child: VanPopup(
-          constraints: BoxConstraints.tightFor(height: height),
-          show: state.show,
-          round: true,
-          position: VanPopupPosition.bottom,
-          onClose: () => model.value = state.withShow(false),
-          child: Calendar(
-            expands: true,
-            type: CalendarType.multiple,
-            value: state.value,
-            onCancel: (_) => model.value = state.withShow(false),
-            onConfirm: (value) => model.value = state.copyWith(
-              show: false,
-              value: value ?? [],
-            ),
-          ),
-        ),
-      );
-    });
-  }
-}
-
-class _Range extends StatelessWidget {
-  final double height;
-  const _Range(this.height);
-  @override
-  Widget build(BuildContext context) {
-    return WithModel(const ModalState(false, <DateTime>[]), (model) {
-      final state = model.value;
-      final dates = state.value;
-      return TeleportOverlay(
-        local: VanCell(
-          clickable: true,
-          onTap: () => model.value = state.withShow(true),
-          title: "选择日期区间",
-          arrow: true,
-          value: dates.length != 2
-              ? ''
-              : '${dates.first.format('M/d')} - ${dates.last.format('M/d')}',
-        ),
-        child: VanPopup(
-          constraints: BoxConstraints.tightFor(height: height),
-          show: state.show,
-          round: true,
-          position: VanPopupPosition.bottom,
-          onClose: () => model.value = state.withShow(false),
-          child: Calendar(
-            expands: true,
-            type: CalendarType.range,
-            value: state.value,
-            onCancel: (_) => model.value = state.withShow(false),
-            onConfirm: (value) => model.value = state.copyWith(
-              show: false,
-              value: value ?? [],
-            ),
-          ),
-        ),
-      );
-    });
-  }
-}
-
-class _DateRange extends StatelessWidget {
-  final double height;
-  const _DateRange(this.height);
-  @override
-  Widget build(BuildContext context) {
-    return WithModel(const ModalState(false, <DateTime>[]), (model) {
-      final state = model.value;
-      final dates = state.value;
-      return TeleportOverlay(
-        local: VanCell(
-          clickable: true,
-          onTap: () => model.value = state.withShow(true),
-          title: "自定义日期范围",
-          arrow: true,
-          value: dates.isEmpty ? '' : dates.first.format("y/M/d"),
-        ),
-        child: VanPopup(
-          constraints: BoxConstraints.tightFor(height: height),
-          show: state.show,
-          round: true,
-          position: VanPopupPosition.bottom,
-          onClose: () => model.value = state.withShow(false),
-          child: Calendar(
-            minDate: DateTime(2010, 1).startOfMonth,
-            maxDate: DateTime(2010, 1).endOfMonth,
-            expands: true,
-            value: state.value,
-            onCancel: (_) => model.value = state.withShow(false),
-            onConfirm: (value) => model.value = state.copyWith(
-              show: false,
-              value: value ?? [],
-            ),
-          ),
-        ),
-      );
     });
   }
 }

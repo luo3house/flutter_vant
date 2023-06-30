@@ -1,4 +1,4 @@
-enum VanPopupPosition { top, bottom, left, right, center }
+enum PopupPosition { top, bottom, left, right, center }
 
 class NullableSize {
   static const zero = NullableSize(0, 0);

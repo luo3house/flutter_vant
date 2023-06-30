@@ -3,14 +3,15 @@ import 'package:flutter/widgets.dart';
 import '../../utils/nil.dart';
 import '../config/index.dart';
 import '../mask/index.dart';
+import '../teleport_overlay/teleport_overlay.dart';
 import 'content.dart';
 
 import 'types.dart';
 
-class VanPopupWrap extends StatefulWidget {
-  final bool? show;
+class Popup extends StatefulWidget {
+  final dynamic show;
   final bool? overlay;
-  final VanPopupPosition? position;
+  final PopupPosition? position;
   final EdgeInsets? padding;
   final bool? round;
   final bool? closeOnClickOverlay;
@@ -18,8 +19,9 @@ class VanPopupWrap extends StatefulWidget {
   final BoxConstraints? constraints;
   final Function()? onClose;
   final Function()? onInvalidate;
+  final dynamic teleport;
 
-  const VanPopupWrap({
+  Popup({
     this.show,
     this.overlay,
     this.position,
@@ -30,21 +32,26 @@ class VanPopupWrap extends StatefulWidget {
     this.constraints,
     this.onClose,
     this.onInvalidate,
+    this.teleport,
     super.key,
-  });
+  }) {
+    assert(show is ValueNotifier<bool> || show is bool?,
+        "show should be typeof ValueNotifier or bool");
+  }
 
   @override
   createState() => VanPopupState();
 }
 
-class VanPopupState extends State<VanPopupWrap> {
+class VanPopupState extends State<Popup> {
   var _show = false;
+  Function()? showSubscribeDispose;
   Size? contentSize;
   BoxConstraints? layoutCon;
 
   double get contentW => contentSize?.width ?? 0;
   double get contentH => contentSize?.height ?? 0;
-  VanPopupPosition get position => widget.position ?? VanPopupPosition.center;
+  PopupPosition get position => widget.position ?? PopupPosition.center;
   BoxConstraints get constraints =>
       widget.constraints ?? const BoxConstraints();
   bool get overlay => widget.overlay ?? true;
@@ -60,39 +67,55 @@ class VanPopupState extends State<VanPopupWrap> {
     }
   }
 
+  _assignNormalizedShowValue(dynamic show) {
+    _show = _PopupShowValue.isShow(widget.show);
+    showSubscribeDispose = _PopupShowValue.subscribe(widget.show, () {
+      if (_show != _PopupShowValue.isShow(widget.show)) {
+        _show = _PopupShowValue.isShow(widget.show);
+        setState(() {});
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    _show = widget.show == true;
+    _assignNormalizedShowValue(widget.show);
     BackButtonInterceptor.add(backInterceptor);
   }
 
   @override
   void dispose() {
+    showSubscribeDispose?.call();
     BackButtonInterceptor.remove(backInterceptor);
     super.dispose();
   }
 
   @override
-  void didUpdateWidget(covariant VanPopupWrap oldWidget) {
+  void didUpdateWidget(covariant Popup oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.show != widget.show || _show != widget.show) {
-      _show = widget.show == true;
+      showSubscribeDispose?.call();
+      _assignNormalizedShowValue(widget.show);
     }
   }
 
   hide() {
     widget.onClose?.call();
-    setState(() => _show = false);
+    _show = false;
+    setState(() {});
+    _PopupShowValue.setShow(widget.show, _show);
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = VanConfig.ofTheme(context);
 
+    final teleport = widget.teleport;
+
     var contentCon = () {
-      const verti = {VanPopupPosition.top, VanPopupPosition.bottom};
-      const horiz = {VanPopupPosition.left, VanPopupPosition.right};
+      const verti = {PopupPosition.top, PopupPosition.bottom};
+      const horiz = {PopupPosition.left, PopupPosition.right};
       if (verti.contains(position)) {
         return constraints.copyWith(
             minWidth: double.infinity, maxWidth: double.infinity);
@@ -119,13 +142,13 @@ class VanPopupState extends State<VanPopupWrap> {
     }();
 
     final alignment = () {
-      if (position == VanPopupPosition.left) {
+      if (position == PopupPosition.left) {
         return Alignment.centerLeft;
-      } else if (position == VanPopupPosition.right) {
+      } else if (position == PopupPosition.right) {
         return Alignment.centerRight;
-      } else if (position == VanPopupPosition.top) {
+      } else if (position == PopupPosition.top) {
         return Alignment.topCenter;
-      } else if (position == VanPopupPosition.bottom) {
+      } else if (position == PopupPosition.bottom) {
         return Alignment.bottomCenter;
       } else {
         return Alignment.center;
@@ -133,13 +156,13 @@ class VanPopupState extends State<VanPopupWrap> {
     }();
 
     final offsetInterpolate = () {
-      if (position == VanPopupPosition.left) {
+      if (position == PopupPosition.left) {
         return (double x) => Offset(contentW * (x - 1), 0);
-      } else if (position == VanPopupPosition.right) {
+      } else if (position == PopupPosition.right) {
         return (double x) => Offset(contentW * (1 - x), 0);
-      } else if (position == VanPopupPosition.top) {
+      } else if (position == PopupPosition.top) {
         return (double x) => Offset(0, contentH * (x - 1));
-      } else if (position == VanPopupPosition.bottom) {
+      } else if (position == PopupPosition.bottom) {
         return (double x) => Offset(0, contentH * (1 - x));
       } else {
         return (double x) => Offset.zero;
@@ -147,7 +170,7 @@ class VanPopupState extends State<VanPopupWrap> {
     }();
 
     final double Function(double x) opacityInterpolate = () {
-      if (position == VanPopupPosition.center) {
+      if (position == PopupPosition.center) {
         return (double x) => x;
       } else {
         return (double x) => 1.0;
@@ -169,7 +192,7 @@ class VanPopupState extends State<VanPopupWrap> {
       return child;
     }
 
-    return TweenAnimationBuilder(
+    Widget child = TweenAnimationBuilder(
       onEnd: () => {if (!_show) widget.onInvalidate?.call()},
       tween: _show //
           ? Tween(begin: 1.0, end: 1.0)
@@ -192,5 +215,42 @@ class VanPopupState extends State<VanPopupWrap> {
         );
       },
     );
+
+    final defaultTeleport = Overlay.of(context);
+    if (teleport is OverlayState ||
+        (defaultTeleport != null && teleport != false)) {
+      final to = teleport is OverlayState ? teleport : defaultTeleport;
+      child = TeleportOverlay(to: to, child: child);
+    }
+
+    return child;
+  }
+}
+
+/// _PopupShowValue handles bool, ValueNotifier value
+class _PopupShowValue {
+  static bool isShow(dynamic show) {
+    if (show is bool) {
+      return show;
+    } else if (show is ValueNotifier) {
+      return show.value == true;
+    } else {
+      return false;
+    }
+  }
+
+  static void setShow(dynamic show, bool value) {
+    if (show is ValueNotifier<bool>) {
+      show.value = value;
+    }
+  }
+
+  static Function() subscribe(dynamic show, Function() cb) {
+    if (show is ValueNotifier) {
+      show.addListener(cb);
+      return () => show.removeListener(cb);
+    } else {
+      return () {};
+    }
   }
 }

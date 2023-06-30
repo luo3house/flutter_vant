@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:demo/widgets/dialog_state.dart';
+import 'package:demo/widgets/watch_model.dart';
+import 'package:demo/widgets/with_value.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
 
@@ -9,7 +11,8 @@ class FormPage extends StatelessWidget {
   FormPage(this.location, {super.key});
 
   final formKey = GlobalKey<VanFormState>();
-  final timePicker = ValueNotifier(const ModalState(false, <int>[]));
+  final timePickerShow = ValueNotifier(false);
+  final timePicker = ValueNotifier(<int>[]);
 
   @override
   Widget build(BuildContext context) {
@@ -77,35 +80,30 @@ class FormPage extends StatelessWidget {
           VanField(
             label: "TimePicker",
             clickable: true,
-            onTap: () => timePicker.value = const ModalState(true, <int>[]),
+            onTap: () => timePickerShow.value = true,
             child: VanFormItem<List<int>>(
               name: "time_picker",
               builder: (model) {
-                return TeleportOverlay(
-                  local: Text(model.value?.toString() ?? '选择时间'),
-                  child: ValueListenableBuilder(
-                    valueListenable: timePicker,
-                    builder: (_, dialog, __) {
-                      return VanPopup(
-                        show: dialog.show,
-                        onClose: () {
-                          timePicker.value = dialog.copyWith(show: false);
-                        },
-                        round: true,
-                        position: VanPopupPosition.bottom,
-                        child: TimePicker(
-                          value: dialog.value,
-                          onCancel: (_) {
-                            timePicker.value = dialog.copyWith(show: false);
+                return Stack(
+                  children: [
+                    Text(model.value?.toString() ?? '选择时间'),
+                    Popup(
+                      show: timePickerShow,
+                      round: true,
+                      position: PopupPosition.bottom,
+                      child: WithModel(model.value, (tmp) {
+                        return TimePicker(
+                          value: tmp.value,
+                          onChange: (v) => tmp.value = v,
+                          onCancel: (_) => timePickerShow.value = false,
+                          onConfirm: (v) {
+                            timePickerShow.value = false;
+                            model.setValue(v ?? const []);
                           },
-                          onConfirm: (value) {
-                            model.setValue(value ?? []);
-                            timePicker.value = dialog.copyWith(show: false);
-                          },
-                        ),
-                      );
-                    },
-                  ),
+                        );
+                      }),
+                    ),
+                  ],
                 );
               },
             ),

@@ -9,7 +9,7 @@ import 'types.dart';
 // typedef MaxSizeInterpolate = Size Function(Size maxSize);
 
 class VanPopupContent extends StatelessWidget {
-  final VanPopupPosition? position;
+  final PopupPosition? position;
   final EdgeInsets? padding;
   final bool? round;
   final BoxConstraints? constraints;
@@ -32,7 +32,7 @@ class VanPopupContent extends StatelessWidget {
 
     final bg = theme.background2;
 
-    final position = this.position ?? VanPopupPosition.center;
+    final position = this.position ?? PopupPosition.center;
 
     final pl = padding?.left ?? 0;
     final pt = padding?.top ?? 0;
@@ -41,13 +41,13 @@ class VanPopupContent extends StatelessWidget {
 
     final rounded = () {
       if (round != true) return BorderRadius.zero;
-      if (position == VanPopupPosition.left) {
+      if (position == PopupPosition.left) {
         return const BorderRadius.horizontal(right: Radius.circular(16));
-      } else if (position == VanPopupPosition.top) {
+      } else if (position == PopupPosition.top) {
         return const BorderRadius.vertical(bottom: Radius.circular(16));
-      } else if (position == VanPopupPosition.right) {
+      } else if (position == PopupPosition.right) {
         return const BorderRadius.horizontal(left: Radius.circular(16));
-      } else if (position == VanPopupPosition.bottom) {
+      } else if (position == PopupPosition.bottom) {
         return const BorderRadius.vertical(top: Radius.circular(16));
       } else {
         return BorderRadius.circular(16);

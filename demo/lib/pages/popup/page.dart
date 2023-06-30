@@ -1,3 +1,4 @@
+import 'package:demo/widgets/watch_model.dart';
 import 'package:demo/widgets/with_value.dart';
 import 'package:flutter/widgets.dart';
 import 'package:demo/doc/doc_title.dart';
@@ -14,25 +15,16 @@ class PopupPage extends StatefulWidget {
 }
 
 class _PopupPage extends State<PopupPage> {
-  bool? show;
-  bool? overlay;
-  VanPopupPosition? position;
-  EdgeInsets? padding;
-  bool? round;
-  bool? closeOnClickOverlay;
-  Widget? child;
-  BoxConstraints? constraint;
+  final basicShow = ValueNotifier(false);
 
-  reset() {
-    show = null;
-    overlay = null;
-    position = null;
-    padding = null;
-    round = null;
-    closeOnClickOverlay = null;
-    child = null;
-    constraint = null;
-  }
+  var pos = PopupPosition.center;
+  final posShow = ValueNotifier(false);
+
+  var roundPos = PopupPosition.center;
+  final roundShow = ValueNotifier(false);
+
+  final fitContentShow = ValueNotifier(false);
+  final listContentShow = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +34,16 @@ class _PopupPage extends State<PopupPage> {
         VanCell(
           title: "展示弹出层",
           clickable: true,
-          onTap: () => setState(() {
-            reset();
-            child = const Text("内容");
-            padding = const EdgeInsets.all(64);
-            show = true;
-          }),
+          onTap: () => basicShow.value = true,
         ),
-        const DocTitle("Position"),
+        Popup(
+          show: basicShow,
+          padding: const EdgeInsets.all(64),
+          child: const Text("内容"),
+        ),
+
+        //
+        const DocTitle("弹出位置"),
         VanGrid(
           columnNum: 4,
           children: [
@@ -57,130 +51,135 @@ class _PopupPage extends State<PopupPage> {
               text: "顶部弹出",
               icon: VanIcons.arrow_up,
               clickable: true,
-              onTap: () => setState(() {
-                reset();
-                position = VanPopupPosition.top;
-                constraint = const BoxConstraints.tightFor(height: 100);
-                show = true;
-              }),
+              onTap: () {
+                pos = PopupPosition.top;
+                posShow.value = true;
+              },
             ),
             GridItem(
               text: "底部弹出",
               icon: VanIcons.arrow_down,
               clickable: true,
-              onTap: () => setState(() {
-                reset();
-                position = VanPopupPosition.bottom;
-                constraint = const BoxConstraints.tightFor(height: 100);
-                show = true;
-              }),
+              onTap: () {
+                pos = PopupPosition.bottom;
+                posShow.value = true;
+              },
             ),
             GridItem(
               text: "左侧弹出",
               icon: VanIcons.arrow_left,
               clickable: true,
-              onTap: () => setState(() {
-                reset();
-                position = VanPopupPosition.left;
-                constraint = const BoxConstraints.tightFor(width: 100);
-                show = true;
-              }),
+              onTap: () {
+                pos = PopupPosition.left;
+                posShow.value = true;
+              },
             ),
             GridItem(
               text: "右侧弹出",
               icon: VanIcons.arrow,
               clickable: true,
-              onTap: () => setState(() {
-                reset();
-                position = VanPopupPosition.right;
-                constraint = const BoxConstraints.tightFor(width: 100);
-                show = true;
-              }),
+              onTap: () {
+                pos = PopupPosition.right;
+                posShow.value = true;
+              },
             ),
           ],
         ),
+        WatchModel(posShow, (model) {
+          return Popup(
+            show: posShow,
+            position: pos,
+            constraints: <PopupPosition, BoxConstraints?>{
+              PopupPosition.left: const BoxConstraints.tightFor(width: 100),
+              PopupPosition.right: const BoxConstraints.tightFor(width: 100),
+              PopupPosition.top: const BoxConstraints.tightFor(height: 100),
+              PopupPosition.bottom: const BoxConstraints.tightFor(height: 100),
+            }[pos],
+          );
+        }),
+
+        //
         const DocTitle("圆角弹窗"),
         VanCellGroup(children: [
           VanCell(
             title: "圆角弹窗 (居中)",
             clickable: true,
-            onTap: () => setState(() {
-              reset();
-              child = const Text("内容");
-              round = true;
-              padding = const EdgeInsets.all(64);
-              show = true;
-            }),
+            onTap: () {
+              roundPos = PopupPosition.center;
+              roundShow.value = true;
+            },
           ),
-        ]),
-        VanCellGroup(children: [
           VanCell(
             title: "圆角弹窗 (底部)",
             clickable: true,
-            onTap: () => setState(() {
-              reset();
-              position = VanPopupPosition.bottom;
-              round = true;
-              constraint = const BoxConstraints.tightFor(height: 100);
-              show = true;
-            }),
+            onTap: () {
+              roundPos = PopupPosition.bottom;
+              roundShow.value = true;
+            },
           ),
         ]),
+        WatchModel(roundShow, (model) {
+          return Popup(
+            show: roundShow,
+            round: true,
+            position: roundPos,
+            child: SizedBox.fromSize(
+              size: const Size.square(100),
+              child: const Center(child: Text("内容")),
+            ),
+          );
+        }),
+
+        //
         const DocTitle("内容"),
         VanCellGroup(children: [
           VanCell(
             title: "内容自适应",
             clickable: true,
-            onTap: () => setState(() {
-              reset();
-              position = VanPopupPosition.bottom;
-              child = WithModel(true, (model) {
-                final height = model.value ? 200.0 : 400.0;
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(children: [
-                      Text("高度: $height"),
-                      VanSwitch(
-                        size: 18,
-                        value: model.value,
-                        onChange: (v) => model.value = v,
-                      ),
-                    ]),
-                    Container(height: height),
-                  ],
-                );
-              });
-              show = true;
-            }),
+            onTap: () => fitContentShow.value = true,
           ),
           VanCell(
             title: "内容溢出",
             clickable: true,
-            onTap: () => setState(() {
-              reset();
-              position = VanPopupPosition.bottom;
-              constraint = const BoxConstraints.tightFor(height: 500);
-              child = ListView(
-                itemExtent: 16,
-                children: List.generate(100, (i) => Text("$i")),
-              );
-              show = true;
-            }),
+            onTap: () => listContentShow.value = true,
           ),
         ]),
       ]),
-      VanPopup(
-        show: show,
-        overlay: overlay,
-        position: position,
-        padding: padding,
-        round: round,
-        closeOnClickOverlay: closeOnClickOverlay,
-        constraints: constraint,
-        onClose: () => setState(() => show = false),
-        child: child,
-      )
+      Popup(
+        show: fitContentShow,
+        position: PopupPosition.bottom,
+        round: true,
+        child: WithModel(false, (model) {
+          final height = model.value ? 200.0 : 400.0;
+          return TweenAnimationBuilder(
+            tween: Tween(begin: height, end: height),
+            duration: const Duration(milliseconds: 200),
+            builder: (_, x, __) {
+              return SizedBox(
+                height: x,
+                child: Center(
+                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                    Text("Height: $height"),
+                    VanSwitch(
+                      value: model.value,
+                      onChange: (v) => model.value = v,
+                    ),
+                  ]),
+                ),
+              );
+            },
+          );
+        }),
+      ),
+      Popup(
+        show: listContentShow,
+        constraints: const BoxConstraints.tightFor(height: 500),
+        position: PopupPosition.bottom,
+        child: ListView(
+          itemExtent: 40,
+          children: List.generate(100, (i) => Center(child: Text("$i"))),
+        ),
+      ),
     ]);
   }
 }
