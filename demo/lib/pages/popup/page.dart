@@ -173,7 +173,7 @@ class _PopupPage extends State<PopupPage> {
       ),
       Popup(
         show: listContentShow,
-        constraints: const BoxConstraints.tightFor(height: 500),
+        constraints: const BoxConstraints.tightFor(height: 400),
         position: PopupPosition.bottom,
         child: ListView(
           itemExtent: 40,

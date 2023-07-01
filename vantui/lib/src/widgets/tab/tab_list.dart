@@ -178,7 +178,9 @@ class TabListState extends State<TabList> with WidgetsBindingObserver {
       }
     }();
 
-    return TailBox().bg(theme.background2).as((styled) {
+    final wrapPx = shrink ? theme.paddingXs : 0.0;
+
+    return TailBox().bg(theme.background2).px(wrapPx).as((styled) {
       return styled.Container(
         height: height,
         child: wrap,

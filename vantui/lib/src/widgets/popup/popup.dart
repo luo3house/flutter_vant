@@ -36,14 +36,14 @@ class Popup extends StatefulWidget {
     super.key,
   }) {
     assert(show is ValueNotifier<bool> || show is bool?,
-        "show should be typeof ValueNotifier or bool");
+        "show should be typeof ValueNotifier or bool?");
   }
 
   @override
-  createState() => VanPopupState();
+  createState() => PopupState();
 }
 
-class VanPopupState extends State<Popup> {
+class PopupState extends State<Popup> {
   var _show = false;
   Function()? showSubscribeDispose;
   Size? contentSize;
@@ -113,28 +113,42 @@ class VanPopupState extends State<Popup> {
 
     final teleport = widget.teleport;
 
-    var contentCon = () {
-      const verti = {PopupPosition.top, PopupPosition.bottom};
-      const horiz = {PopupPosition.left, PopupPosition.right};
-      if (verti.contains(position)) {
-        return constraints.copyWith(
-            minWidth: double.infinity, maxWidth: double.infinity);
-      } else if (horiz.contains(position)) {
-        return constraints.copyWith(
-            minHeight: double.infinity, maxHeight: double.infinity);
-      } else {
-        return constraints;
-      }
-    }();
+    final content = LayoutBuilder(builder: (_, con) {
+      final contentMaxHeight = con.maxHeight * 0.8;
+      final contentMaxWidth = con.maxWidth * 0.8;
+      final contentCon = () {
+        const verti = {PopupPosition.top, PopupPosition.bottom};
+        const horiz = {PopupPosition.left, PopupPosition.right};
+        if (verti.contains(position)) {
+          return constraints.copyWith(
+            minWidth: double.infinity,
+            maxWidth: double.infinity,
+            maxHeight: constraints.maxHeight.isFinite
+                ? constraints.maxHeight
+                : contentMaxHeight,
+          );
+        } else if (horiz.contains(position)) {
+          return constraints.copyWith(
+            minHeight: double.infinity,
+            maxHeight: double.infinity,
+            maxWidth: constraints.maxWidth.isFinite
+                ? constraints.maxWidth
+                : contentMaxWidth,
+          );
+        } else {
+          return constraints;
+        }
+      }();
 
-    final content = VanPopupContent(
-      position: widget.position,
-      padding: widget.padding,
-      round: widget.round,
-      constraints: contentCon,
-      onLayout: (size) => contentSize = size,
-      child: widget.child,
-    );
+      return VanPopupContent(
+        position: widget.position,
+        padding: widget.padding,
+        round: widget.round,
+        constraints: contentCon,
+        onLayout: (size) => contentSize = size,
+        child: widget.child,
+      );
+    });
 
     final overlayFrag = () {
       final onTap = closeOnClickOverlay ? hide : null;
