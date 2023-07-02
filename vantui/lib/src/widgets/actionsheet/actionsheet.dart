@@ -90,26 +90,23 @@ class VanActionSheet extends StatelessWidget {
         ? nil
         : TailBox().bg(theme.background).Container(height: theme.paddingXs);
 
-    return LayoutBuilder(builder: (_, con) {
-      return Popup(
-        show: show,
-        position: PopupPosition.bottom,
-        constraints: BoxConstraints(maxHeight: con.maxHeight * .85),
-        onInvalidate: onInvalidate,
-        onClose: onClose,
-        closeOnClickOverlay: true,
-        round: true,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            description,
-            content,
-            gap,
-            cancel,
-          ],
-        ),
-      );
-    });
+    return Popup(
+      show: show,
+      position: PopupPosition.bottom,
+      onInvalidate: onInvalidate,
+      onClose: onClose,
+      closeOnClickOverlay: true,
+      round: true,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          description,
+          content,
+          gap,
+          cancel,
+        ],
+      ),
+    );
   }
 }
