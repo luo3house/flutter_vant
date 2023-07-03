@@ -5,6 +5,7 @@ import 'package:flutter_vantui/src/utils/std.dart';
 import 'package:provider/provider.dart';
 import 'package:tailstyle/tailstyle.dart';
 
+import '../_util/glowless_scroll_behavior.dart';
 import 'theme.dart';
 
 class VanConfig extends StatefulWidget {
@@ -55,14 +56,16 @@ class VanConfigState extends State<VanConfig> {
         child: IconTheme(
           data: const IconThemeData.fallback().copyWith(size: 14),
           child: ScrollConfiguration(
-            behavior: ScrollConfiguration.of(context).copyWith(
-              dragDevices: {
-                PointerDeviceKind.touch,
-                PointerDeviceKind.stylus,
-                PointerDeviceKind.invertedStylus,
-                PointerDeviceKind.unknown,
-                PointerDeviceKind.mouse,
-              },
+            behavior: GlowlessScrollBehavior(
+              parent: ScrollConfiguration.of(context).copyWith(
+                dragDevices: {
+                  PointerDeviceKind.touch,
+                  PointerDeviceKind.stylus,
+                  PointerDeviceKind.invertedStylus,
+                  PointerDeviceKind.unknown,
+                  PointerDeviceKind.mouse,
+                },
+              ),
             ),
             child: Overlay(
               key: overlayKey,
