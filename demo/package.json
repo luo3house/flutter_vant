@@ -1,10 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "dev:web": "flutter run -d web-server --web-port=8080 --web-hostname=0.0.0.0",
+    "dev": "flutter run -d web-server --web-port=8080",
     "dev:android": "flutter run -d `npx --package=luo3sh adbx d`",
-    "dev:android:perf": "flutter run -d `npx --package=luo3sh adbx d` --profile",
-    "build:web": "flutter build web",
-    "postinstall": "flutter pub get"
+    "pub": "flutter pub get"
   }
 }

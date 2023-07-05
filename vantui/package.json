@@ -2,6 +2,6 @@
   "private": true,
   "scripts": {
     "gen": "fvm flutter pub run build_runner build --delete-conflicting-outputs",
-    "postinstall": "flutter pub get"
+    "pub": "flutter pub get"
   }
 }

@@ -12,22 +12,35 @@ Use `fvm` for version managing is strongly recommended.
 
 ## Install Dependencies
 
-Just simply execute: 
+Install dependencies for docs project:
+
 ```bash
 pnpm i
+```
+
+And also needs to install pubs for flutter projects:
+
+```bash
+pnpm run pub
 ```
 
 ## Run Android demo
 
 Connect an Android phone via adb. Or launch an AVD device.
 
-
 Then:
 
-```
+```bash
 pnpm dev:android
 ```
 
+## Run Docs
+
+```bash
+pnpm dev
+```
+
+After ensuring both Android and Docs don't have any problems, it is welcome to open a pull request.
 
 ## FAQ
 

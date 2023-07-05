@@ -1,9 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "dev:web": "pnpm --dir=demo dev:web",
+    "dev": "pnpm -r run dev",
     "dev:android": "pnpm --dir=demo dev:android",
-    "build:web": "pnpm --dir=demo build:web",
-    "dev:docs": "pnpm --filter=docs dev"
+    "pub": "pnpm -r run pub"
   }
 }

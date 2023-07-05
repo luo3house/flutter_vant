@@ -20,14 +20,6 @@ runs:
         npm -v
         npm -g i pnpm
         pnpm -v
-    - name: Setup Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.3.10'
-        channel: 'stable'
-        cache: true
-        cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-        architecture: x64
     - name: Install Dependencies For Workspace
       shell: bash
       run: pnpm i
