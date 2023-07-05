@@ -44,8 +44,7 @@ const isMatchMediaSupport =
 const isLargeScreen = () =>
   isMatchMediaSupport && window.matchMedia('(min-width: 1024px)').matches
 
-const shouldOpenSimulator = () =>
-  isMatchMediaSupport && window.matchMedia('(min-width: 360px)').matches
+const isMobilePhone = () => /iPhone|Android/.test(navigator.userAgent)
 
 const loadShowPrefer = () =>
   localStorage.getItem(__STORAGE_KEY_SIMULATOR_PREFER) !== 'false'
@@ -54,7 +53,7 @@ const saveShowPrefer = useDebounceFn((flag: boolean) => {
   localStorage.setItem(__STORAGE_KEY_SIMULATOR_PREFER, String(flag))
 }, 800)
 
-const show = ref(isLargeScreen() && loadShowPrefer())
+const show = ref(isLargeScreen() && !isMobilePhone() && loadShowPrefer())
 
 const render = ref(show.value)
 
@@ -65,7 +64,7 @@ watch(
 )
 
 const onOpen = (e: Event) => {
-  if (shouldOpenSimulator()) {
+  if (!isMobilePhone()) {
     e.preventDefault()
     show.value = true
     saveShowPrefer(show.value)
