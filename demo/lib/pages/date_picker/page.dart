@@ -3,6 +3,9 @@ import 'package:demo/widgets/with_value.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
 import 'package:flutter/widgets.dart';
 
+// @DocsId("datepicker")
+// @DocsWidget("DatePicker 日期选择")
+
 class DatePickerPage extends StatelessWidget {
   final Uri location;
   const DatePickerPage(this.location, {super.key});
@@ -11,6 +14,7 @@ class DatePickerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(children: [
       const DocTitle("Basic Usage"),
+      // @DocsDemo("基本用法")
       WithModel([DateTime.now().year, DateTime.now().month], (model) {
         return Column(children: [
           Text("${model.value}"),
@@ -20,9 +24,10 @@ class DatePickerPage extends StatelessWidget {
           ),
         ]);
       }),
+      // @DocsDemo
 
-      //
       const DocTitle("Minimum & Maximum"),
+      // @DocsDemo("最大值 & 最小值")
       WithModel(const <int>[], (model) {
         return VanDatePicker(
           value: model.value,
@@ -31,9 +36,10 @@ class DatePickerPage extends StatelessWidget {
           maxDate: DateTime.now().addMonths(1),
         );
       }),
+      // @DocsDemo
 
-      //
       const DocTitle("Columns"),
+      // @DocsDemo("指定日期列")
       WithModel(const <int>[], (model) {
         return VanDatePicker(
           value: model.value,
@@ -44,9 +50,10 @@ class DatePickerPage extends StatelessWidget {
           },
         );
       }),
+      // @DocsDemo
 
-      //
       const DocTitle("Formatter"),
+      // @DocsDemo("选项格式化")
       WithModel([DateTime.now().year, DateTime.now().month], (model) {
         return VanDatePicker(
           value: model.value,
@@ -58,6 +65,7 @@ class DatePickerPage extends StatelessWidget {
           },
         );
       }),
+      // @DocsDemo
 
       //
     ]);

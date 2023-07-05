@@ -19,3 +19,7 @@ jobs:
         run: echo ${{ github.event.pull_request.head.sha }}
       - name: Build Demo Web
         uses: ./.github/actions/build-demo-web
+        with:
+          workdir: demo/
+      - name: Build Docs
+        uses: ./.github/actions/build-docs

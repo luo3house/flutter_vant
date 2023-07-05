@@ -2,6 +2,9 @@ import 'package:demo/doc/doc_title.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
 import 'package:flutter/widgets.dart';
 
+// @DocsId("grid")
+// @DocsWidget("Grid 宫格")
+
 class GridPage extends StatelessWidget {
   final Uri location;
   const GridPage(this.location, {super.key});
@@ -10,23 +13,26 @@ class GridPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(children: [
       const DocTitle("Basic Usage"),
+      // @DocsDemo("基本用法")
       const VanGrid(children: [
         GridItem(icon: VanIcons.photo_o, text: "Text"),
         GridItem(icon: VanIcons.photo_o, text: "Text"),
         GridItem(icon: VanIcons.photo_o, text: "Text"),
         GridItem(icon: VanIcons.photo_o, text: "Text"),
       ]),
+      // @DocsDemo
 
-      //
       const DocTitle("Custom column length"),
+      // @DocsDemo("自定义列数")
       VanGrid(
         columnNum: 3,
         children: List.generate(
             6, (index) => const GridItem(icon: VanIcons.photo_o, text: "Text")),
       ),
+      // @DocsDemo
 
-      //
       const DocTitle("Custom content"),
+      // @DocsDemo("自定义内容")
       VanGrid(columnNum: 3, children: [
         GridItem(
             child: Image.network(
@@ -38,9 +44,10 @@ class GridPage extends StatelessWidget {
             child: Image.network(
                 "https://fastly.jsdelivr.net/npm/@vant/assets/apple-3.jpeg")),
       ]),
+      // @DocsDemo
 
-      //
       const DocTitle("Square"),
+      // @DocsDemo("正方形格子")
       VanGrid(
         columnNum: 4,
         children: List.generate(
@@ -51,9 +58,10 @@ class GridPage extends StatelessWidget {
           ),
         ),
       ),
+      // @DocsDemo
 
-      //
       const DocTitle("Gutter"),
+      // @DocsDemo("格子间距")
       VanGrid(
         columnNum: 4,
         gutter: 10,
@@ -65,9 +73,10 @@ class GridPage extends StatelessWidget {
           ),
         ),
       ),
+      // @DocsDemo
 
-      //
       const DocTitle("Horizontal"),
+      // @DocsDemo("内容横排")
       VanGrid(
         columnNum: 3,
         children: List.generate(
@@ -79,9 +88,11 @@ class GridPage extends StatelessWidget {
           ),
         ),
       ),
+      // @DocsDemo
 
       //
       const DocTitle("Clickable"),
+      // @DocsDemo("点击触发事件")
       VanGrid(
         columnNum: 3,
         children: List.generate(
@@ -93,6 +104,7 @@ class GridPage extends StatelessWidget {
               text: "Text"),
         ),
       ),
+      // @DocsDemo
 
       //
       const DocTitle("Badge"),

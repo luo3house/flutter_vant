@@ -5,6 +5,9 @@ import 'package:flutter_vantui/flutter_vantui.dart';
 import 'package:tailstyle/tailstyle.dart';
 import 'package:flutter/widgets.dart';
 
+// @DocsId("slider")
+// @DocsWidget("Slider 滑块")
+
 class SliderPage extends StatelessWidget {
   final Uri location;
   const SliderPage(this.location, {super.key});
@@ -13,6 +16,7 @@ class SliderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(children: [
       const DocTitle("基本用法"),
+      // @DocsDemo("基本用法")
       WithModel(50.0, (model) {
         return TailBox().px(24).as((s) {
           return s.Container(
@@ -26,8 +30,10 @@ class SliderPage extends StatelessWidget {
           );
         });
       }),
+      // @DocsDemo
 
       const DocTitle("步进取整"),
+      // @DocsDemo("步进取整")
       WithModel(20.0, (model) {
         return TailBox().mt(12).px(24).as((s) {
           return s.Container(
@@ -44,6 +50,8 @@ class SliderPage extends StatelessWidget {
           );
         });
       }),
+      // @DocsDemo
+
       const SizedBox(height: 10),
       WithModel(6.0, (model) {
         return TailBox().px(24).as((s) {
@@ -60,6 +68,7 @@ class SliderPage extends StatelessWidget {
       }),
 
       const DocTitle("自定义样式"),
+      // @DocsDemo("自定义样式")
       WithModel(6.0, (model) {
         return TailBox().px(24).as((s) {
           return s.Container(
@@ -75,9 +84,11 @@ class SliderPage extends StatelessWidget {
           );
         });
       }),
+      // @DocsDemo
 
       //
       const DocTitle("自定义按钮"),
+      // @DocsDemo("自定义按钮")
       WithModel(6.0, (model) {
         return TailBox().px(24).as((s) {
           return s.Container(
@@ -105,6 +116,7 @@ class SliderPage extends StatelessWidget {
           );
         });
       }),
+      // @DocsDemo
     ]);
   }
 }

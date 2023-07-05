@@ -7,6 +7,9 @@ import 'package:flutter/widgets.dart';
 
 import 'area.dart';
 
+// @DocsId("cascader")
+// @DocsWidget("Cascader 级联选择")
+
 class CascaderPage extends StatefulWidget {
   final Uri location;
   const CascaderPage(this.location, {super.key});
@@ -42,7 +45,7 @@ class CascaderPageState extends State<CascaderPage> {
   Widget build(BuildContext context) {
     return ListView(children: [
       const DocTitle("基本用法"),
-
+      // @DocsDemo("基本用法")
       VanField(
         label: "地区",
         clickable: true,
@@ -67,9 +70,10 @@ class CascaderPageState extends State<CascaderPage> {
           },
         ),
       ),
+      // @DocsDemo
 
-      //
       const DocTitle("异步加载"),
+      // @DocsDemo("异步加载")
       VanField(
         label: "地区",
         clickable: true,
@@ -112,6 +116,7 @@ class CascaderPageState extends State<CascaderPage> {
           );
         }),
       )
+      // @DocsDemo
     ]);
   }
 }

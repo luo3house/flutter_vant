@@ -4,6 +4,9 @@ import 'package:demo/doc/doc_title.dart';
 import 'package:demo/widgets/with_value.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
 
+// @DocsId("time_picker")
+// @DocsWidget("TimePicker 时间选择")
+
 class TimePickerPage extends StatelessWidget {
   final Uri location;
   const TimePickerPage(this.location, {super.key});
@@ -19,16 +22,19 @@ class TimePickerPage extends StatelessWidget {
           WithModel(const <int>[12, 0, 0], (model) {
             return Column(children: [
               Text("${model.value}"),
+              // @DocsDemo("基本用法")
               TimePicker(
                 value: model.value,
                 onChange: (value) => model.value = value,
               ),
+              // @DocsDemo
             ]);
           }),
 
           //
           const DocTitle("Column Type"),
           WithModel(const <int>[12, 0], (model) {
+            // @DocsDemo("选项类型")
             return TimePicker(
               columnsType: const {
                 TimePickerColumn.hour,
@@ -37,11 +43,13 @@ class TimePickerPage extends StatelessWidget {
               value: model.value,
               onChange: (value) => model.value = value,
             );
+            // @DocsDemo
           }),
 
           //
           const DocTitle("Range"),
           WithModel(const <int>[], (model) {
+            // @DocsDemo("时间范围")
             return TimePicker(
               columnsType: const {
                 TimePickerColumn.hour,
@@ -54,11 +62,13 @@ class TimePickerPage extends StatelessWidget {
               value: model.value,
               onChange: (value) => model.value = value,
             );
+            // @DocsDemo
           }),
 
           //
           const DocTitle("Formatter"),
           WithModel(const <int>[], (model) {
+            // @DocsDemo("格式化选项")
             return TimePicker(
               columnsType: const {
                 TimePickerColumn.hour,
@@ -75,11 +85,13 @@ class TimePickerPage extends StatelessWidget {
               value: model.value,
               onChange: (value) => model.value = value,
             );
+            // @DocsDemo
           }),
 
           //
           const DocTitle("Filter"),
           WithModel(const <int>[], (model) {
+            // @DocsDemo("过滤选项")
             return TimePicker(
               columnsType: const {
                 TimePickerColumn.hour,
@@ -92,9 +104,8 @@ class TimePickerPage extends StatelessWidget {
               value: model.value,
               onChange: (value) => model.value = value,
             );
+            // @DocsDemo
           }),
-
-          //
         ]),
       );
     });

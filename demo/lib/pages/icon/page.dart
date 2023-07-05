@@ -4,6 +4,9 @@ import 'package:flutter_vantui/flutter_vantui.dart';
 import 'package:tailstyle/tailstyle.dart';
 import 'package:flutter/widgets.dart';
 
+// @DocsId("icon")
+// @DocsWidget("Icon 图标")
+
 class IconPage extends StatelessWidget {
   final Uri location;
   const IconPage(this.location, {super.key});
@@ -18,17 +21,23 @@ class IconPage extends StatelessWidget {
           child: ListView(children: [
             const DocTitle("基本使用"),
             DocPadding(Wrap(spacing: 20, runSpacing: 20, children: const [
+              // @DocsDemo("基本使用")
               VanIcon(VanIcons.chat_o),
+              // @DocsDemo
             ])),
             const DocTitle("颜色"),
             DocPadding(Wrap(spacing: 20, runSpacing: 20, children: const [
+              // @DocsDemo("颜色")
               VanIcon(VanIcons.cart_o, color: Color(0xFF1989fa)),
               VanIcon(VanIcons.fire_o, color: Color(0xFFee0a24)),
+              // @DocsDemo
             ])),
             const DocTitle("大小"),
             DocPadding(Wrap(spacing: 20, runSpacing: 20, children: const [
+              // @DocsDemo("大小")
               VanIcon(VanIcons.chat_o, size: 32),
               VanIcon(VanIcons.chat_o, size: 48),
+              // @DocsDemo
             ])),
             const DocTitle("基础图标"),
             const VanGrid(columnNum: 3, children: [

@@ -6,16 +6,12 @@ inputs:
     description: Base href params for build command
     required: false
     default: '/'
+  workdir:
+    description: working-directory
+    default: '.'
 runs:
   using: composite
   steps:
-    - name: Setup Pnpm
-      shell: bash
-      run: |
-        node -v
-        npm -v
-        npm -g i pnpm
-        pnpm -v
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
@@ -24,9 +20,11 @@ runs:
         cache: true
         cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
         architecture: x64
-    - name: Install Dependencies For Workspace
+    - name: Install Pub
       shell: bash
-      run: pnpm i
+      working-directory: ${{ inputs.workdir }}
+      run: flutter pub get
     - name: Build web with base href
       shell: bash
-      run: pnpm build:web --base-href=${{ inputs.base }}
+      working-directory: ${{ inputs.workdir }}
+      run: flutter build web --base-href=${{ inputs.base }}

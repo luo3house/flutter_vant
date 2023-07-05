@@ -4,6 +4,9 @@ import 'package:flutter_vantui/flutter_vantui.dart';
 import 'package:tailstyle/tailstyle.dart';
 import 'package:flutter/widgets.dart';
 
+// @DocsId("dialog")
+// @DocsWidget("Dialog 对话框")
+
 class DialogPage extends StatelessWidget {
   final Uri location;
   const DialogPage(this.location, {super.key});

@@ -3,6 +3,9 @@ import 'package:demo/doc/doc_title.dart';
 import 'package:demo/widgets/with_value.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
 
+// @DocsId("tabbar")
+// @DocsWidget("TabBar 标签栏")
+
 class TabBarPage extends StatelessWidget {
   final Uri location;
   const TabBarPage(this.location, {super.key});
@@ -11,6 +14,7 @@ class TabBarPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(children: [
       const DocTitle("Basic Usage"),
+      // @DocsDemo("基本用法")
       WithModel(0, (model) {
         return TabBar(
           value: model.value,
@@ -23,9 +27,10 @@ class TabBarPage extends StatelessWidget {
           ],
         );
       }),
+      // @DocsDemo
 
-      //
       const DocTitle("Badge"),
+      // @DocsDemo("带徽标")
       WithModel(0, (model) {
         return TabBar(
           value: model.value,
@@ -57,9 +62,10 @@ class TabBarPage extends StatelessWidget {
           ],
         );
       }),
+      // @DocsDemo
 
-      //
       const DocTitle("Custom Draw Icon"),
+      // @DocsDemo("自定义图标绘制")
       WithModel(0, (model) {
         return TabBar(
           value: model.value,
@@ -80,9 +86,10 @@ class TabBarPage extends StatelessWidget {
           ],
         );
       }),
+      // @DocsDemo
 
-      //
       const DocTitle("Custom Draw Icon"),
+      // @DocsDemo("高亮颜色")
       WithModel(0, (model) {
         return TabBar(
           value: model.value,
@@ -96,9 +103,10 @@ class TabBarPage extends StatelessWidget {
           ],
         );
       }),
+      // @DocsDemo
 
-      //
       const DocTitle("Icon Only"),
+      // @DocsDemo("仅图标")
       WithModel(0, (model) {
         return TabBar(
           value: model.value,
@@ -111,6 +119,7 @@ class TabBarPage extends StatelessWidget {
           ],
         );
       }),
+      // @DocsDemo
     ]);
   }
 }

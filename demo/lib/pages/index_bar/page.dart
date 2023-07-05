@@ -1,6 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
 
+// @DocsId("indexbar")
+// @DocsWidget("IndexBar 索引列表")
+
 class IndexBarPage extends StatelessWidget {
   final Uri location;
   const IndexBarPage(this.location, {super.key});

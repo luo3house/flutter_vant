@@ -3,6 +3,9 @@ import 'package:demo/widgets/watch_model.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
 import 'package:flutter/widgets.dart';
 
+// @DocsId("picker")
+// @DocsWidget("Picker 选择器")
+
 class PickerPage extends StatefulWidget {
   final Uri location;
   const PickerPage(this.location, {super.key});
@@ -69,18 +72,22 @@ class PickerPageState extends State<PickerPage> {
   Widget build(BuildContext context) {
     return ListView(children: [
       const DocTitle("基本用法"),
+      // @DocsDemo("基本用法")
       VanPicker(
         // ignore: avoid_print
         onChange: (values) => print(values),
         columns: citiesColumns,
       ),
+      // @DocsDemo
 
-      //
       const DocTitle("无限滑动"),
+      // @DocsDemo("无限滑动")
       VanPicker(columns: citiesColumns, loop: true),
+      // @DocsDemo
 
       //
       const DocTitle("搭配弹出层使用"),
+      // @DocsDemo("搭配弹出层使用")
       ValueListenableBuilder(
         valueListenable: popupValues,
         builder: (_, values, __) {
@@ -105,14 +112,17 @@ class PickerPageState extends State<PickerPage> {
           );
         }),
       ),
+      // @DocsDemo
 
-      //
       const DocTitle("多列选择"),
+      // @DocsDemo("多列选择")
       VanPicker(columns: weekTimesColumns),
+      // @DocsDemo
 
-      //
       const DocTitle("级联选择"),
+      // @DocsDemo("级联选择")
       VanPicker(columns: cascadeCities),
+      // @DocsDemo
     ]);
   }
 }

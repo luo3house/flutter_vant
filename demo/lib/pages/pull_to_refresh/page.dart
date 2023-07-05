@@ -4,6 +4,9 @@ import 'package:demo/widgets/with_value.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
 import 'package:flutter/widgets.dart';
 
+// @DocsId("pull_refresh")
+// @DocsWidget("PullRefresh 下拉刷新")
+
 class PullToRefreshPage extends StatelessWidget {
   final Uri location;
   const PullToRefreshPage(this.location, {super.key});
@@ -18,6 +21,7 @@ class PullToRefreshPage extends StatelessWidget {
   }
 }
 
+// @DocsDemo("基本用法")
 class _BasicUsage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -39,7 +43,9 @@ class _BasicUsage extends StatelessWidget {
     });
   }
 }
+// @DocsDemo
 
+// @DocsDemo("自定义头部提示")
 class _CustomHead extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -70,7 +76,9 @@ class _CustomHead extends StatelessWidget {
     });
   }
 }
+// @DocsDemo
 
+// @DocsDemo("刷新期间禁用滑动")
 class _DisableDuringRefresh extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -93,3 +101,4 @@ class _DisableDuringRefresh extends StatelessWidget {
     });
   }
 }
+// @DocsDemo

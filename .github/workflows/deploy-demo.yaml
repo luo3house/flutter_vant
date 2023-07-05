@@ -5,7 +5,8 @@ on:
     branches: ['main']
 
 env:
-  BASE_HREF: /flutter_vant/
+  DOCS_BASE: /flutter_vant/
+  DEMO_BASE: /flutter_vant/demo/
 
 concurrency:
   group: ${{ github.head_ref || github.run_id }}
@@ -22,12 +23,21 @@ jobs:
       - name: Build Demo Web
         uses: ./.github/actions/build-demo-web
         with:
-          base: ${BASE_HREF}
+          base: ${DEMO_BASE}
+          workdir: demo/
+      - name: Build Docs
+        uses: ./.github/actions/build-docs
+        with:
+          base: ${DOCS_BASE}
+          demo_base: ${DEMO_BASE}
+      - name: Merge Dist
+        shell: bash
+        run: cp -r ./demo/build/web ./docs/.vitepress/dist
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: dist
-          path: demo/build/web
+          path: docs/.vitepress/dist
 
   deploy:
     needs: build

@@ -3,6 +3,9 @@ import 'package:demo/doc/doc_title.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
 import 'package:tailstyle/tailstyle.dart';
 
+// @DocsId("swipe")
+// @DocsWidget("Swipe 轮播")
+
 class SwipePage extends StatelessWidget {
   static const bgColors = <int, Color>{
     0: Color(0xFF66C6F2),
@@ -23,30 +26,34 @@ class SwipePage extends StatelessWidget {
 
     return ListView(children: [
       const DocTitle("基本用法"),
+      // @DocsDemo("基本用法")
       Swipe(children: [
         buildCarouselBox(0),
         buildCarouselBox(1),
         buildCarouselBox(2),
       ]),
+      // @DocsDemo
 
-      //
       const DocTitle("自动轮播"),
+      // @DocsDemo("自动轮播")
       Swipe(
         count: 3,
         autoplay: const Duration(seconds: 3),
         builder: (index) => buildCarouselBox(index),
       ),
+      // @DocsDemo
 
-      //
       const DocTitle("无限滑动"),
+      // @DocsDemo("无限滑动")
       Swipe(loop: true, children: [
         buildCarouselBox(0),
         buildCarouselBox(1),
         buildCarouselBox(2),
       ]),
+      // @DocsDemo
 
-      //
       const DocTitle("监听 onChange 事件"),
+      // @DocsDemo("监听 onChange 事件")
       Swipe(
         loop: true,
         onChange: (index) => VanToastStatic.show(
@@ -59,17 +66,19 @@ class SwipePage extends StatelessWidget {
           buildCarouselBox(2),
         ],
       ),
+      // @DocsDemo
 
-      //
       const DocTitle("自定义滑块大小"),
+      // @DocsDemo("自定义滑块大小")
       Swipe(padEnds: false, viewportFraction: 0.8, children: [
         buildCarouselBox(0),
         buildCarouselBox(1),
         buildCarouselBox(2),
       ]),
+      // @DocsDemo
 
-      //
       const DocTitle("自定义指示器"),
+      // @DocsDemo("自定义指示器")
       Swipe(
         loop: true,
         indicator: SwipeIndicatorBuilder((e) {
@@ -91,6 +100,7 @@ class SwipePage extends StatelessWidget {
           buildCarouselBox(2),
         ],
       ),
+      // @DocsDemo
 
       const SizedBox(height: 20),
     ]);

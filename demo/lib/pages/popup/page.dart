@@ -4,6 +4,9 @@ import 'package:flutter/widgets.dart';
 import 'package:demo/doc/doc_title.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
 
+// @DocsId("popup")
+// @DocsWidget("Popup 弹出层")
+
 class PopupPage extends StatefulWidget {
   final Uri location;
   const PopupPage(this.location, {super.key});
@@ -31,6 +34,7 @@ class _PopupPage extends State<PopupPage> {
     return Stack(children: [
       ListView(children: [
         const DocTitle("Basic Usage"),
+        // @DocsDemo("基本用法")
         VanCell(
           title: "展示弹出层",
           clickable: true,
@@ -41,8 +45,8 @@ class _PopupPage extends State<PopupPage> {
           padding: const EdgeInsets.all(64),
           child: const Text("内容"),
         ),
+        // @DocsDemo
 
-        //
         const DocTitle("弹出位置"),
         VanGrid(
           columnNum: 4,

@@ -3,6 +3,9 @@ import 'package:demo/doc/doc_title.dart';
 import 'package:demo/widgets/with_value.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
 
+// @DocsId("swipe_cell")
+// @DocsWidget("SwipeCell 滑动单元格")
+
 class SwipeCellPage extends StatelessWidget {
   final Uri location;
   const SwipeCellPage(this.location, {super.key});
@@ -11,6 +14,7 @@ class SwipeCellPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(children: [
       const DocTitle("基本用法"),
+      // @DocsDemo("基本用法")
       VanSwipeCell(
         left: const VanBtn(square: true, text: "选择", type: VanBtnType.primary),
         right: Row(mainAxisSize: MainAxisSize.min, children: const [
@@ -19,9 +23,11 @@ class SwipeCellPage extends StatelessWidget {
         ]),
         child: const VanCell(title: "横扫", value: "内容"),
       ),
+      // @DocsDemo
 
       //
       const DocTitle("点击关闭"),
+      // @DocsDemo("点击关闭")
       WithModel(GlobalKey<VanSwipeCellState>(), (model) {
         final key = model.value;
         return VanSwipeCell(
@@ -43,9 +49,10 @@ class SwipeCellPage extends StatelessWidget {
           child: const VanCell(title: "单元格", value: "内容"),
         );
       }),
+      // @DocsDemo
 
-      //
       const DocTitle("自定义渲染"),
+      // @DocsDemo("自定义渲染")
       WithModel(
         List.generate(3, (_) => GlobalKey<VanSwipeCellState>()),
         (model) {
@@ -103,8 +110,7 @@ class SwipeCellPage extends StatelessWidget {
           ]);
         },
       ),
-
-      //
+      // @DocsDemo
     ]);
   }
 }
