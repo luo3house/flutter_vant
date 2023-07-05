@@ -96,7 +96,7 @@ const url = String(
   color: var(--vp-c-text-1);
   display: block;
   padding: 8px;
-  background-color: #fcfcfc;
+  background-color: var(--vp-button-alt-bg);
   border-radius: 8px;
   box-shadow: 0 0 2px #666666;
 
