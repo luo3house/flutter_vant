@@ -32,7 +32,7 @@ jobs:
           demo_base: ${DEMO_BASE}
       - name: Merge Dist
         shell: bash
-        run: cp -r ./demo/build/web ./docs/.vitepress/dist
+        run: cp -r ./demo/build/web ./docs/.vitepress/dist/demo
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
