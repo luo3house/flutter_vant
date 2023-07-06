@@ -73,4 +73,15 @@ class GlowlessScrollBehavior extends ScrollBehavior {
       glowless: glowless,
     );
   }
+
+  @override
+  AndroidOverscrollIndicator get androidOverscrollIndicator =>
+      parent?.androidOverscrollIndicator ?? super.androidOverscrollIndicator;
+
+  @override
+  Set<PointerDeviceKind> get dragDevices =>
+      parent?.dragDevices ?? super.dragDevices;
+
+  @override
+  bool shouldNotify(ScrollBehavior oldDelegate) => false;
 }
