@@ -226,7 +226,7 @@ class PopupState extends State<Popup> {
       curve: Curves.easeOut,
       builder: (_, x, __) {
         return IgnorePointer(
-          ignoring: x != 1,
+          ignoring: x == 0,
           child: Container(
             clipBehavior: Clip.hardEdge,
             decoration: const BoxDecoration(),
@@ -234,7 +234,7 @@ class PopupState extends State<Popup> {
               Positioned.fill(
                 child: x == 0 ? nil : Opacity(opacity: x, child: overlayFrag),
               ),
-              buildAnimatedContent(x),
+              IgnorePointer(ignoring: x != 1, child: buildAnimatedContent(x)),
             ]),
           ),
         );
