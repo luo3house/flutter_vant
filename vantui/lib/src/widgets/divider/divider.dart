@@ -4,12 +4,12 @@ import 'package:tailstyle/tailstyle.dart';
 
 enum ContentPosition { left, center, right }
 
-class VanDivider extends StatelessWidget {
+class Divider extends StatelessWidget {
   final Widget? child;
   final ContentPosition? contentPosition;
   final TextStyle? textStyle;
 
-  const VanDivider({
+  const Divider({
     this.contentPosition,
     this.child,
     this.textStyle,

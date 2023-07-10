@@ -1,4 +1,5 @@
 import 'package:demo/doc/doc_title.dart';
+import 'package:demo/widgets/child.dart';
 import 'package:demo/widgets/watch_model.dart';
 import 'package:demo/widgets/with_value.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
@@ -37,9 +38,44 @@ class CalendarPageState extends State<CalendarPage> {
 
       return ListView(children: [
         const DocTitle("基本用法"),
-        VanCellGroup(children: [
+
+        NilChild(
           // @DocsDemo("选择单个日期")
-          VanCell(
+          Calendar(
+            value: DateTime.now(),
+            onChange: (days) => {days[0]},
+          ),
+          // @DocsDemo
+        ),
+        NilChild(
+          // @DocsDemo("选择多个日期")
+          Calendar(
+            type: CalendarType.multiple,
+            value: [DateTime.now()],
+            onChange: (days) => {},
+          ),
+          // @DocsDemo
+        ),
+        NilChild(
+          // @DocsDemo("选择日期区间")
+          Calendar(
+            type: CalendarType.range,
+            value: [DateTime.now(), DateTime.now().addDays(1)],
+            onChange: (fromTo) => {fromTo[0], fromTo[1]},
+          ),
+          // @DocsDemo
+        ),
+        NilChild(
+          // @DocsDemo("选择日期区间")
+          Calendar(
+            minDate: DateTime(2010, 1, 1),
+            maxDate: DateTime(2010, 2, 1),
+          ),
+          // @DocsDemo
+        ),
+
+        CellGroup(children: [
+          Cell(
             clickable: true,
             onTap: () => singleShow.value = true,
             title: "选择单个日期",
@@ -66,10 +102,7 @@ class CalendarPageState extends State<CalendarPage> {
               );
             }),
           ),
-          // @DocsDemo
-
-          // @DocsDemo("选择多个日期")
-          VanCell(
+          Cell(
             clickable: true,
             onTap: () => multipleShow.value = true,
             title: "选择多个日期",
@@ -97,9 +130,7 @@ class CalendarPageState extends State<CalendarPage> {
               );
             }),
           ),
-
-          // @DocsDemo("选择日期区间")
-          VanCell(
+          Cell(
             clickable: true,
             onTap: () => rangeShow.value = true,
             title: "选择日期区间",
@@ -129,12 +160,10 @@ class CalendarPageState extends State<CalendarPage> {
               );
             }),
           ),
-          // @DocsDemo
         ]),
 
         const DocTitle("自定义日历"),
-        // @DocsDemo("自定义日历")
-        VanCell(
+        Cell(
           clickable: true,
           onTap: () => minmaxShow.value = true,
           title: "自定义日期范围",
@@ -163,7 +192,6 @@ class CalendarPageState extends State<CalendarPage> {
             );
           }),
         ),
-        // @DocsDemo
 
         const DocTitle("平铺展示"),
         // @DocsDemo("平铺展示")

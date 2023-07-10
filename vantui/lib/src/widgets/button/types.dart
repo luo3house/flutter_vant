@@ -1,3 +1,3 @@
-enum VanBtnType { primary, success, warning, danger }
+enum ButtonType { primary, success, warning, danger }
 
-enum VanBtnSize { large, small, mini }
+enum ButtonSize { large, small, mini }

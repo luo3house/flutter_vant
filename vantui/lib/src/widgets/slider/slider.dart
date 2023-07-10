@@ -6,7 +6,7 @@ import 'package:flutter_vantui/src/widgets/form/types.dart';
 import 'package:tailstyle/tailstyle.dart';
 import 'package:tuple/tuple.dart';
 
-class VanSlider extends StatefulWidget implements FormItemChild<double> {
+class Slider extends StatefulWidget implements FormItemChild<double> {
   @override
   final double? value;
   @override
@@ -20,7 +20,7 @@ class VanSlider extends StatefulWidget implements FormItemChild<double> {
   final Color? inactiveBg;
   final double? barHeight;
 
-  const VanSlider({
+  const Slider({
     this.value,
     this.min,
     this.max,
@@ -36,13 +36,13 @@ class VanSlider extends StatefulWidget implements FormItemChild<double> {
 
   @override
   State<StatefulWidget> createState() {
-    return VanSliderState();
+    return SliderState();
   }
 
   @override
   FormItemChild<double> cloneWithFormItemChild(
       {Function(double v)? onChange, double? value}) {
-    return VanSlider(
+    return Slider(
       value: value,
       min: min,
       max: max,
@@ -55,7 +55,7 @@ class VanSlider extends StatefulWidget implements FormItemChild<double> {
   }
 }
 
-class VanSliderState extends State<VanSlider> {
+class SliderState extends State<Slider> {
   PointerData? pointer;
   bool instant = false;
   double value = 0;
@@ -141,7 +141,7 @@ class VanSliderState extends State<VanSlider> {
   }
 
   @override
-  void didUpdateWidget(covariant VanSlider oldWidget) {
+  void didUpdateWidget(covariant Slider oldWidget) {
     super.didUpdateWidget(oldWidget);
     value = widget.value ?? 0;
   }

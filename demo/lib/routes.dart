@@ -51,7 +51,7 @@ LocationBuilder withScaffold(LocationBuilder builder) {
   return (location) {
     return Scaffold(
       backgroundColor: const Color(0xFFF0F2F5),
-      appBar: const VanNavBar(title: "Flutter Vant UI"),
+      appBar: const NavBar(title: "Flutter Vant UI"),
       body: builder(location),
     );
   };

@@ -1,3 +1,4 @@
+import 'package:demo/widgets/child.dart';
 import 'package:flutter/material.dart' show Scrollbar;
 import 'package:flutter/widgets.dart';
 import 'package:demo/doc/doc_title.dart';
@@ -34,77 +35,85 @@ class TimePickerPage extends StatelessWidget {
           //
           const DocTitle("Column Type"),
           WithModel(const <int>[12, 0], (model) {
-            // @DocsDemo("选项类型")
-            return TimePicker(
-              columnsType: const {
-                TimePickerColumn.hour,
-                TimePickerColumn.minute
-              },
-              value: model.value,
-              onChange: (value) => model.value = value,
+            return Child(
+              // @DocsDemo("选项类型")
+              TimePicker(
+                columnsType: const {
+                  TimePickerColumn.hour,
+                  TimePickerColumn.minute
+                },
+                value: model.value,
+                onChange: (value) => model.value = value,
+              ),
+              // @DocsDemo
             );
-            // @DocsDemo
           }),
 
           //
           const DocTitle("Range"),
           WithModel(const <int>[], (model) {
-            // @DocsDemo("时间范围")
-            return TimePicker(
-              columnsType: const {
-                TimePickerColumn.hour,
-                TimePickerColumn.minute
-              },
-              minHour: 10,
-              maxHour: 20,
-              minMinute: 30,
-              maxMinute: 40,
-              value: model.value,
-              onChange: (value) => model.value = value,
+            return Child(
+              // @DocsDemo("时间范围")
+              TimePicker(
+                columnsType: const {
+                  TimePickerColumn.hour,
+                  TimePickerColumn.minute
+                },
+                minHour: 10,
+                maxHour: 20,
+                minMinute: 30,
+                maxMinute: 40,
+                value: model.value,
+                onChange: (value) => model.value = value,
+              ),
+              // @DocsDemo
             );
-            // @DocsDemo
           }),
 
           //
           const DocTitle("Formatter"),
           WithModel(const <int>[], (model) {
-            // @DocsDemo("格式化选项")
-            return TimePicker(
-              columnsType: const {
-                TimePickerColumn.hour,
-                TimePickerColumn.minute
-              },
-              formatter: {
-                TimePickerColumn.hour: (option) =>
-                    option..name = "${option.value}时",
-                TimePickerColumn.minute: (option) =>
-                    option..name = "${option.value}分",
-                TimePickerColumn.second: (option) =>
-                    option..name = "${option.value}秒",
-              },
-              value: model.value,
-              onChange: (value) => model.value = value,
+            return Child(
+              // @DocsDemo("格式化选项")
+              TimePicker(
+                columnsType: const {
+                  TimePickerColumn.hour,
+                  TimePickerColumn.minute
+                },
+                formatter: {
+                  TimePickerColumn.hour: (option) =>
+                      option..name = "${option.value}时",
+                  TimePickerColumn.minute: (option) =>
+                      option..name = "${option.value}分",
+                  TimePickerColumn.second: (option) =>
+                      option..name = "${option.value}秒",
+                },
+                value: model.value,
+                onChange: (value) => model.value = value,
+              ),
+              // @DocsDemo
             );
-            // @DocsDemo
           }),
 
           //
           const DocTitle("Filter"),
           WithModel(const <int>[], (model) {
-            // @DocsDemo("过滤选项")
-            return TimePicker(
-              columnsType: const {
-                TimePickerColumn.hour,
-                TimePickerColumn.minute
-              },
-              filter: {
-                TimePickerColumn.minute: (options) =>
-                    List.of(options.where((m) => m.value % 10 == 0)),
-              },
-              value: model.value,
-              onChange: (value) => model.value = value,
+            return Child(
+              // @DocsDemo("过滤选项")
+              TimePicker(
+                columnsType: const {
+                  TimePickerColumn.hour,
+                  TimePickerColumn.minute
+                },
+                filter: {
+                  TimePickerColumn.minute: (options) =>
+                      List.of(options.where((m) => m.value % 10 == 0)),
+                },
+                value: model.value,
+                onChange: (value) => model.value = value,
+              ),
+              // @DocsDemo
             );
-            // @DocsDemo
           }),
         ]),
       );

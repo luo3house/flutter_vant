@@ -4,7 +4,7 @@ import '../popup/index.dart';
 import 'body.dart';
 import 'action.dart';
 
-class VanDialog extends StatelessWidget {
+class Dialog extends StatelessWidget {
   final bool? show;
   final dynamic title;
   final dynamic message;
@@ -14,7 +14,7 @@ class VanDialog extends StatelessWidget {
   final Function()? onClose;
   final Function()? onInvalidate;
 
-  const VanDialog({
+  const Dialog({
     this.show,
     this.title,
     this.message,

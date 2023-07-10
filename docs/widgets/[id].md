@@ -1,3 +1,7 @@
+---
+outline: deep
+---
+
 # {{ $params.title }}
 
 <template v-if="$params.desc">

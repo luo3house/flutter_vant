@@ -1,3 +1,4 @@
+import 'package:demo/widgets/child.dart';
 import 'package:flutter/widgets.dart';
 import 'package:demo/doc/doc_title.dart';
 import 'package:demo/widgets/with_value.dart';
@@ -20,7 +21,7 @@ class SwitchPage extends StatelessWidget {
             const DocTitle("基础用法"),
             DocPadding(
               // @DocsDemo("基础用法")
-              VanSwitch(
+              Switch(
                 onChange: (v) => model.value = v,
                 value: model.value,
               ),
@@ -29,7 +30,7 @@ class SwitchPage extends StatelessWidget {
             const DocTitle("禁用状态"),
             DocPadding(
               // @DocsDemo("禁用状态")
-              VanSwitch(
+              Switch(
                 value: model.value,
                 disabled: true,
               ),
@@ -42,45 +43,51 @@ class SwitchPage extends StatelessWidget {
       //
       const DocTitle("自定义大小"),
       DocPadding(WithModel(true, (model) {
-        // @DocsDemo("自定义大小")
-        return VanSwitch(
-          value: model.value,
-          onChange: (v) => model.value = v,
-          size: 20,
+        return Child(
+          // @DocsDemo("自定义大小")
+          Switch(
+            value: model.value,
+            onChange: (v) => model.value = v,
+            size: 20,
+          ),
+          // @DocsDemo
         );
-        // @DocsDemo
       })),
 
       const DocTitle("自定义颜色"),
       DocPadding(WithModel(true, (model) {
-        // @DocsDemo("自定义颜色")
-        return VanSwitch(
-          value: model.value,
-          onChange: (v) => model.value = v,
-          bgOnColor: const Color(0xFFEE0A24),
+        return Child(
+          // @DocsDemo("自定义颜色")
+          Switch(
+            value: model.value,
+            onChange: (v) => model.value = v,
+            bgOnColor: const Color(0xFFEE0A24),
+          ),
+          // @DocsDemo
         );
-        // @DocsDemo
       })),
 
       //
       const DocTitle("自定义按钮"),
       DocPadding(WithModel(true, (model) {
-        // @DocsDemo("自定义按钮")
-        return VanSwitch(
-          value: model.value,
-          onChange: (v) => model.value = v,
-          drawThumb: (v) => Icon(v ? VanIcons.success : VanIcons.cross),
+        return Child(
+          // @DocsDemo("自定义按钮")
+          Switch(
+            value: model.value,
+            onChange: (v) => model.value = v,
+            drawThumb: (v) => Icon(v ? VanIcons.success : VanIcons.cross),
+          ),
+          // @DocsDemo
         );
-        // @DocsDemo
       })),
 
       const DocTitle("搭配单元格使用"),
       // @DocsDemo("搭配单元格使用")
-      VanCell(
+      Cell(
         title: "标题",
         center: true,
         value: WithModel(true, (model) {
-          return VanSwitch(
+          return Switch(
             value: model.value,
             onChange: (v) => model.value = v,
           );

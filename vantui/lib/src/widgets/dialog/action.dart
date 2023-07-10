@@ -56,13 +56,13 @@ class VanDialogConfirm extends StatelessWidget implements DialogActionLike {
 
     if (enableCancel) {
       buttons.add(
-        VanBtn(
+        Button(
           square: true,
           block: true,
           text: cancelText ?? '取消',
           borderColor: const Color(0x00000000),
           plain: true,
-          size: VanBtnSize.large,
+          size: ButtonSize.large,
           loading: loading,
           onTap: () {
             onCancel?.call();
@@ -73,14 +73,14 @@ class VanDialogConfirm extends StatelessWidget implements DialogActionLike {
     }
 
     if (enableOK) {
-      buttons.add(VanBtn(
+      buttons.add(Button(
         square: true,
         block: true,
         text: okText ?? '确定',
-        type: warning == true ? VanBtnType.warning : VanBtnType.primary,
+        type: warning == true ? ButtonType.warning : ButtonType.primary,
         borderColor: const Color(0x00000000),
         plain: true,
-        size: VanBtnSize.large,
+        size: ButtonSize.large,
         loading: loading,
         onTap: () {
           onOK?.call();

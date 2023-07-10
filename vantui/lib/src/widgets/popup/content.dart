@@ -8,7 +8,7 @@ import 'types.dart';
 
 // typedef MaxSizeInterpolate = Size Function(Size maxSize);
 
-class VanPopupContent extends StatelessWidget {
+class PopupContent extends StatelessWidget {
   final PopupPosition? position;
   final EdgeInsets? padding;
   final bool? round;
@@ -16,7 +16,7 @@ class VanPopupContent extends StatelessWidget {
   final Widget? child;
   final Function(Size size)? onLayout;
 
-  const VanPopupContent({
+  const PopupContent({
     this.position,
     this.padding,
     this.round,

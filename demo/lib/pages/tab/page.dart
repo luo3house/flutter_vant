@@ -48,10 +48,16 @@ class TabPage extends StatelessWidget {
           Text("标签")
         ]);
         return Tabs(active: model.value, children: [
-          Tab("1",
-              title: title, child: tabBox.Container(child: const Text("标签 1"))),
-          Tab("2",
-              title: title, child: tabBox.Container(child: const Text("标签 2"))),
+          Tab(
+            "1",
+            title: title,
+            child: tabBox.Container(child: const Text("标签 1")),
+          ),
+          Tab(
+            "2",
+            title: title,
+            child: tabBox.Container(child: const Text("标签 2")),
+          ),
         ]);
       }),
       // @DocsDemo

@@ -4,7 +4,7 @@ import '../_util/has_next_widget.dart';
 import '_flex.dart';
 import 'package:tailstyle/tailstyle.dart';
 
-class VanCell extends StatefulWidget {
+class Cell extends StatefulWidget {
   final dynamic title;
   final dynamic value;
   final String? label;
@@ -15,7 +15,7 @@ class VanCell extends StatefulWidget {
   final bool? clickable;
   final Function()? onTap;
 
-  const VanCell({
+  const Cell({
     this.title,
     this.value,
     this.label,
@@ -30,11 +30,11 @@ class VanCell extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return VanCellState();
+    return CellState();
   }
 }
 
-class VanCellState extends State<VanCell> {
+class CellState extends State<Cell> {
   bool hasNext = false;
 
   bool get center => widget.center == true;

@@ -1,4 +1,5 @@
 import 'package:demo/doc/doc_title.dart';
+import 'package:demo/widgets/child.dart';
 import 'package:demo/widgets/with_value.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
 import 'package:flutter/widgets.dart';
@@ -14,59 +15,87 @@ class CheckboxPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      const DocTitle("Basic Usage"),
-      // @DocsDemo("基本用法")
+      NilChild(
+        // @DocsDemo("基本用法")
+        Checkbox(
+          label: "复选框",
+          checked: true,
+          onChange: (checked) => {},
+        ),
+        // @DocsDemo
+      ),
+
+      const DocTitle("基本用法"),
       DocPadding(WithModel(
         false,
-        (model) => VanCheckbox(
-          label: "Checkbox",
+        (model) => Checkbox(
+          label: "复选框",
           checked: model.value,
           onChange: (v) => model.value = v,
         ),
       )),
-      // @DocsDemo
 
       //
-      const DocTitle("Disabled"),
-      // @DocsDemo("禁用状态")
-      const DocPadding(VanCheckbox(label: "Checkbox", disabled: true)),
+      const DocTitle("禁用状态"),
+      const DocPadding(
+        // @DocsDemo("禁用状态")
+        Checkbox(label: "复选框", disabled: true),
+        // @DocsDemo
+      ),
       const SizedBox(height: 8),
       const DocPadding(
-        VanCheckbox(label: "Checkbox", disabled: true, checked: true),
+        Checkbox(label: "复选框", disabled: true, checked: true),
       ),
-      // @DocsDemo
 
       const DocTitle("Shape"),
-      // @DocsDemo("形状")
+      const NilChild(
+        // @DocsDemo("形状")
+        Checkbox(shape: BoxShape.rectangle, checked: true),
+        // @DocsDemo
+      ),
       DocPadding(WithModel(
         false,
-        (model) => VanCheckbox(
-          label: "Checkbox",
+        (model) => Checkbox(
+          label: "复选框",
           checked: model.value,
           shape: BoxShape.rectangle,
           onChange: (v) => model.value = v,
         ),
       )),
-      // @DocsDemo
 
       const DocTitle("Color"),
-      // @DocsDemo("颜色")
+      const NilChild(
+        // @DocsDemo("颜色")
+        Checkbox(checkedColor: Color(0xFFEE0A24), checked: true),
+        // @DocsDemo
+      ),
       DocPadding(WithModel(
         false,
-        (model) => VanCheckbox(
-          label: "Checkbox",
+        (model) => Checkbox(
+          label: "复选框",
           checked: model.value,
           checkedColor: const Color(0xFFEE0A24),
           onChange: (v) => model.value = v,
         ),
       )),
-      // @DocsDemo
 
       const DocTitle("Icon"),
-      // @DocsDemo("图标")
+      NilChild(
+        // @DocsDemo("图标")
+        Checkbox(
+          checked: true,
+          icon: (checked) {
+            final icon = checked //
+                ? Icons.visibility
+                : Icons.visibility_off;
+            return FittedBox(child: Icon(icon));
+          },
+        ),
+        // @DocsDemo
+      ),
       DocPadding(WithModel(
         false,
-        (model) => VanCheckbox(
+        (model) => Checkbox(
           label: "Icon",
           checked: model.value,
           onChange: (v) => model.value = v,
@@ -78,7 +107,6 @@ class CheckboxPage extends StatelessWidget {
           },
         ),
       )),
-      // @DocsDemo
     ]);
   }
 }

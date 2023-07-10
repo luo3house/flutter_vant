@@ -9,9 +9,9 @@ import 'package:tailstyle/tailstyle.dart';
 import 'types.dart';
 export 'package:flutter_vantui/src/widgets/button/pressable.dart';
 
-class VanBtn extends StatelessWidget {
-  final VanBtnType? type;
-  final VanBtnSize? size;
+class Button extends StatelessWidget {
+  final ButtonType? type;
+  final ButtonSize? size;
   final String? text;
   final bool? block;
   final bool? plain;
@@ -24,7 +24,7 @@ class VanBtn extends StatelessWidget {
   final dynamic icon;
   final Function()? onTap;
   final Color? borderColor;
-  const VanBtn({
+  const Button({
     this.type,
     this.size,
     this.text,
@@ -49,10 +49,10 @@ class VanBtn extends StatelessWidget {
     final bg = <dynamic, Color>{
       "plain": theme.white,
       null: theme.white,
-      VanBtnType.primary: theme.primaryColor,
-      VanBtnType.success: theme.successColor,
-      VanBtnType.danger: theme.dangerColor,
-      VanBtnType.warning: theme.warningColor,
+      ButtonType.primary: theme.primaryColor,
+      ButtonType.success: theme.successColor,
+      ButtonType.danger: theme.dangerColor,
+      ButtonType.warning: theme.warningColor,
     }[plain == true ? "plain" : type];
 
     final borderWidth = theme.borderWidth;
@@ -60,18 +60,18 @@ class VanBtn extends StatelessWidget {
     final borderColor = this.borderColor ??
         <dynamic, Color>{
           null: theme.gray4,
-          VanBtnType.primary: theme.primaryColor,
-          VanBtnType.success: theme.successColor,
-          VanBtnType.danger: theme.dangerColor,
-          VanBtnType.warning: theme.warningColor,
+          ButtonType.primary: theme.primaryColor,
+          ButtonType.success: theme.successColor,
+          ButtonType.danger: theme.dangerColor,
+          ButtonType.warning: theme.warningColor,
         }[type]!;
 
     final color = <dynamic, Color>{
       null: theme.textColor,
-      VanBtnType.primary: plain == true ? theme.primaryColor : theme.white,
-      VanBtnType.success: plain == true ? theme.successColor : theme.white,
-      VanBtnType.danger: plain == true ? theme.dangerColor : theme.white,
-      VanBtnType.warning: plain == true ? theme.warningColor : theme.white,
+      ButtonType.primary: plain == true ? theme.primaryColor : theme.white,
+      ButtonType.success: plain == true ? theme.successColor : theme.white,
+      ButtonType.danger: plain == true ? theme.dangerColor : theme.white,
+      ButtonType.warning: plain == true ? theme.warningColor : theme.white,
     }[type];
 
     final rounded = <dynamic, double>{
@@ -83,17 +83,17 @@ class VanBtn extends StatelessWidget {
 
     final px = <dynamic, double>{
       null: 15,
-      VanBtnSize.large: 17,
-      VanBtnSize.small: theme.paddingXs,
-      VanBtnSize.mini: theme.paddingBase,
+      ButtonSize.large: 17,
+      ButtonSize.small: theme.paddingXs,
+      ButtonSize.mini: theme.paddingBase,
     }[size]!;
     final py = px / (2 / 1);
 
     final fontSize = <dynamic, double>{
       null: theme.fontSizeMd,
-      VanBtnSize.large: theme.fontSizeLg,
-      VanBtnSize.small: theme.fontSizeSm,
-      VanBtnSize.mini: theme.fontSizeXs,
+      ButtonSize.large: theme.fontSizeLg,
+      ButtonSize.small: theme.fontSizeSm,
+      ButtonSize.mini: theme.fontSizeXs,
     }[size]!;
 
     final loading = this.loading == true;
@@ -115,11 +115,11 @@ class VanBtn extends StatelessWidget {
       true: MainAxisSize.max,
     }[block]!;
 
-    final height = <VanBtnSize?, double>{
-      VanBtnSize.large: 50,
+    final height = <ButtonSize?, double>{
+      ButtonSize.large: 50,
       null: 44,
-      VanBtnSize.small: 32,
-      VanBtnSize.mini: 24,
+      ButtonSize.small: 32,
+      ButtonSize.mini: 24,
     }[size]!;
 
     final disabled = this.disabled == true;

@@ -73,7 +73,7 @@ class PickerPageState extends State<PickerPage> {
     return ListView(children: [
       const DocTitle("基本用法"),
       // @DocsDemo("基本用法")
-      VanPicker(
+      Picker(
         // ignore: avoid_print
         onChange: (values) => print(values),
         columns: citiesColumns,
@@ -82,7 +82,7 @@ class PickerPageState extends State<PickerPage> {
 
       const DocTitle("无限滑动"),
       // @DocsDemo("无限滑动")
-      VanPicker(columns: citiesColumns, loop: true),
+      Picker(columns: citiesColumns, loop: true),
       // @DocsDemo
 
       //
@@ -91,7 +91,7 @@ class PickerPageState extends State<PickerPage> {
       ValueListenableBuilder(
         valueListenable: popupValues,
         builder: (_, values, __) {
-          return VanCell(
+          return Cell(
             title: "选择城市: ${values.join('')}",
             clickable: true,
             onTap: () => popupShow.value = true,
@@ -103,7 +103,7 @@ class PickerPageState extends State<PickerPage> {
         round: true,
         position: PopupPosition.bottom,
         child: WatchModel(popupValues, (model) {
-          return VanPicker(
+          return Picker(
             onCancel: (_) => popupShow.value = false,
             onConfirm: (_) => popupShow.value = false,
             columns: citiesColumns,
@@ -116,12 +116,12 @@ class PickerPageState extends State<PickerPage> {
 
       const DocTitle("多列选择"),
       // @DocsDemo("多列选择")
-      VanPicker(columns: weekTimesColumns),
+      Picker(columns: weekTimesColumns),
       // @DocsDemo
 
       const DocTitle("级联选择"),
       // @DocsDemo("级联选择")
-      VanPicker(columns: cascadeCities),
+      Picker(columns: cascadeCities),
       // @DocsDemo
     ]);
   }

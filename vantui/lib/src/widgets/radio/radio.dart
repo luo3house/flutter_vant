@@ -3,9 +3,9 @@ import 'package:flutter/widgets.dart';
 import '../checkbox/checkbox.dart';
 import 'provider.dart';
 
-class VanRadio extends VanCheckbox {
+class Radio extends Checkbox {
   final String? name;
-  const VanRadio({
+  const Radio({
     super.checked,
     super.onChange,
     super.shape,

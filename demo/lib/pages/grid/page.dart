@@ -14,7 +14,7 @@ class GridPage extends StatelessWidget {
     return ListView(children: [
       const DocTitle("Basic Usage"),
       // @DocsDemo("基本用法")
-      const VanGrid(children: [
+      const Grid(children: [
         GridItem(icon: VanIcons.photo_o, text: "Text"),
         GridItem(icon: VanIcons.photo_o, text: "Text"),
         GridItem(icon: VanIcons.photo_o, text: "Text"),
@@ -24,7 +24,7 @@ class GridPage extends StatelessWidget {
 
       const DocTitle("Custom column length"),
       // @DocsDemo("自定义列数")
-      VanGrid(
+      Grid(
         columnNum: 3,
         children: List.generate(
             6, (index) => const GridItem(icon: VanIcons.photo_o, text: "Text")),
@@ -33,7 +33,7 @@ class GridPage extends StatelessWidget {
 
       const DocTitle("Custom content"),
       // @DocsDemo("自定义内容")
-      VanGrid(columnNum: 3, children: [
+      Grid(columnNum: 3, children: [
         GridItem(
             child: Image.network(
                 "https://fastly.jsdelivr.net/npm/@vant/assets/apple-1.jpeg")),
@@ -48,7 +48,7 @@ class GridPage extends StatelessWidget {
 
       const DocTitle("Square"),
       // @DocsDemo("正方形格子")
-      VanGrid(
+      Grid(
         columnNum: 4,
         children: List.generate(
           8,
@@ -62,22 +62,21 @@ class GridPage extends StatelessWidget {
 
       const DocTitle("Gutter"),
       // @DocsDemo("格子间距")
-      VanGrid(
-        columnNum: 4,
-        gutter: 10,
-        children: List.generate(
-          8,
-          (index) => const GridItem(
-            icon: VanIcons.photo_o,
-            text: "Text",
-          ),
-        ),
-      ),
+      const Grid(columnNum: 4, gutter: 10, children: [
+        GridItem(icon: VanIcons.photo_o, text: "Text"),
+        GridItem(icon: VanIcons.photo_o, text: "Text"),
+        GridItem(icon: VanIcons.photo_o, text: "Text"),
+        GridItem(icon: VanIcons.photo_o, text: "Text"),
+        GridItem(icon: VanIcons.photo_o, text: "Text"),
+        GridItem(icon: VanIcons.photo_o, text: "Text"),
+        GridItem(icon: VanIcons.photo_o, text: "Text"),
+        GridItem(icon: VanIcons.photo_o, text: "Text"),
+      ]),
       // @DocsDemo
 
       const DocTitle("Horizontal"),
       // @DocsDemo("内容横排")
-      VanGrid(
+      Grid(
         columnNum: 3,
         children: List.generate(
           3,
@@ -93,25 +92,27 @@ class GridPage extends StatelessWidget {
       //
       const DocTitle("Clickable"),
       // @DocsDemo("点击触发事件")
-      VanGrid(
+      Grid(
         columnNum: 3,
         children: List.generate(
           3,
           (index) => const GridItem(
-              clickable: true,
-              direction: Axis.horizontal,
-              icon: VanIcons.photo_o,
-              text: "Text"),
+            clickable: true,
+            direction: Axis.horizontal,
+            icon: VanIcons.photo_o,
+            text: "Text",
+          ),
         ),
       ),
       // @DocsDemo
 
-      //
       const DocTitle("Badge"),
-      const VanGrid(columnNum: 2, children: [
+      // @DocsDemo("带徽标")
+      const Grid(columnNum: 2, children: [
         GridItem(dot: true, icon: VanIcons.home_o, text: "Text"),
         GridItem(badge: "99+", icon: VanIcons.search, text: "Text"),
       ]),
+      // @DocsDemo
     ]);
   }
 }

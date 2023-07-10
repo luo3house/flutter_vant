@@ -5,7 +5,7 @@ import 'package:tailstyle/tailstyle.dart';
 
 typedef InputByChecked = Widget Function(bool checked);
 
-class VanCheckboxInput extends StatelessWidget {
+class CheckboxInput extends StatelessWidget {
   static const size = 20.0;
 
   final bool disabled;
@@ -14,7 +14,7 @@ class VanCheckboxInput extends StatelessWidget {
   final Color? checkedColor;
   final dynamic icon;
 
-  const VanCheckboxInput({
+  const CheckboxInput({
     required this.disabled,
     required this.checked,
     required this.shape,

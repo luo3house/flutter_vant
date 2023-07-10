@@ -47,7 +47,7 @@ class VanField extends StatelessWidget {
         final width = fontSize * 6.2; // 6.2em
         return SizedBox(width: width, child: child);
       }),
-      child: VanCell(
+      child: Cell(
         title: label,
         arrow: arrow,
         value: Align(alignment: Alignment.centerLeft, child: cellValue),

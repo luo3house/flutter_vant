@@ -9,7 +9,7 @@ import '../config/index.dart';
 import '../form/types.dart';
 import '../icon/index.dart';
 
-class VanRate extends StatefulWidget implements FormItemChild<double> {
+class Rate extends StatefulWidget implements FormItemChild<double> {
   @override
   final double? value;
   @override
@@ -23,7 +23,7 @@ class VanRate extends StatefulWidget implements FormItemChild<double> {
   final double? gap;
   final bool? allowHalf;
 
-  const VanRate({
+  const Rate({
     this.value,
     this.count,
     this.size,
@@ -39,13 +39,13 @@ class VanRate extends StatefulWidget implements FormItemChild<double> {
 
   @override
   State<StatefulWidget> createState() {
-    return VanRateState();
+    return RateState();
   }
 
   @override
   FormItemChild<double> cloneWithFormItemChild(
       {Function(double v)? onChange, double? value}) {
-    return VanRate(
+    return Rate(
       value: value,
       count: count,
       size: size,
@@ -59,7 +59,7 @@ class VanRate extends StatefulWidget implements FormItemChild<double> {
   }
 }
 
-class VanRateState extends State<VanRate> {
+class RateState extends State<Rate> {
   Offset? panBase;
   double lastReportChangeValue = 0;
 

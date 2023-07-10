@@ -6,7 +6,7 @@ import 'package:tailstyle/tailstyle.dart';
 
 typedef LabelByChecked = dynamic Function(bool checked);
 
-class VanCheckbox extends StatelessWidget implements FormItemChild<bool> {
+class Checkbox extends StatelessWidget implements FormItemChild<bool> {
   final bool? checked;
   @override
   final Function(bool v)? onChange;
@@ -16,7 +16,7 @@ class VanCheckbox extends StatelessWidget implements FormItemChild<bool> {
   final bool? disabled;
   final Color? checkedColor;
 
-  const VanCheckbox({
+  const Checkbox({
     this.checked,
     this.onChange,
     this.shape,
@@ -32,7 +32,7 @@ class VanCheckbox extends StatelessWidget implements FormItemChild<bool> {
     Function(bool v)? onChange,
     bool? value,
   }) {
-    return VanCheckbox(
+    return Checkbox(
       checked: value,
       onChange: onChange,
       shape: shape,
@@ -58,7 +58,7 @@ class VanCheckbox extends StatelessWidget implements FormItemChild<bool> {
   }
 
   Widget buildInput(BuildContext context) {
-    return VanCheckboxInput(
+    return CheckboxInput(
       disabled: isDisabled(),
       checked: isChecked(context),
       shape: getShape(),

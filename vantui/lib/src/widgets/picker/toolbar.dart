@@ -24,7 +24,7 @@ class PickerToolBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = VanConfig.ofTheme(context);
 
-    return VanNavBar(
+    return NavBar(
       title: title ?? "标题",
       leftArrow: false,
       leftText: TailTypo() //

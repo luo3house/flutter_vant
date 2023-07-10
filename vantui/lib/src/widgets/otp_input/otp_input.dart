@@ -85,7 +85,7 @@ class OTPInputState extends State<OTPInput> {
 
     return FocusTrapArea(
       focusNode: focusNode,
-      child: VanInput(
+      child: Input(
         keyboardType: const TextInputType.numberWithOptions(),
         autoFocus: autoFocus,
         focusNode: focusNode,

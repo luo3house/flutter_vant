@@ -20,11 +20,11 @@ class ButtonPage extends StatelessWidget {
       Wrap(children: [
         ...mapWithGutter([
           // @DocsDemo("按钮类型")
-          const VanBtn(text: "Primary", type: VanBtnType.primary),
-          const VanBtn(text: "Success", type: VanBtnType.success),
-          const VanBtn(text: "Default", type: null),
-          const VanBtn(text: "Danger", type: VanBtnType.danger),
-          const VanBtn(text: "Warning", type: VanBtnType.warning),
+          const Button(text: "Primary", type: ButtonType.primary),
+          const Button(text: "Success", type: ButtonType.success),
+          const Button(text: "Default", type: null),
+          const Button(text: "Danger", type: ButtonType.danger),
+          const Button(text: "Warning", type: ButtonType.warning),
           // @DocsDemo
         ])
       ]),
@@ -33,8 +33,8 @@ class ButtonPage extends StatelessWidget {
       Wrap(children: [
         ...mapWithGutter([
           // @DocsDemo("朴素按钮")
-          const VanBtn(text: "Plain", type: VanBtnType.primary, plain: true),
-          const VanBtn(text: "Plain", type: VanBtnType.success, plain: true),
+          const Button(text: "Plain", type: ButtonType.primary, plain: true),
+          const Button(text: "Plain", type: ButtonType.success, plain: true),
           // @DocsDemo
         ]),
       ]),
@@ -44,14 +44,14 @@ class ButtonPage extends StatelessWidget {
       Wrap(children: [
         ...mapWithGutter([
           // @DocsDemo("禁用状态")
-          const VanBtn(
+          const Button(
             text: "Disabled",
-            type: VanBtnType.primary,
+            type: ButtonType.primary,
             disabled: true,
           ),
-          const VanBtn(
+          const Button(
             text: "Disabled",
-            type: VanBtnType.success,
+            type: ButtonType.success,
             disabled: true,
           ),
           // @DocsDemo
@@ -62,8 +62,8 @@ class ButtonPage extends StatelessWidget {
       Wrap(children: [
         ...mapWithGutter([
           // @DocsDemo("按钮形状")
-          const VanBtn(text: "Square", type: VanBtnType.primary, square: true),
-          const VanBtn(text: "Round", type: VanBtnType.success, round: true),
+          const Button(text: "Square", type: ButtonType.primary, square: true),
+          const Button(text: "Round", type: ButtonType.success, round: true),
           // @DocsDemo
         ])
       ]),
@@ -73,26 +73,26 @@ class ButtonPage extends StatelessWidget {
       Wrap(crossAxisAlignment: WrapCrossAlignment.end, children: [
         ...mapWithGutter([
           // @DocsDemo("按钮大小")
-          const VanBtn(
+          const Button(
             text: "Large",
-            type: VanBtnType.primary,
-            size: VanBtnSize.large,
+            type: ButtonType.primary,
+            size: ButtonSize.large,
             block: true,
           ),
-          const VanBtn(
+          const Button(
             text: "Default",
-            type: VanBtnType.primary,
+            type: ButtonType.primary,
             size: null,
           ),
-          const VanBtn(
+          const Button(
             text: "Small",
-            type: VanBtnType.primary,
-            size: VanBtnSize.small,
+            type: ButtonType.primary,
+            size: ButtonSize.small,
           ),
-          const VanBtn(
+          const Button(
             text: "Mini",
-            type: VanBtnType.primary,
-            size: VanBtnSize.mini,
+            type: ButtonType.primary,
+            size: ButtonSize.mini,
           ),
           // @DocsDemo
         ])

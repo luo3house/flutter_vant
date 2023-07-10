@@ -7,12 +7,12 @@ import '../badge/badge.dart';
 import '../button/pressable.dart';
 import '../config/index.dart';
 
-class VanGrid extends StatelessWidget {
+class Grid extends StatelessWidget {
   final bool? square;
   final int? columnNum;
   final double? gutter;
   final List<GridItem>? children;
-  const VanGrid({
+  const Grid({
     this.square,
     this.columnNum,
     this.gutter,
@@ -66,7 +66,7 @@ class VanGrid extends StatelessWidget {
   }
 }
 
-class GridItem extends VanGrid {
+class GridItem extends Grid {
   final String? text;
   final dynamic icon;
   final dynamic badge;
@@ -137,7 +137,7 @@ class GridItem extends VanGrid {
       }
     }();
 
-    final iconBadge = VanBadge(
+    final iconBadge = Badge(
       content: badgeContent,
       dot: badgeDot,
       child: icon,

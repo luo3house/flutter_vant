@@ -6,7 +6,7 @@ import '../config/index.dart';
 import '../popup/index.dart';
 import 'item.dart';
 
-class VanActionSheet extends StatelessWidget {
+class ActionSheet extends StatelessWidget {
   final bool? show;
   final List<VanActionSheetItem>? actions;
   final String? description;
@@ -17,7 +17,7 @@ class VanActionSheet extends StatelessWidget {
   final Function(VanActionSheetItem item)? onSelect;
   final Function()? onInvalidate;
 
-  const VanActionSheet({
+  const ActionSheet({
     this.show,
     this.actions,
     this.description,

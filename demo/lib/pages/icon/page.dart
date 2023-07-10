@@ -40,7 +40,7 @@ class IconPage extends StatelessWidget {
               // @DocsDemo
             ])),
             const DocTitle("基础图标"),
-            const VanGrid(columnNum: 3, children: [
+            const Grid(columnNum: 3, children: [
               GridItem(icon: VanIcons.arrow, text: "arrow"),
               GridItem(icon: VanIcons.arrow_left, text: "arrow_left"),
               GridItem(icon: VanIcons.arrow_up, text: "arrow_up"),
@@ -65,7 +65,7 @@ class _IconsBrowseTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return WithModel("", (model) {
       return Column(children: [
-        VanInput(
+        Input(
           hint: "搜索",
           value: model.value,
           onChange: (v) => model.value = v,

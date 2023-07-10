@@ -79,7 +79,7 @@ class CascaderToolBar extends StatelessWidget {
 
     final iconTheme = IconThemeData(color: theme.gray5, size: 22.0);
 
-    return VanNavBar(
+    return NavBar(
       title: nil,
       // leftArrow: VanIcons.add,
       leftArrow: DefaultTextStyle(

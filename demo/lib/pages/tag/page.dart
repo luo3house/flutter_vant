@@ -1,3 +1,4 @@
+import 'package:demo/widgets/child.dart';
 import 'package:flutter/widgets.dart';
 import 'package:demo/doc/doc_title.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
@@ -13,29 +14,33 @@ class TagPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(children: [
       const DocTitle("Basic Usage"),
-      const VanCellGroup(children: [
-        // @DocsDemo("基本用法")
-        VanCell(
-            title: "primary", value: Tag(child: "Tag", type: TagType.primary)),
-        VanCell(
-            title: "success", value: Tag(child: "Tag", type: TagType.success)),
-        VanCell(
-            title: "danger", value: Tag(child: "Tag", type: TagType.danger)),
-        VanCell(
-            title: "warning", value: Tag(child: "Tag", type: TagType.warning)),
-        // @DocsDemo
-      ]),
+      CellGroup(
+        children: List.of(const [
+          // @DocsDemo("基本用法")
+          Tag(child: "Tag", type: TagType.primary),
+          Tag(child: "Tag", type: TagType.success),
+          Tag(child: "Tag", type: TagType.danger),
+          Tag(child: "Tag", type: TagType.warning),
+          // @DocsDemo
+        ].map((tag) => Cell(title: tag.type!.toString(), value: tag))),
+      ),
 
       const DocTitle("Style"),
-      VanCellGroup(children: [
-        // @DocsDemo("朴素样式、形状、图标")
-        const VanCell(
+      CellGroup(children: [
+        const NilChild([
+          // @DocsDemo("朴素样式、形状、图标")
+          Tag(child: "Tag", type: TagType.primary, plain: true),
+          Tag(child: "Tag", type: TagType.primary, round: true),
+          Tag(child: "Tag", type: TagType.primary, icon: VanIcons.cross),
+          // @DocsDemo
+        ]),
+        const Cell(
             title: "Plain",
             value: Tag(child: "Tag", type: TagType.primary, plain: true)),
-        const VanCell(
+        const Cell(
             title: "Rounded",
             value: Tag(child: "Tag", type: TagType.primary, round: true)),
-        VanCell(
+        Cell(
             title: "Icon",
             value: Tag(
               child: "Tag",
@@ -44,36 +49,39 @@ class TagPage extends StatelessWidget {
               // ignore: avoid_print
               onIconTap: () => print("icon tap"),
             )),
-        // @DocsDemo
       ]),
 
       //
       const DocTitle("Size"),
-      const VanCellGroup(children: [
-        // @DocsDemo("大小")
-        VanCell(
-            title: "small (Default)",
-            value: Tag(child: "Tag", size: TagSize.small)),
-        VanCell(
-          title: "medium",
-          value: Tag(child: "Tag", size: TagSize.medium),
-        ),
-        VanCell(
-          title: "large",
-          value: Tag(child: "Tag", size: TagSize.large),
-        ),
-        // @DocsDemo
-      ]),
+      CellGroup(
+        children: List.of(const [
+          // @DocsDemo("大小")
+          Tag(child: "Tag", size: TagSize.small),
+          Tag(child: "Tag", size: TagSize.medium),
+          Tag(child: "Tag", size: TagSize.large),
+          // @DocsDemo
+        ].map((tag) => Cell(title: tag.size!.toString(), value: tag))),
+      ),
 
       //
       const DocTitle("Colors"),
-      const VanCellGroup(children: [
-        // @DocsDemo("颜色")
-        VanCell(
+      const CellGroup(children: [
+        NilChild([
+          // @DocsDemo("颜色")
+          Tag(child: "Tag", color: Color(0xFF7232dd)),
+          Tag(
+            child: "Tag",
+            color: Color(0xFFffe1e1),
+            textColor: Color(0xFFad0000),
+          ),
+          Tag(child: "Tag", plain: true, color: Color(0xFF7232dd)),
+          // @DocsDemo
+        ]),
+        Cell(
           title: "Background Color",
           value: Tag(child: "Tag", color: Color(0xFF7232dd)),
         ),
-        VanCell(
+        Cell(
           title: "Text Color",
           value: Tag(
             child: "Tag",
@@ -81,11 +89,10 @@ class TagPage extends StatelessWidget {
             textColor: Color(0xFFad0000),
           ),
         ),
-        VanCell(
+        Cell(
           title: "Plain",
           value: Tag(child: "Tag", plain: true, color: Color(0xFF7232dd)),
         ),
-        // @DocsDemo
       ]),
     ]);
   }

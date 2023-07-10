@@ -32,7 +32,7 @@ class HeadArgs extends Tuple4<double, double, double, PullRefreshStatus> {
 
 typedef HeadBuilder = Widget Function(HeadArgs args);
 
-class VanPullRefresh extends StatefulWidget {
+class PullRefresh extends StatefulWidget {
   final Future Function()? onRefresh;
   final double? headHeight;
   final HeadBuilder? drawHead;
@@ -40,7 +40,7 @@ class VanPullRefresh extends StatefulWidget {
   final bool? lockDuringRefresh;
   final Widget? child;
 
-  const VanPullRefresh({
+  const PullRefresh({
     this.onRefresh,
     this.headHeight,
     this.drawHead,
@@ -52,11 +52,11 @@ class VanPullRefresh extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return VanPullRefreshState();
+    return PullRefreshState();
   }
 }
 
-class VanPullRefreshState extends State<VanPullRefresh> with SafeSetStateMixin {
+class PullRefreshState extends State<PullRefresh> with SafeSetStateMixin {
   static const _ready = PullRefreshStatus.ready;
   static const _pull = PullRefreshStatus.pull;
   static const _refresh = PullRefreshStatus.refresh;

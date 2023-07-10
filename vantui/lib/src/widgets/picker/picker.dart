@@ -4,14 +4,14 @@ import 'package:flutter_vantui/src/widgets/picker/panel.dart';
 import '../_util/with_value.dart';
 import 'toolbar.dart';
 
-class VanPicker extends PickerPanel {
+class Picker extends PickerPanel {
   final dynamic title;
   final String? confirmText;
   final String? cancelText;
   final Function(List? value)? onConfirm;
   final Function(List? value)? onCancel;
 
-  VanPicker({
+  Picker({
     this.title,
     this.confirmText,
     this.cancelText,
@@ -26,11 +26,11 @@ class VanPicker extends PickerPanel {
 
   @override
   State<StatefulWidget> createState() {
-    return VanPickerState();
+    return PickerState();
   }
 }
 
-class VanPickerState extends State<VanPicker> {
+class PickerState extends State<Picker> {
   @override
   Widget build(BuildContext context) {
     return WithValue(widget.values, (model) {

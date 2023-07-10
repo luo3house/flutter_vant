@@ -92,7 +92,7 @@ class IndexPage extends StatelessWidget {
             return Align(
               alignment: Alignment.centerLeft,
               child: item.Container(
-                child: VanBtn(
+                child: Button(
                   round: true,
                   plain: true,
                   text: text,

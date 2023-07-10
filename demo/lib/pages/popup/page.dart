@@ -1,3 +1,4 @@
+import 'package:demo/widgets/child.dart';
 import 'package:demo/widgets/watch_model.dart';
 import 'package:demo/widgets/with_value.dart';
 import 'package:flutter/widgets.dart';
@@ -31,11 +32,35 @@ class _PopupPage extends State<PopupPage> {
 
   @override
   Widget build(BuildContext context) {
+    NilChild(
+      // @DocsDemo("基本用法")
+      Builder(builder: (_) {
+        final model = ValueNotifier(false);
+        return Popup(show: model, child: const Text("内容"));
+      }),
+      // @DocsDemo
+    );
+
+    NilChild([
+      // @DocsDemo("弹出位置")
+      Popup(position: PopupPosition.center),
+      Popup(position: PopupPosition.top),
+      Popup(position: PopupPosition.bottom),
+      Popup(position: PopupPosition.left),
+      Popup(position: PopupPosition.right),
+      // @DocsDemo
+    ]);
+
+    NilChild(
+      // @DocsDemo("圆角弹窗")
+      Popup(round: true),
+      // @DocsDemo
+    );
+
     return Stack(children: [
       ListView(children: [
         const DocTitle("Basic Usage"),
-        // @DocsDemo("基本用法")
-        VanCell(
+        Cell(
           title: "展示弹出层",
           clickable: true,
           onTap: () => basicShow.value = true,
@@ -48,7 +73,7 @@ class _PopupPage extends State<PopupPage> {
         // @DocsDemo
 
         const DocTitle("弹出位置"),
-        VanGrid(
+        Grid(
           columnNum: 4,
           children: [
             GridItem(
@@ -104,8 +129,8 @@ class _PopupPage extends State<PopupPage> {
 
         //
         const DocTitle("圆角弹窗"),
-        VanCellGroup(children: [
-          VanCell(
+        CellGroup(children: [
+          Cell(
             title: "圆角弹窗 (居中)",
             clickable: true,
             onTap: () {
@@ -113,7 +138,7 @@ class _PopupPage extends State<PopupPage> {
               roundShow.value = true;
             },
           ),
-          VanCell(
+          Cell(
             title: "圆角弹窗 (底部)",
             clickable: true,
             onTap: () {
@@ -136,13 +161,13 @@ class _PopupPage extends State<PopupPage> {
 
         //
         const DocTitle("内容"),
-        VanCellGroup(children: [
-          VanCell(
+        CellGroup(children: [
+          Cell(
             title: "内容自适应",
             clickable: true,
             onTap: () => fitContentShow.value = true,
           ),
-          VanCell(
+          Cell(
             title: "内容溢出",
             clickable: true,
             onTap: () => listContentShow.value = true,
@@ -164,7 +189,7 @@ class _PopupPage extends State<PopupPage> {
                 child: Center(
                   child: Column(mainAxisSize: MainAxisSize.min, children: [
                     Text("Height: $height"),
-                    VanSwitch(
+                    Switch(
                       value: model.value,
                       onChange: (v) => model.value = v,
                     ),

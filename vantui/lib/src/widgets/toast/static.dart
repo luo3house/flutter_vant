@@ -4,8 +4,8 @@ import '../_util/overlay_static.dart';
 import 'types.dart';
 import 'wrap.dart';
 
-class VanToastStatic {
-  VanToastStatic._();
+class ToastStatic {
+  ToastStatic._();
 
   static const defaultInstanceKey = "VAN_TOAST_DEFAULT_KEY";
 
@@ -27,9 +27,9 @@ class VanToastStatic {
     final instanceKey = key ?? defaultInstanceKey;
     _instances.remove(instanceKey)?.call();
 
-    final handle = OverlayStatic.show<VanToastWrap>(context, (
+    final handle = OverlayStatic.show<ToastWrap>(context, (
         {required key, required onInvalidate}) {
-      return VanToastWrap(
+      return ToastWrap(
         key: key,
         onInvalidate: () {
           _instances.remove(instanceKey);

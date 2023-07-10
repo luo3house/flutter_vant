@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_vantui/src/widgets/config/index.dart';
 import 'package:tailstyle/tailstyle.dart';
 
-class VanSwitch extends StatelessWidget {
+class Switch extends StatelessWidget {
   final bool? value;
   final double? size;
   final bool? disabled;
@@ -11,7 +11,7 @@ class VanSwitch extends StatelessWidget {
   final Color? bgOnColor;
   final Widget Function(bool v)? drawThumb;
 
-  const VanSwitch({
+  const Switch({
     this.value,
     this.size,
     this.disabled,

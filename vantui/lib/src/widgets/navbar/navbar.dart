@@ -6,7 +6,7 @@ import '../../utils/nil.dart';
 import '../config/index.dart';
 import '../icon/index.dart';
 
-class VanNavBar extends StatelessWidget implements PreferredSizeWidget {
+class NavBar extends StatelessWidget implements PreferredSizeWidget {
   static const height = 46.0;
 
   final dynamic title;
@@ -20,7 +20,7 @@ class VanNavBar extends StatelessWidget implements PreferredSizeWidget {
   final Function()? onRightTap;
   final bool? noBorder;
 
-  const VanNavBar({
+  const NavBar({
     this.title,
     this.leftText,
     this.leftArrow,

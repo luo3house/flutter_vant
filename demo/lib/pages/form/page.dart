@@ -23,17 +23,17 @@ class FormPage extends StatelessWidget {
         "slider": 82.0,
       },
       child: Column(mainAxisSize: MainAxisSize.min, children: [
-        VanCellGroup(children: [
+        CellGroup(children: [
           // Input
           const VanField(
             label: "Username",
             name: "username",
-            child: VanInput(hint: "Username"),
+            child: Input(hint: "Username"),
           ),
           const VanField(
             label: "Password",
             name: "password",
-            child: VanInput(
+            child: Input(
               hint: "Password",
               obscureText: true,
               keyboardType: TextInputType.visiblePassword,
@@ -46,12 +46,12 @@ class FormPage extends StatelessWidget {
             child: Row(children: const [
               VanFormItem(
                 name: "checkbox1",
-                child: VanCheckbox(label: "Check 1", shape: BoxShape.rectangle),
+                child: Checkbox(label: "Check 1", shape: BoxShape.rectangle),
               ),
               SizedBox(width: 8),
               VanFormItem(
                 name: "checkbox2",
-                child: VanCheckbox(label: "Check 2", shape: BoxShape.rectangle),
+                child: Checkbox(label: "Check 2", shape: BoxShape.rectangle),
               ),
             ]),
           ),
@@ -60,21 +60,21 @@ class FormPage extends StatelessWidget {
           VanField(
             label: "Radios",
             name: 'radio',
-            child: VanRadioGroup(
+            child: RadioGroup(
               child: Row(children: const [
-                VanRadio(label: "Radio 1", name: "radio1"),
+                Radio(label: "Radio 1", name: "radio1"),
                 SizedBox(width: 8),
-                VanRadio(label: "Radio 2", name: "radio2"),
+                Radio(label: "Radio 2", name: "radio2"),
               ]),
             ),
           ),
 
           // Rate
-          const VanField(label: "Rate", name: 'rate', child: VanRate()),
+          const VanField(label: "Rate", name: 'rate', child: Rate()),
 
           // Slider
           const VanField(
-              label: "Slider", name: 'slider', child: VanSlider(step: 1)),
+              label: "Slider", name: 'slider', child: Slider(step: 1)),
 
           // TimePicker
           VanField(
@@ -115,13 +115,13 @@ class FormPage extends StatelessWidget {
             child: VanFormItem(
               builder: (model) {
                 return Wrap(spacing: 5, runSpacing: 5, children: [
-                  VanBtn(
-                    size: VanBtnSize.small,
+                  Button(
+                    size: ButtonSize.small,
                     onTap: () => model.form?.setFieldValues({}),
                     text: "Reset form values",
                   ),
-                  VanBtn(
-                    size: VanBtnSize.small,
+                  Button(
+                    size: ButtonSize.small,
                     text: "Reset to initial",
                     onTap: () => model.form?.resetToInitial(),
                   ),
@@ -132,16 +132,16 @@ class FormPage extends StatelessWidget {
 
           // Submit
           VanFormItem(
-            builder: (model) => VanBtn(
-              type: VanBtnType.primary,
+            builder: (model) => Button(
+              type: ButtonType.primary,
               block: true,
               text: "提交",
               onTap: () {
                 final rsp = model.form!.validate();
                 if (rsp.errors.isEmpty == true) {
-                  VanToastStatic.show(context, message: jsonEncode(rsp.values));
+                  ToastStatic.show(context, message: jsonEncode(rsp.values));
                 } else {
-                  VanToastStatic.show(context, message: rsp.errors.join("\n"));
+                  ToastStatic.show(context, message: rsp.errors.join("\n"));
                 }
               },
             ),

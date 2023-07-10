@@ -6,7 +6,7 @@ import '../../utils/nil.dart';
 import '../../utils/rendering.dart';
 import '../config/index.dart';
 
-class VanBadge extends StatefulWidget {
+class Badge extends StatefulWidget {
   final dynamic content;
   final int? max;
   final bool? showZero;
@@ -16,7 +16,7 @@ class VanBadge extends StatefulWidget {
   final double? dx;
   final double? dy;
 
-  const VanBadge({
+  const Badge({
     this.content,
     this.max,
     this.showZero,
@@ -30,11 +30,11 @@ class VanBadge extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return VanBadgeState();
+    return BadgeState();
   }
 }
 
-class VanBadgeState extends State<VanBadge> {
+class BadgeState extends State<Badge> {
   Size? size;
 
   double get w => size?.width ?? 0;

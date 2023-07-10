@@ -118,7 +118,7 @@ class TabBarItem extends StatelessWidget {
 
       final badgeContent = badge ?? 0; // 0 = hide
       final badgeDot = dot == true;
-      final badgeIcon = VanBadge(
+      final badgeIcon = Badge(
         content: badgeContent,
         dot: badgeDot,
         dy: theme.paddingBase,

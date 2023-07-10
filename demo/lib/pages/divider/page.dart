@@ -14,21 +14,21 @@ class DividerPage extends StatelessWidget {
     return ListView(children: const [
       DocTitle("Basic Usage"),
       // @DocsDemo("基本用法")
-      VanDivider(),
+      Divider(),
       // @DocsDemo
 
       DocTitle("With Text"),
       // @DocsDemo("展示文本")
-      VanDivider(child: Text("Text")),
+      Divider(child: Text("Text")),
       // @DocsDemo
 
       DocTitle("Position"),
       // @DocsDemo("内容位置")
-      VanDivider(
+      Divider(
         contentPosition: ContentPosition.left,
         child: Text("Text"),
       ),
-      VanDivider(
+      Divider(
         contentPosition: ContentPosition.right,
         child: Text("Text"),
       ),
@@ -36,7 +36,7 @@ class DividerPage extends StatelessWidget {
 
       DocTitle("Custom Style"),
       // @DocsDemo("自定义样式")
-      VanDivider(
+      Divider(
         textStyle: TextStyle(color: Color.fromRGBO(25, 137, 250, 1)),
         child: Text("Text"),
       ),

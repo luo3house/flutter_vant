@@ -16,7 +16,7 @@ class ActionSheetPage extends StatelessWidget {
         children: [
           ListView(children: [
             const DocTitle("基本用法"),
-            VanCell(
+            Cell(
               title: "基本用法",
               clickable: true,
               onTap: () {
@@ -30,11 +30,11 @@ class ActionSheetPage extends StatelessWidget {
                     const VanActionSheetItem("选项 2"),
                     const VanActionSheetItem("选项 3"),
                   ]
-                  ..onSelect = (item) =>
-                      VanToastStatic.show(context, message: item.name);
+                  ..onSelect =
+                      (item) => ToastStatic.show(context, message: item.name);
               },
             ),
-            VanCell(
+            Cell(
               title: "展示取消按钮",
               clickable: true,
               onTap: () {
@@ -49,11 +49,11 @@ class ActionSheetPage extends StatelessWidget {
                   ]
                   ..cancelText = "取消"
                   ..onCancel = () {
-                    VanToastStatic.show(context, message: "Cancel");
+                    ToastStatic.show(context, message: "Cancel");
                   };
               },
             ),
-            VanCell(
+            Cell(
               title: "展示描述信息",
               clickable: true,
               onTap: () {
@@ -73,7 +73,7 @@ class ActionSheetPage extends StatelessWidget {
 
             //
             const DocTitle("自定义选项"),
-            VanCell(
+            Cell(
               title: "自定义选项",
               clickable: true,
               onTap: () {
@@ -97,7 +97,7 @@ class ActionSheetPage extends StatelessWidget {
               },
             ),
           ]),
-          VanActionSheet(
+          ActionSheet(
             show: model.value.show,
             actions: model.value.actions,
             description: model.value.description,

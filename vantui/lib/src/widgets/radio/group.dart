@@ -4,14 +4,14 @@ import '../../utils/nil.dart';
 import '../form/types.dart';
 import 'provider.dart';
 
-class VanRadioGroup extends StatefulWidget implements FormItemChild<String?> {
+class RadioGroup extends StatefulWidget implements FormItemChild<String?> {
   @override
   final String? value;
   @override
   final Function(String? v)? onChange;
   final Widget? child;
 
-  const VanRadioGroup({
+  const RadioGroup({
     this.value,
     this.onChange,
     this.child,
@@ -20,7 +20,7 @@ class VanRadioGroup extends StatefulWidget implements FormItemChild<String?> {
 
   @override
   State<StatefulWidget> createState() {
-    return VanRadioGroupState();
+    return RadioGroupState();
   }
 
   @override
@@ -28,7 +28,7 @@ class VanRadioGroup extends StatefulWidget implements FormItemChild<String?> {
     Function(String? v)? onChange,
     String? value,
   }) {
-    return VanRadioGroup(
+    return RadioGroup(
       value: value,
       onChange: onChange,
       key: key,
@@ -37,7 +37,7 @@ class VanRadioGroup extends StatefulWidget implements FormItemChild<String?> {
   }
 }
 
-class VanRadioGroupState extends State<VanRadioGroup> {
+class RadioGroupState extends State<RadioGroup> {
   String? value;
 
   @override
@@ -47,7 +47,7 @@ class VanRadioGroupState extends State<VanRadioGroup> {
   }
 
   @override
-  void didUpdateWidget(covariant VanRadioGroup oldWidget) {
+  void didUpdateWidget(covariant RadioGroup oldWidget) {
     super.didUpdateWidget(oldWidget);
     value = widget.value;
   }

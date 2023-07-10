@@ -11,57 +11,71 @@ class BadgePage extends StatelessWidget {
   final Uri location;
   const BadgePage(this.location, {super.key});
 
+  withBadgeWrap(List<Widget> children) {
+    return List.of(children.map((child) {
+      return TailBox().ml(16).Container(child: child);
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
-    badgeWrap(Widget child) => TailBox().ml(16).Container(child: child);
     final cube = TailBox()
         .rounded(4)
         .bg(Colors.grey.shade300)
         .Container(width: 40, height: 40);
 
     return ListView(children: [
-      const DocTitle("Basic Usage"),
-      Wrap(children: [
+      const DocTitle("基本用法"),
+      DocPadding(Wrap(spacing: 16, children: [
         // @DocsDemo("基本用法")
-        badgeWrap(VanBadge(content: 5, child: cube)),
-        badgeWrap(VanBadge(content: 10, child: cube)),
-        badgeWrap(VanBadge(content: "Hot", child: cube)),
-        badgeWrap(VanBadge(dot: true, child: cube)),
+        Badge(content: 5, child: cube),
+        Badge(content: 10, child: cube),
+        Badge(content: "Hot", child: cube),
+        Badge(dot: true, child: cube),
         // @DocsDemo
-      ]),
+      ])),
 
       //
-      const DocTitle("Maximum"),
-      Wrap(children: [
+      const DocTitle("最大值"),
+      DocPadding(Wrap(spacing: 16, children: [
         // @DocsDemo("最大值")
-        badgeWrap(VanBadge(max: 9, content: 10, child: cube)),
-        badgeWrap(VanBadge(max: 20, content: 21, child: cube)),
-        badgeWrap(VanBadge(max: 99, content: 100, child: cube)),
+        Badge(max: 9, content: 10, child: cube),
+        Badge(max: 20, content: 21, child: cube),
+        Badge(max: 99, content: 100, child: cube),
         // @DocsDemo
-      ]),
+      ])),
 
       //
-      const DocTitle("Color"),
-      Builder(builder: (_) {
+      const DocTitle("徽标颜色"),
+      DocPadding(Wrap(spacing: 16, children: [
         // @DocsDemo("徽标颜色")
-        const color = Color.fromRGBO(25, 137, 250, 1);
-        return Wrap(children: [
-          badgeWrap(VanBadge(color: color, content: 5, child: cube)),
-          badgeWrap(VanBadge(color: color, content: 10, child: cube)),
-          badgeWrap(VanBadge(color: color, dot: true, child: cube)),
-        ]);
+        Badge(
+          color: const Color.fromRGBO(25, 137, 250, 1),
+          content: 5,
+          child: cube,
+        ),
         // @DocsDemo
-      }),
+        Badge(
+          color: const Color.fromRGBO(25, 137, 250, 1),
+          content: 10,
+          child: cube,
+        ),
+        Badge(
+          color: const Color.fromRGBO(25, 137, 250, 1),
+          dot: true,
+          child: cube,
+        ),
+      ])),
 
       //
-      const DocTitle("Icon"),
-      Wrap(children: [
+      const DocTitle("徽标图标"),
+      DocPadding(Wrap(spacing: 16, children: [
         // @DocsDemo("徽标图标")
-        badgeWrap(VanBadge(content: VanIcons.success, child: cube)),
-        badgeWrap(VanBadge(content: VanIcons.fail, child: cube)),
-        badgeWrap(VanBadge(content: VanIcons.down, child: cube)),
+        Badge(content: VanIcons.success, child: cube),
+        Badge(content: VanIcons.fail, child: cube),
+        Badge(content: VanIcons.down, child: cube),
         // @DocsDemo
-      ]),
+      ])),
     ]);
   }
 }

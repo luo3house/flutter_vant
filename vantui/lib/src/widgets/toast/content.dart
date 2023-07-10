@@ -6,13 +6,13 @@ import '../config/index.dart';
 import '../icon/index.dart';
 import 'types.dart';
 
-class VanToastContent extends StatelessWidget {
+class ToastContent extends StatelessWidget {
   final VanToastType? type;
   final EdgeInsets? padding;
   final dynamic icon;
   final dynamic child;
 
-  const VanToastContent({
+  const ToastContent({
     this.type,
     this.padding,
     this.icon,

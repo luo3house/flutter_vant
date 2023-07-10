@@ -18,7 +18,7 @@ class DialogPage extends StatelessWidget {
         children: [
           ListView(children: [
             const DocTitle("Basic Usage"),
-            VanCell(
+            Cell(
               title: "Basic Usage",
               clickable: true,
               onTap: () {
@@ -31,7 +31,7 @@ class DialogPage extends StatelessWidget {
                   ..message = "如果解决方法是丑陋的，那就肯定还有更好的解决方法，只是还没有发现而已。";
               },
             ),
-            VanCell(
+            Cell(
               title: "Untitled",
               clickable: true,
               onTap: () {
@@ -43,7 +43,7 @@ class DialogPage extends StatelessWidget {
                   ..message = "生命远不止连轴转和忙到极限，人类的体验远比这辽阔、丰富得多。";
               },
             ),
-            VanCell(
+            Cell(
               title: "Confirm (Cancel + OK)",
               clickable: true,
               onTap: () {
@@ -53,9 +53,8 @@ class DialogPage extends StatelessWidget {
                     model.value = model.value.clone()..show = false;
                   })
                   ..action = VanDialogConfirm(
-                    onOK: () => VanToastStatic.show(context, message: "Yep"),
-                    onCancel: () =>
-                        VanToastStatic.show(context, message: "Not"),
+                    onOK: () => ToastStatic.show(context, message: "Yep"),
+                    onCancel: () => ToastStatic.show(context, message: "Not"),
                     okText: "Yep",
                     cancelText: "Not",
                   )
@@ -66,7 +65,7 @@ class DialogPage extends StatelessWidget {
 
             //
             const DocTitle("Custom"),
-            VanCell(
+            Cell(
               title: "Custom",
               clickable: true,
               onTap: () {
@@ -86,7 +85,7 @@ class DialogPage extends StatelessWidget {
               },
             ),
           ]),
-          VanDialog(
+          Dialog(
             show: model.value.show,
             title: model.value.title,
             message: model.value.message,

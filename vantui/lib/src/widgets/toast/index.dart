@@ -5,7 +5,7 @@ export 'types.dart';
 import 'wrap.dart';
 export 'static.dart';
 
-class VanToast extends StatelessWidget {
+class Toast extends StatelessWidget {
   final bool? show;
   final VanToastPosition? position;
   final Duration? duration;
@@ -16,7 +16,7 @@ class VanToast extends StatelessWidget {
   final dynamic icon;
   final dynamic child;
 
-  const VanToast({
+  const Toast({
     this.show,
     this.position,
     this.duration,
@@ -31,7 +31,7 @@ class VanToast extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return VanToastWrap(
+    return ToastWrap(
       show: show,
       position: position,
       duration: duration,

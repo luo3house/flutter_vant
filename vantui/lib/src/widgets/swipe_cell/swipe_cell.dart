@@ -11,13 +11,13 @@ import '../../utils/nil.dart';
 import '../../utils/std.dart';
 import '../config/index.dart';
 
-class VanSwipeCell extends StatefulWidget {
+class SwipeCell extends StatefulWidget {
   final Widget? left;
   final Widget? right;
   final dynamic Function()? beforeClose;
   final Widget? child;
 
-  const VanSwipeCell({
+  const SwipeCell({
     this.left,
     this.right,
     this.beforeClose,
@@ -27,11 +27,11 @@ class VanSwipeCell extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return VanSwipeCellState();
+    return SwipeCellState();
   }
 }
 
-class VanSwipeCellState extends State<VanSwipeCell> {
+class SwipeCellState extends State<SwipeCell> {
   Size? leftSize;
   Size? rightSize;
   late _BlurState _blurState;

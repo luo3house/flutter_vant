@@ -1,3 +1,4 @@
+import 'package:demo/widgets/child.dart';
 import 'package:demo/widgets/with_value.dart';
 import 'package:flutter/widgets.dart';
 import 'package:demo/doc/doc_title.dart';
@@ -15,15 +16,17 @@ class OTPInputPage extends StatelessWidget {
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       children: [
         const DocTitle("基本用法"),
-        // @DocsDemo("基本用法")
         WithModel("123", (model) {
-          return OTPInput(
-            autoFocus: true,
-            value: model.value,
-            onChange: (v) => model.value = v,
+          return Child(
+            // @DocsDemo("基本用法")
+            OTPInput(
+              autoFocus: true,
+              value: model.value,
+              onChange: (v) => model.value = v,
+            ),
+            // @DocsDemo
           );
         }),
-        // @DocsDemo
 
         const DocTitle("自定义长度"),
         // @DocsDemo("自定义长度")

@@ -11,19 +11,19 @@ import 'types.dart';
 
 class DatePickerPanel extends StatelessWidget {
   static const defaultColumnsType = {
-    VanDateColumn.year,
-    VanDateColumn.month,
-    VanDateColumn.day,
+    DateColumn.year,
+    DateColumn.month,
+    DateColumn.day,
   };
 
   static List<int> valueOf(DateTime date,
-      [Set<VanDateColumn> columnsType = defaultColumnsType]) {
+      [Set<DateColumn> columnsType = defaultColumnsType]) {
     return List.generate(columnsType.length, (index) {
-      if (columnsType.elementAt(index) == VanDateColumn.year) {
+      if (columnsType.elementAt(index) == DateColumn.year) {
         return date.year;
-      } else if (columnsType.elementAt(index) == VanDateColumn.month) {
+      } else if (columnsType.elementAt(index) == DateColumn.month) {
         return date.month;
-      } else if (columnsType.elementAt(index) == VanDateColumn.day) {
+      } else if (columnsType.elementAt(index) == DateColumn.day) {
         return date.day;
       } else {
         return 0;
@@ -32,16 +32,16 @@ class DatePickerPanel extends StatelessWidget {
   }
 
   static DateTime fromValue(List<int> value,
-      [Set<VanDateColumn> columnsType = defaultColumnsType]) {
+      [Set<DateColumn> columnsType = defaultColumnsType]) {
     int year = DateTime.now().year;
     int month = 1;
     int day = 1;
     List.generate(columnsType.length, (index) {
-      if (columnsType.elementAt(index) == VanDateColumn.year) {
+      if (columnsType.elementAt(index) == DateColumn.year) {
         year = value.length > index ? value[index] : 0;
-      } else if (columnsType.elementAt(index) == VanDateColumn.month) {
+      } else if (columnsType.elementAt(index) == DateColumn.month) {
         month = value.length > index ? value[index] : 0;
-      } else if (columnsType.elementAt(index) == VanDateColumn.day) {
+      } else if (columnsType.elementAt(index) == DateColumn.day) {
         day = value.length > index ? value[index] : 0;
       }
     });
@@ -52,9 +52,9 @@ class DatePickerPanel extends StatelessWidget {
   final DateTime? minDate;
   final DateTime? maxDate;
   final List<int>? value;
-  final Set<VanDateColumn>? columnsType;
+  final Set<DateColumn>? columnsType;
   final Function(List<int> value)? onChange;
-  final Map<VanDateColumn, OptionFormatter>? formatter;
+  final Map<DateColumn, OptionFormatter>? formatter;
 
   const DatePickerPanel({
     this.minDate,
@@ -66,7 +66,7 @@ class DatePickerPanel extends StatelessWidget {
     super.key,
   });
 
-  INamedValue Function(INamedValue) getFormatter(VanDateColumn typ) {
+  INamedValue Function(INamedValue) getFormatter(DateColumn typ) {
     return formatter?[typ] ?? (option) => option;
   }
 
@@ -88,31 +88,31 @@ class DatePickerPanel extends StatelessWidget {
 
     for (var i = 0; i < columnsType.length; i++) {
       final col = columnsType.elementAt(i);
-      if (col == VanDateColumn.year) {
+      if (col == DateColumn.year) {
         curYear = tryCatch(() => value!.elementAt(i)) ?? minDate.year;
         normalizeValues.add(curYear);
         options.add(
           List.of(DateRangeUtil.rangeYears(minDate, maxDate)
               .map((year) => NamedValue(year.toString(), year))
-              .map(getFormatter(VanDateColumn.year))
+              .map(getFormatter(DateColumn.year))
               .map(toPickerOption)),
         );
-      } else if (col == VanDateColumn.month) {
+      } else if (col == DateColumn.month) {
         curMonth = tryCatch(() => value!.elementAt(i)) ?? minDate.month;
         normalizeValues.add(curMonth);
         options.add(
           List.of(DateRangeUtil.rangeMonths(minDate, maxDate, curYear)
               .map((year) => NamedValue(year.toString(), year))
-              .map(getFormatter(VanDateColumn.month))
+              .map(getFormatter(DateColumn.month))
               .map(toPickerOption)),
         );
-      } else if (col == VanDateColumn.day) {
+      } else if (col == DateColumn.day) {
         curDay = tryCatch(() => value!.elementAt(i)) ?? minDate.day;
         normalizeValues.add(curDay);
         options.add(
           List.of(DateRangeUtil.rangeDays(minDate, maxDate, curYear, curMonth)
               .map((year) => NamedValue(year.toString(), year))
-              .map(getFormatter(VanDateColumn.day))
+              .map(getFormatter(DateColumn.day))
               .map(toPickerOption)),
         );
       }

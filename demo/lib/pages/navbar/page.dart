@@ -14,20 +14,20 @@ class NavBarPage extends StatelessWidget {
     return ListView(children: [
       const DocTitle("基本用法（自动发现路由返回）"),
       // @DocsDemo("基本用法", "默认自动发现路由返回，可使用 leftArrow: false 取消")
-      const VanNavBar(title: "Title"),
+      const NavBar(title: "Title"),
       // @DocsDemo
 
       const DocTitle("禁用自动路由返回"),
-      const VanNavBar(title: "Title", leftArrow: false),
+      const NavBar(title: "Title", leftArrow: false),
 
       const DocTitle("Left"),
       // @DocsDemo("渲染左侧文本和图标")
-      const VanNavBar(title: "Title", leftText: "Back", leftArrow: true),
+      const NavBar(title: "Title", leftText: "Back", leftArrow: true),
       // @DocsDemo
 
-      // @DocsDemo("渲染右侧文本和图标")
       const DocTitle("Right"),
-      const VanNavBar(
+      // @DocsDemo("渲染右侧文本和图标")
+      const NavBar(
         title: "Title",
         leftText: "Back",
         leftArrow: true,
@@ -37,7 +37,7 @@ class NavBarPage extends StatelessWidget {
 
       const DocTitle("Custom"),
       // @DocsDemo("完全自定义一侧内容")
-      VanNavBar(
+      NavBar(
         title: "Title",
         leftArrow: true,
         right: Row(

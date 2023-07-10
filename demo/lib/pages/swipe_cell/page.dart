@@ -1,3 +1,4 @@
+import 'package:demo/widgets/child.dart';
 import 'package:flutter/widgets.dart';
 import 'package:demo/doc/doc_title.dart';
 import 'package:demo/widgets/with_value.dart';
@@ -15,57 +16,59 @@ class SwipeCellPage extends StatelessWidget {
     return ListView(children: [
       const DocTitle("基本用法"),
       // @DocsDemo("基本用法")
-      VanSwipeCell(
-        left: const VanBtn(square: true, text: "选择", type: VanBtnType.primary),
+      SwipeCell(
+        left: const Button(square: true, text: "选择", type: ButtonType.primary),
         right: Row(mainAxisSize: MainAxisSize.min, children: const [
-          VanBtn(square: true, text: "删除", type: VanBtnType.danger),
-          VanBtn(square: true, text: "收藏", type: VanBtnType.primary),
+          Button(square: true, text: "删除", type: ButtonType.danger),
+          Button(square: true, text: "收藏", type: ButtonType.primary),
         ]),
-        child: const VanCell(title: "横扫", value: "内容"),
+        child: const Cell(title: "横扫", value: "内容"),
       ),
       // @DocsDemo
 
       //
       const DocTitle("点击关闭"),
-      // @DocsDemo("点击关闭")
-      WithModel(GlobalKey<VanSwipeCellState>(), (model) {
+      WithModel(GlobalKey<SwipeCellState>(), (model) {
         final key = model.value;
-        return VanSwipeCell(
-          key: key,
-          right: Row(mainAxisSize: MainAxisSize.min, children: [
-            VanBtn(
-              square: true,
-              text: "删除",
-              type: VanBtnType.danger,
-              onTap: () => key.currentState?.close(),
-            ),
-            VanBtn(
-              square: true,
-              text: "收藏",
-              type: VanBtnType.primary,
-              onTap: () => key.currentState?.close(),
-            ),
-          ]),
-          child: const VanCell(title: "单元格", value: "内容"),
+        return Child(
+          // @DocsDemo("点击关闭")
+          SwipeCell(
+            key: key, // GlobalKey<VanSwipeCellState>()
+            right: Row(mainAxisSize: MainAxisSize.min, children: [
+              Button(
+                square: true,
+                text: "删除",
+                type: ButtonType.danger,
+                onTap: () => key.currentState?.close(),
+              ),
+              Button(
+                square: true,
+                text: "收藏",
+                type: ButtonType.primary,
+                onTap: () => key.currentState?.close(),
+              ),
+            ]),
+            child: const Cell(title: "单元格", value: "内容"),
+          ),
+          // @DocsDemo
         );
       }),
-      // @DocsDemo
 
       const DocTitle("自定义渲染"),
       // @DocsDemo("自定义渲染")
       WithModel(
-        List.generate(3, (_) => GlobalKey<VanSwipeCellState>()),
+        List.generate(3, (_) => GlobalKey<SwipeCellState>()),
         (model) {
-          right(GlobalKey<VanSwipeCellState> key) {
+          right(GlobalKey<SwipeCellState> key) {
             return Row(mainAxisSize: MainAxisSize.min, children: [
-              VanBtn(
-                type: VanBtnType.warning,
+              Button(
+                type: ButtonType.warning,
                 square: true,
                 text: "置顶",
                 onTap: () => key.currentState?.close(),
               ),
-              VanBtn(
-                type: VanBtnType.danger,
+              Button(
+                type: ButtonType.danger,
                 square: true,
                 text: "删除",
                 onTap: () => key.currentState?.close(),
@@ -74,11 +77,11 @@ class SwipeCellPage extends StatelessWidget {
           }
 
           return Column(mainAxisSize: MainAxisSize.min, children: [
-            VanSwipeCell(
+            SwipeCell(
               key: model.value[0],
               right: right(model.value[0]),
-              child: const VanCell(
-                prefix: VanBadge(
+              child: const Cell(
+                prefix: Badge(
                   dot: true,
                   child: Icon(VanIcons.smile_comment_o, size: 28),
                 ),
@@ -86,11 +89,11 @@ class SwipeCellPage extends StatelessWidget {
                 label: "今晚去吃寿司怎么样？",
               ),
             ),
-            VanSwipeCell(
+            SwipeCell(
               key: model.value[1],
               right: right(model.value[1]),
-              child: const VanCell(
-                prefix: VanBadge(
+              child: const Cell(
+                prefix: Badge(
                   content: 40,
                   child: Icon(VanIcons.orders_o, size: 28),
                 ),
@@ -98,10 +101,10 @@ class SwipeCellPage extends StatelessWidget {
                 label: "紧急扩散！！为什么这不能吃那不能吃？",
               ),
             ),
-            VanSwipeCell(
+            SwipeCell(
               key: model.value[2],
               right: right(model.value[2]),
-              child: const VanCell(
+              child: const Cell(
                 prefix: Icon(VanIcons.bullhorn_o, size: 28),
                 title: "水电费",
                 label: "本月水电费用已出单",

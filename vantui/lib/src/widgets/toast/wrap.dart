@@ -7,7 +7,7 @@ import 'package:flutter_vantui/src/widgets/toast/content.dart';
 
 import 'types.dart';
 
-class VanToastWrap extends StatefulWidget {
+class ToastWrap extends StatefulWidget {
   static const defaultDuration = Duration(milliseconds: 2000);
 
   final bool? show;
@@ -23,7 +23,7 @@ class VanToastWrap extends StatefulWidget {
 
   final Function()? onInvalidate;
 
-  const VanToastWrap({
+  const ToastWrap({
     this.show,
     this.position,
     this.duration,
@@ -38,16 +38,16 @@ class VanToastWrap extends StatefulWidget {
   });
 
   @override
-  createState() => VanToastWrapState();
+  createState() => ToastWrapState();
 }
 
-class VanToastWrapState extends State<VanToastWrap> {
+class ToastWrapState extends State<ToastWrap> {
   bool _show = false;
   bool _anim = false;
   Timer? showTimer;
 
   void show([Duration? duration]) {
-    final dur = duration ?? widget.duration ?? VanToastWrap.defaultDuration;
+    final dur = duration ?? widget.duration ?? ToastWrap.defaultDuration;
     showTimer?.cancel();
     showTimer = Timer(dur, () => hide());
     _anim = true;
@@ -78,7 +78,7 @@ class VanToastWrapState extends State<VanToastWrap> {
   }
 
   @override
-  void didUpdateWidget(covariant VanToastWrap oldWidget) {
+  void didUpdateWidget(covariant ToastWrap oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.show != widget.show) {
       _show = widget.show == true;
@@ -96,7 +96,7 @@ class VanToastWrapState extends State<VanToastWrap> {
       false: Tween(begin: 1.0, end: 0.0),
     }[_show]!;
 
-    final content = VanToastContent(
+    final content = ToastContent(
       type: widget.type,
       padding: widget.padding,
       icon: widget.icon,

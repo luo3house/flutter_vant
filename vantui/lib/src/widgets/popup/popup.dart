@@ -140,7 +140,7 @@ class PopupState extends State<Popup> {
         }
       }();
 
-      return VanPopupContent(
+      return PopupContent(
         position: widget.position,
         padding: widget.padding,
         round: widget.round,

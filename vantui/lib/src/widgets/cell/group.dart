@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
 import '../_util/has_next_widget.dart';
 
-class VanCellGroup extends StatelessWidget {
+class CellGroup extends StatelessWidget {
   final List<Widget> children;
 
-  const VanCellGroup({
+  const CellGroup({
     required this.children,
     super.key,
   });

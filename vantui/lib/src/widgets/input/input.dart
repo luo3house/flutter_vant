@@ -8,7 +8,7 @@ import '../config/index.dart';
 import '../form/types.dart';
 import '../../utils/nil.dart';
 
-class VanInput extends StatefulWidget implements FormItemChild<String> {
+class Input extends StatefulWidget implements FormItemChild<String> {
   final String? value;
   final bool? autoFocus;
   final FocusNode? focusNode;
@@ -32,7 +32,7 @@ class VanInput extends StatefulWidget implements FormItemChild<String> {
   final Color? bgColor;
   final Widget Function(Widget input)? as;
 
-  const VanInput({
+  const Input({
     this.value,
     this.autoFocus,
     this.focusNode,
@@ -60,13 +60,13 @@ class VanInput extends StatefulWidget implements FormItemChild<String> {
 
   @override
   State<StatefulWidget> createState() {
-    return VanInputState();
+    return InputState();
   }
 
   @override
   FormItemChild<String> cloneWithFormItemChild(
       {Function(String v)? onChange, String? value}) {
-    return VanInput(
+    return Input(
       value: value,
       autoFocus: autoFocus,
       obscureText: obscureText,
@@ -92,7 +92,7 @@ class VanInput extends StatefulWidget implements FormItemChild<String> {
   }
 }
 
-class VanInputState extends State<VanInput>
+class InputState extends State<Input>
     implements TextSelectionGestureDetectorBuilderDelegate {
   final textKey = GlobalKey<EditableTextState>();
   late FocusNode focusNode;
@@ -135,7 +135,7 @@ class VanInputState extends State<VanInput>
   }
 
   @override
-  void didUpdateWidget(covariant VanInput oldWidget) {
+  void didUpdateWidget(covariant Input oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (controller.text != widget.value) {
       controller.text = widget.value ?? '';
@@ -250,7 +250,7 @@ class VanInputState extends State<VanInput>
 
 class VanInputStateSelectionBuilder
     extends TextSelectionGestureDetectorBuilder {
-  final VanInputState state;
+  final InputState state;
   VanInputStateSelectionBuilder(this.state) : super(delegate: state);
 
   @override

@@ -56,7 +56,7 @@ class SwipePage extends StatelessWidget {
       // @DocsDemo("监听 onChange 事件")
       Swipe(
         loop: true,
-        onChange: (index) => VanToastStatic.show(
+        onChange: (index) => ToastStatic.show(
           context,
           message: "onChange: $index",
         ),

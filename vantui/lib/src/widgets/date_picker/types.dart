@@ -1,5 +1,5 @@
 import '../../utils/vo.dart';
 
-enum VanDateColumn { year, month, day }
+enum DateColumn { year, month, day }
 
 typedef OptionFormatter = INamedValue Function(INamedValue option);

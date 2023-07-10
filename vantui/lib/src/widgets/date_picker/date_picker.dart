@@ -4,14 +4,14 @@ import '../_util/with_value.dart';
 import '../picker/toolbar.dart';
 import 'panel.dart';
 
-class VanDatePicker extends DatePickerPanel {
+class DatePicker extends DatePickerPanel {
   final dynamic title;
   final String? confirmText;
   final String? cancelText;
   final Function(List<int>? value)? onConfirm;
   final Function(List<int>? value)? onCancel;
 
-  const VanDatePicker({
+  const DatePicker({
     this.title,
     this.confirmText,
     this.cancelText,
