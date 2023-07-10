@@ -15,11 +15,17 @@ import '../tab/tabs.dart';
 import 'types.dart';
 
 class CascaderPanel extends StatefulWidget {
+  // @DocsProp("options", "List<NamedValueOption>", "选项")
   final List<INamedValueOption>? options;
+  // @DocsProp("values", "List<dynamic>", "当前值")
   final List? values;
+  // @DocsProp("onChange", "Function(List values)", "选择值时回调")
   final Function(List values)? onChange;
+  // @DocsProp("onOptionChange", "Function(NamedValueOption)", "选择值时回调")
   final Function(List values, INamedValueOption selectedOption)? onOptionChange;
+  // @DocsProp("onCascadeEnd", "Function(List values)", "级联选择完毕回调，即选到没有下一步时触发")
   final Function(List values)? onCascadeEnd;
+  // @DocsProp("expands", "bool", "布满高度")
   final bool? expands;
 
   const CascaderPanel({

@@ -7,10 +7,14 @@ import 'package:tailstyle/tailstyle.dart';
 
 import '../_util/has_next_widget.dart';
 
+// @DocsId("indexbar")
+
 class IndexBar extends StatefulWidget {
   static const defaultCellExtent = 44.0;
 
+  // @DocsProp("children", "List<IndexBarAnchor | Cell | Widget>", "子项或锚点")
   final List<Widget>? children;
+  // @DocsProp("cellExtent", "double", "子项高度")
   final double? cellExtent;
 
   const IndexBar({

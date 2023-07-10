@@ -9,6 +9,8 @@ import '../../utils/vo.dart';
 import '../picker/panel.dart';
 import 'types.dart';
 
+// @DocsId("datepicker")
+
 class DatePickerPanel extends StatelessWidget {
   static const defaultColumnsType = {
     DateColumn.year,
@@ -49,11 +51,17 @@ class DatePickerPanel extends StatelessWidget {
     return DateTime(year, month, day);
   }
 
+  // @DocsProp("minDate", "DateTime", "最小日期")
   final DateTime? minDate;
+  // @DocsProp("maxDate", "DateTime", "最大日期")
   final DateTime? maxDate;
+  // @DocsProp("value", "List<int>", "当前已选日期")
   final List<int>? value;
+  // @DocsProp("columnsType", "Set<year | month | day>", "日期列")
   final Set<DateColumn>? columnsType;
+  // @DocsProp("onChange", "Function(List<int> values)", "值变化回调")
   final Function(List<int> value)? onChange;
+  // @DocsProp("formatter", "Map<year | month | day, NamedValue Function(NamedValue option)>", "格式化选项")
   final Map<DateColumn, OptionFormatter>? formatter;
 
   const DatePickerPanel({

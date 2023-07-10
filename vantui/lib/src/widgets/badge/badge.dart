@@ -6,11 +6,18 @@ import '../../utils/nil.dart';
 import '../../utils/rendering.dart';
 import '../config/index.dart';
 
+// @DocsId("badge")
+
 class Badge extends StatefulWidget {
+  // @DocsProp("content", "num | Widget | IconData | String", "内容")
   final dynamic content;
+  // @DocsProp("max", "int", "最大数字")
   final int? max;
+  // @DocsProp("howZero", "bool", "content 为 0 时，是否仍然显示")
   final bool? showZero;
+  // @DocsProp("color", "Color", "颜色")
   final Color? color;
+  // @DocsProp("dot", "bool", "显示小红点")
   final bool? dot;
   final Widget? child;
   final double? dx;

@@ -16,6 +16,12 @@ const annoDocsDemoRE = /@DocsDemo\((?:"([^"]+)")(?:,\s*"([^"]+)")?\)/g
 // Match = end of @DocsDemo()
 const annoDocsDemoEndRE = /(?:\/\/\/?| |\*)*@DocsDemo(?!\()/
 
+// Usage: @DocsProp("field", "type", "desc")
+// Group 1: field name
+// Group 2: type
+// Group 3: desc
+const annoDocsPropRE = /@DocsProp\("(\w+)", "([^"]+)"(?:, "([^"]*)")?\)/g
+
 // Matches = "\n"s to trim
 const dartCodeTrimRE = /^\n|\n\s*$/gm
 
@@ -27,6 +33,7 @@ export type DocsWidget = {
   title: string
   desc: string
   demos: DocsDemo[]
+  props: DocsProp[]
 }
 
 export type DocsDemo = {
@@ -35,17 +42,28 @@ export type DocsDemo = {
   code: string
 }
 
-function read(code: string): DocsWidget | null {
-  const widget: DocsWidget = {
-    id: '',
+export type DocsProp = {
+  name: string
+  type: string
+  desc: string
+}
+
+function read(
+  code: string,
+  restoreWidget?: (id: string) => DocsWidget | undefined
+): DocsWidget | null {
+  // read widget id
+  const idMA = code.match(annoDocsIdRE)
+  if (!idMA?.[1]) return null
+  const widget = restoreWidget?.(String(idMA[1])) ?? {
+    id: String(idMA[1]),
     title: '',
     desc: '',
     demos: [],
+    props: [],
   }
 
-  // read widget id
-  const idMA = code.match(annoDocsIdRE)
-  if (idMA?.[1]) widget.id = String(idMA[1])
+  const demosMap = new Map(widget.demos.map((demo) => [demo.title, demo]))
 
   // read widget title
   const defMA = code.match(annoDocsWidgetRE)
@@ -53,16 +71,11 @@ function read(code: string): DocsWidget | null {
   if (defMA?.[2]) widget.desc = String(defMA[2])
 
   for (let ma of code.matchAll(annoDocsDemoRE)) {
-    const demo: DocsDemo = {
-      title: '',
-      desc: '',
-      code: '',
-    }
     const { index } = ma
-    if (!index) continue
+    if (!index || !ma[1]) continue
+    const demo = demosMap.get(ma[1]) ?? { title: ma[1], desc: '', code: '' }
 
-    // read demo title & desc
-    if (ma[1]) demo.title = String(ma[1])
+    // read desc
     if (ma[2]) demo.desc = String(ma[2])
 
     const start = index + ma[0].length
@@ -73,8 +86,24 @@ function read(code: string): DocsWidget | null {
 
     demo.code = repairDartCodeIndent(code.substring(start, end))
 
-    widget.demos.push(demo)
+    demosMap.set(demo.title, demo)
   }
+  widget.demos = Array.from(demosMap.values())
+
+  for (let ma of code.matchAll(annoDocsPropRE)) {
+    if (!ma[1] || !ma[2]) continue
+    const props: DocsProp = {
+      name: String(ma[1]),
+      type: String(ma[2]),
+      desc: '-',
+    }
+
+    // read desc
+    if (ma[3]) props.desc = String(ma[3])
+
+    widget.props.push(props)
+  }
+
   return widget.id == '' ? null : widget
 }
 

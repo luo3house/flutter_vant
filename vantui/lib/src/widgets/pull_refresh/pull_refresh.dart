@@ -32,11 +32,18 @@ class HeadArgs extends Tuple4<double, double, double, PullRefreshStatus> {
 
 typedef HeadBuilder = Widget Function(HeadArgs args);
 
+// @DocsId("pull_refresh")
+
 class PullRefresh extends StatefulWidget {
+// @DocsProp("onRefresh", "Future Function()", "释放刷新触发")
   final Future Function()? onRefresh;
+// @DocsProp("headHeight", "double", "下拉头部高度")
   final double? headHeight;
+// @DocsProp("drawHead", "Widget Function({visibleHeight, visibleRatio, headHeight, status} args)", "自定义绘制下拉头部")
   final HeadBuilder? drawHead;
+// @DocsProp("controller", "ScrollController", "关联的列表 Controller，可改善下拉判定")
   final ScrollController? controller;
+// @DocsProp("lockDuringRefresh", "bool", "刷新期间禁用交互")
   final bool? lockDuringRefresh;
   final Widget? child;
 

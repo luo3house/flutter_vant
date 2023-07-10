@@ -6,14 +6,23 @@ import 'package:tailstyle/tailstyle.dart';
 
 typedef LabelByChecked = dynamic Function(bool checked);
 
+// @DocsId("checkbox")
+
 class Checkbox extends StatelessWidget implements FormItemChild<bool> {
+  // @DocsProp("value", "bool", "当前已选")
   final bool? checked;
+  // @DocsProp("onChange", "Function(bool)", "值变化触发")
   @override
   final Function(bool v)? onChange;
+  // @DocsProp("shape", "BoxShape", "选框形状")
   final BoxShape? shape;
+  // @DocsProp("icon", "Widget Function(bool checked)", "选框图标")
   final InputByChecked? icon;
+  // @DocsProp("label", "(Widget | String | null) Function(bool checked) | Widget | String | null", "选框标题")
   final dynamic label;
+  // @DocsProp("disabled", "bool", "禁用状态")
   final bool? disabled;
+  // @DocsProp("checkedColor", "Color", "已选颜色")
   final Color? checkedColor;
 
   const Checkbox({

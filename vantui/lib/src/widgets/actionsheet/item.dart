@@ -5,12 +5,12 @@ import '../../utils/nil.dart';
 import '../button/pressable.dart';
 import '../config/index.dart';
 
-class VanActionSheetItem extends StatelessWidget {
+class ActionSheetItem extends StatelessWidget {
   final String name;
   final String? subname;
   final Widget? child;
   final bool? disabled;
-  const VanActionSheetItem(
+  const ActionSheetItem(
     this.name, {
     this.subname,
     this.disabled,

@@ -52,7 +52,7 @@ class DialogPage extends StatelessWidget {
                   ..onClose = (() {
                     model.value = model.value.clone()..show = false;
                   })
-                  ..action = VanDialogConfirm(
+                  ..action = DialogConfirm(
                     onOK: () => ToastStatic.show(context, message: "Yep"),
                     onCancel: () => ToastStatic.show(context, message: "Not"),
                     okText: "Yep",
@@ -74,7 +74,7 @@ class DialogPage extends StatelessWidget {
                   ..onClose = (() {
                     model.value = model.value.clone()..show = false;
                   })
-                  ..action = VanDialogConfirm(
+                  ..action = DialogConfirm(
                     onCancel: () {},
                   )
                   ..title = "Title"

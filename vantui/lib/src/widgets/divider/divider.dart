@@ -4,15 +4,19 @@ import 'package:tailstyle/tailstyle.dart';
 
 enum ContentPosition { left, center, right }
 
+// @DocsId("divider")
+
 class Divider extends StatelessWidget {
   final Widget? child;
+  // @DocsProp("contentPosition", "left | center | right", "内容位置")
   final ContentPosition? contentPosition;
+  // @DocsProp("textStyle", "TextStyle", "内容文本样式")
   final TextStyle? textStyle;
 
   const Divider({
     this.contentPosition,
-    this.child,
     this.textStyle,
+    this.child,
     super.key,
   });
 

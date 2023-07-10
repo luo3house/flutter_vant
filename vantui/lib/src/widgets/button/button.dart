@@ -9,21 +9,37 @@ import 'package:tailstyle/tailstyle.dart';
 import 'types.dart';
 export 'package:flutter_vantui/src/widgets/button/pressable.dart';
 
+// @DocsId("button")
 class Button extends StatelessWidget {
+  // @DocsProp("type", "primary | success | warning | danger | null", "按钮类型")
   final ButtonType? type;
+  // @DocsProp("size", "large | small | mini | null", "按钮大小")
   final ButtonSize? size;
+  // @DocsProp("text", "String", "文本")
   final String? text;
+  // @DocsProp("block", "bool", "尺寸")
   final bool? block;
+  // @DocsProp("plain", "bool", "是否为朴素按钮")
   final bool? plain;
+  // @DocsProp("square", "bool", "方形按钮")
   final bool? square;
+  // @DocsProp("round", "bool", "圆形按钮")
   final bool? round;
+  // @DocsProp("disabled", "bool", "禁用")
   final bool? disabled;
+  // @DocsProp("loading", "bool", "加载状态")
   final bool? loading;
+  // @DocsProp("loadingText", "String", "加载文本")
   final String? loadingText;
+  // @DocsProp("loadingSize", "double", "加载图标大小")
   final double? loadingSize;
+  // @DocsProp("icon", "Icon | IconData | Widget", "按钮图标")
   final dynamic icon;
+  // @DocsProp("onTap", "Function()", "点击回调")
   final Function()? onTap;
+  // @DocsProp("borderColor", "Color", "边框颜色")
   final Color? borderColor;
+
   const Button({
     this.type,
     this.size,
@@ -125,9 +141,9 @@ class Button extends StatelessWidget {
     final disabled = this.disabled == true;
 
     final prefix = () {
-      if (icon is VanIconData) {
+      if (icon is IconData) {
         return TailBox().mr(theme.paddingBase).as((styled) {
-          return styled.Container(child: VanIcon(icon as VanIconData));
+          return styled.Container(child: Icon(icon as IconData));
         });
       } else if (icon is Widget) {
         return TailBox().mr(theme.paddingBase).as((styled) {

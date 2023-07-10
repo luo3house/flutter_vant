@@ -14,19 +14,30 @@ import '../../utils/std.dart';
 import 'tab.dart';
 import 'tab_list.dart';
 
+// @DocsId("tab")
+
 typedef TabsBuilder = Widget Function(TabsState state);
 typedef IScrollerAnimateToIndex = void Function(
     int index, Duration duration, Curve curve);
 
 class Tabs extends StatefulWidget {
+  // @DocsProp("shrinkTabs", "bool", "收缩标签")
   final bool? shrinkTabs;
+  // @DocsProp("active", "dynamic", "当前标签，将与标签名称匹配")
   final dynamic active;
+  // @DocsProp("children", "List<Tab>", "标签列表")
   final List<Tab>? children;
+  // @DocsProp("onChange", "Function({name, index})", "标签切换触发")
   final Function(NamedIndex e)? onChange;
+  // @DocsProp("expands", "bool", "布满高度")
   final bool? expands;
+  // @DocsProp("keepAlive", "bool", "渲染所有标签")
   final bool? keepAlive;
+  // @DocsProp("animated", "bool", "使用切换动画")
   final bool? animated;
+  // @DocsProp("swipeable", "bool", "允许手势切换")
   final bool? swipeable;
+  // @DocsProp("builder", "Widget Function(TabState state)", "自定义绘制")
   final TabsBuilder? builder;
 
   const Tabs({

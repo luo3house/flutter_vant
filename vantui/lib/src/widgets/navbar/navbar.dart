@@ -6,18 +6,30 @@ import '../../utils/nil.dart';
 import '../config/index.dart';
 import '../icon/index.dart';
 
+// @DocsId("navbar")
+
 class NavBar extends StatelessWidget implements PreferredSizeWidget {
   static const height = 46.0;
 
+  // @DocsProp("title", "Widget | String", "标题")
   final dynamic title;
+  // @DocsProp("leftText", "Widget | String | null", "左侧文本")
   final dynamic leftText;
+  // @DocsProp("leftArrow", "Widget | IconData | true", "左侧箭头")
   final dynamic leftArrow;
+  // @DocsProp("left", "Widget", "自定义左侧")
   final Widget? left;
+  // @DocsProp("onLeftTap", "Function()", "左侧点击回调")
   final Function()? onLeftTap;
+  // @DocsProp("rightText", "Widget | String | null", "右侧文本")
   final dynamic rightText;
+  // @DocsProp("rightArrow", "Widget | IconData | true", "右侧箭头")
   final dynamic rightArrow;
+  // @DocsProp("right", "Widget", "自定义右侧")
   final Widget? right;
+  // @DocsProp("onRightTap", "Function()", "右侧点击回调")
   final Function()? onRightTap;
+  // @DocsProp("noBorder", "bool", "无下边框")
   final bool? noBorder;
 
   const NavBar({

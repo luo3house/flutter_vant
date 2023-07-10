@@ -9,9 +9,14 @@ import '../icon/index.dart';
 import '../navbar/navbar.dart';
 import 'panel.dart';
 
+// @DocsId("cascader")
+
 class Cascader extends CascaderPanel {
+  // @DocsProp("title", "String", "标题")
   final String? title;
+  // @DocsProp("onClose", "Function()", "关闭回调")
   final Function()? onClose;
+
   const Cascader({
     this.title,
     this.onClose,

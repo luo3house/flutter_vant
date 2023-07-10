@@ -11,7 +11,7 @@ abstract class DialogActionLike implements Widget {
   });
 }
 
-class VanDialogConfirm extends StatelessWidget implements DialogActionLike {
+class DialogConfirm extends StatelessWidget implements DialogActionLike {
   final Function()? onCancel; // not null = show
   final Function()? onOK;
   final bool? loading;
@@ -22,7 +22,7 @@ class VanDialogConfirm extends StatelessWidget implements DialogActionLike {
 
   @override
   Widget cloneWithDialogActionLike({Function()? tryClose}) {
-    return VanDialogConfirm(
+    return DialogConfirm(
       onCancel: onCancel,
       onOK: onOK,
       warning: warning,
@@ -34,7 +34,7 @@ class VanDialogConfirm extends StatelessWidget implements DialogActionLike {
     );
   }
 
-  const VanDialogConfirm({
+  const DialogConfirm({
     this.onCancel,
     this.onOK,
     this.warning,

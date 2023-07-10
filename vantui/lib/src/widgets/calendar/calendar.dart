@@ -4,11 +4,18 @@ import 'package:flutter_vantui/src/widgets/calendar/panel.dart';
 import '../_util/with_value.dart';
 import '../picker/toolbar.dart';
 
+// @DocsId("calendar")
+
 class Calendar extends CalendarPanel {
+  // @DocsProp("title", "Widget | String", "面板标题")
   final dynamic title;
+  // @DocsProp("confirmText", "String", "确认文本")
   final String? confirmText;
+  // @DocsProp("cancelTetx", "String", "取消文本")
   final String? cancelText;
+  // @DocsProp("onConfirm", "Function(List<DateTime>)", "确认回调")
   final Function(List<DateTime>? value)? onConfirm;
+  // @DocsProp("onCancel", "Function(List<DateTime>)", "取消回调")
   final Function(List<DateTime>? value)? onCancel;
 
   const Calendar({

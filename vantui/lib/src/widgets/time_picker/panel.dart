@@ -5,6 +5,8 @@ import '../date_picker/types.dart';
 import '../picker/panel.dart';
 import 'types.dart';
 
+// @DocsId("time_picker")
+
 class TimePickerPanel extends StatelessWidget {
   static const defaultColumnsType = {
     TimePickerColumn.hour,
@@ -12,16 +14,27 @@ class TimePickerPanel extends StatelessWidget {
     TimePickerColumn.second,
   };
 
+  // @DocsProp("columnsType", "Set<hour | minute | second>", "时间列")
   final Set<TimePickerColumn>? columnsType;
+  // @DocsProp("value", "List<int>", "当前值")
   final List<int>? value;
+  // @DocsProp("onChange", "List<int>", "值变化触发")
   final Function(List<int> value)? onChange;
+  // @DocsProp("minHour", "int", "最小小时")
   final int? minHour;
+  // @DocsProp("maxHour", "int", "最大小时")
   final int? maxHour;
+  // @DocsProp("minMinute", "int", "最小分钟")
   final int? minMinute;
+  // @DocsProp("maxMinute", "int", "最大分钟")
   final int? maxMinute;
+  // @DocsProp("minSecond", "int", "最小秒")
   final int? minSecond;
+  // @DocsProp("maxSecond", "int", "最大秒")
   final int? maxSecond;
+  // @DocsProp("minHour", "Map<hour | minute | second, NamedValue Function(NamedValue option)", "选项格式化")
   final Map<TimePickerColumn, OptionFormatter>? formatter;
+  // @DocsProp("filter", "Map<hour | minute | second, List<NamedValue> Function(List<NamedValue>)", "过滤选项")
   final Map<TimePickerColumn, OptionFilter>? filter;
 
   const TimePickerPanel({

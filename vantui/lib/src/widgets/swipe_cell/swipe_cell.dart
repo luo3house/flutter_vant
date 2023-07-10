@@ -11,8 +11,12 @@ import '../../utils/nil.dart';
 import '../../utils/std.dart';
 import '../config/index.dart';
 
+// @DocsId("swipe_cell")
+
 class SwipeCell extends StatefulWidget {
+  // @DocsProp("left", "Widget", "单元格左侧")
   final Widget? left;
+  // @DocsProp("right", "Widget", "单元格右侧")
   final Widget? right;
   final dynamic Function()? beforeClose;
   final Widget? child;

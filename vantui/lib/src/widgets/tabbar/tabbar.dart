@@ -7,12 +7,18 @@ import '../../utils/nil.dart';
 import '../badge/badge.dart';
 import '../config/index.dart';
 
+// @DocsId("tabbar")
+
 class TabBar extends StatelessWidget implements PreferredSizeWidget {
   static const height = 50.0;
 
+  // @DocsProp("value", "dynamic", "当前选中")
   final dynamic value;
+  // @DocsProp("onChange", "Function(dynamic)", "选中变化触发")
   final Function(dynamic value)? onChange;
+  // @DocsProp("activeColor", "Color", "选中颜色")
   final Color? activeColor;
+  // @DocsProp("children", "List<TabBarItem>", "子项")
   final List<TabBarItem>? children;
 
   const TabBar({

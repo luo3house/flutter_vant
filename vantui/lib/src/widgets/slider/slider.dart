@@ -6,18 +6,30 @@ import 'package:flutter_vantui/src/widgets/form/types.dart';
 import 'package:tailstyle/tailstyle.dart';
 import 'package:tuple/tuple.dart';
 
+// @DocsId("slider")
+
 class Slider extends StatefulWidget implements FormItemChild<double> {
+  // @DocsProp("value", "double", "当前值")
   @override
   final double? value;
   @override
+  // @DocsProp("onChange", "Function(double)", "值变化触发")
   final Function(double v)? onChange;
+  // @DocsProp("min", "double", "最小值")
   final double? min;
+  // @DocsProp("max", "double", "最大值")
   final double? max;
+  // @DocsProp("step", "double", "步进")
   final double? step;
+  // @DocsProp("onChangeEnd", "Function(double)", "拖动结束触发")
   final Function(double v)? onChangeEnd;
+  // @DocsProp("drawThumb", "Widget Function(double)", "绘制滑块")
   final Widget Function(double v)? drawThumb;
+  // @DocsProp("activeBg", "Color", "选中部分背景颜色")
   final Color? activeBg;
+  // @DocsProp("inactiveBg", "Color", "未选中部分背景颜色")
   final Color? inactiveBg;
+  // @DocsProp("barHeight", "double", "滑条高度")
   final double? barHeight;
 
   const Slider({

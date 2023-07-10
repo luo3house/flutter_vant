@@ -13,6 +13,8 @@ import 'column.dart';
 typedef GeneralColumns = List<List<INamedValueOption>>;
 typedef CascadeColumns = List<INamedValueOption>;
 
+// @DocsId("picker")
+
 class PickerOption extends NamedValueOption {
   PickerOption(
     super.name,
@@ -23,9 +25,13 @@ class PickerOption extends NamedValueOption {
 }
 
 class PickerPanel extends StatefulWidget {
+  // @DocsProp("columns", "List<NamedValue | PickerOption> | List<List<NamedValue | PickerOption>>", "带子级联选项、或多维固定选项")
   final dynamic columns;
+  // @DocsProp("values", "List", "当前值列表")
   final List? values;
+  // @DocsProp("onChange", "Function(List)", "值变化回调")
   final Function(List values)? onChange;
+  // @DocsProp("loop", "bool", "循环选项列")
   final bool? loop;
 
   PickerPanel({

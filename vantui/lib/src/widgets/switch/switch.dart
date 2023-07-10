@@ -2,13 +2,22 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_vantui/src/widgets/config/index.dart';
 import 'package:tailstyle/tailstyle.dart';
 
+// @DocsId("switch")
+
 class Switch extends StatelessWidget {
+  // @DocsProp("value", "bool", "当前选中")
   final bool? value;
+  // @DocsProp("size", "double", "大小")
   final double? size;
+  // @DocsProp("disabled", "bool", "禁用状态")
   final bool? disabled;
+  // @DocsProp("onChange", "Function(bool)", "选中变化触发")
   final Function(bool v)? onChange;
+  // @DocsProp("bgOffColor", "Color", "关闭时背景颜色")
   final Color? bgOffColor;
+  // @DocsProp("bgOnColor", "Color", "打开时背景颜色")
   final Color? bgOnColor;
+  // @DocsProp("drawThumb", "Widget Function(bool)", "绘制滑块")
   final Widget Function(bool v)? drawThumb;
 
   const Switch({

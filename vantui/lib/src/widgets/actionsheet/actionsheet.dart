@@ -6,15 +6,25 @@ import '../config/index.dart';
 import '../popup/index.dart';
 import 'item.dart';
 
+// @DocsId("actionsheet")
+
 class ActionSheet extends StatelessWidget {
+  // @DocsProp("show", "bool", "是否显示")
   final bool? show;
-  final List<VanActionSheetItem>? actions;
+  // @DocsProp("actions", "List<ActionSheetItem>", "Action")
+  final List<ActionSheetItem>? actions;
+  // @DocsProp("description", "String", "描述文本")
   final String? description;
+  // @DocsProp("cancelText", "String", "取消文本")
   final String? cancelText;
+  // @DocsProp("closeOnClickAction", "bool", "在点击 Action 后关闭面板")
   final bool? closeOnClickAction;
+  // @DocsProp("onClose", "Function()", "面板关闭回调")
   final Function()? onClose;
+  // @DocsProp("onCancel", "Function()", "点击取消回调，之后触发关闭回调")
   final Function()? onCancel;
-  final Function(VanActionSheetItem item)? onSelect;
+  // @DocsProp("onSelect", "Function(ActionSheetItem)", "点击 Action 回调")
+  final Function(ActionSheetItem item)? onSelect;
   final Function()? onInvalidate;
 
   const ActionSheet({
@@ -81,7 +91,7 @@ class ActionSheet extends StatelessWidget {
             onCancel?.call();
             onClose?.call();
           },
-          child: VanActionSheetItem(cancelText ?? "取消"),
+          child: ActionSheetItem(cancelText ?? "取消"),
         );
       }
     }();

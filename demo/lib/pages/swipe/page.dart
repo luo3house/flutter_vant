@@ -81,7 +81,7 @@ class SwipePage extends StatelessWidget {
       // @DocsDemo("自定义指示器")
       Swipe(
         loop: true,
-        indicator: SwipeIndicatorBuilder((e) {
+        indicator: (e) {
           return Positioned(
             right: 10,
             bottom: 10,
@@ -93,7 +93,7 @@ class SwipePage extends StatelessWidget {
                   .Text("${e.active}/${e.total}"),
             ),
           );
-        }),
+        },
         children: [
           buildCarouselBox(0),
           buildCarouselBox(1),

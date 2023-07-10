@@ -4,11 +4,18 @@ import 'package:flutter_vantui/src/widgets/picker/panel.dart';
 import '../_util/with_value.dart';
 import 'toolbar.dart';
 
+// @DocsId("picker")
+
 class Picker extends PickerPanel {
+  // @DocsProp("title", "Widget | String", "面板标题")
   final dynamic title;
+  // @DocsProp("confirmText", "String", "确认文本")
   final String? confirmText;
+  // @DocsProp("cancelTetx", "String", "取消文本")
   final String? cancelText;
+  // @DocsProp("onConfirm", "Function(List)", "确认回调")
   final Function(List? value)? onConfirm;
+  // @DocsProp("onCancel", "Function(List)", "取消回调")
   final Function(List? value)? onCancel;
 
   Picker({

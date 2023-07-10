@@ -4,11 +4,18 @@ import '../_util/with_value.dart';
 import '../picker/toolbar.dart';
 import 'panel.dart';
 
+// @DocsId("datepicker")
+
 class DatePicker extends DatePickerPanel {
+  // @DocsProp("title", "Widget | String", "面板标题")
   final dynamic title;
+  // @DocsProp("confirmText", "String", "确认文本")
   final String? confirmText;
+  // @DocsProp("cancelTetx", "String", "取消文班")
   final String? cancelText;
+  // @DocsProp("onConfirm", "Function(List<int>)", "确认回调")
   final Function(List<int>? value)? onConfirm;
+  // @DocsProp("onCancel", "Function(List<int>)", "取消回调")
   final Function(List<int>? value)? onCancel;
 
   const DatePicker({

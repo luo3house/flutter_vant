@@ -17,13 +17,22 @@ import 'month.dart';
 
 enum CalendarType { single, multiple, range }
 
+// @DocsId("calendar")
+
 class CalendarPanel extends StatefulWidget {
+  // @DocsProp("minDate", "DateTime", "最小日期")
   final DateTime? minDate;
+  // @DocsProp("maxDate", "DateTime", "最大日期")
   final DateTime? maxDate;
+  // @DocsProp("dayHeight", "double", "日期格子高度")
   final double? dayHeight;
+  // @DocsProp("type", "single | multiple | range", "日期选择类型")
   final CalendarType? type;
+  // @DocsProp("value", "DateTime | List<DateTime>", "日期选择值")
   final dynamic value;
+  // @DocsProp("onChange", "Function(List<DateTime>)", "日期选择回调")
   final Function(List<DateTime> values)? onChange;
+  // @DocsProp("expands", "bool", "布满高度")
   final bool? expands;
 
   const CalendarPanel({

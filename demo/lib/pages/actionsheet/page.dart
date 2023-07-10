@@ -5,6 +5,9 @@ import 'package:tailstyle/tailstyle.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart' show Colors;
 
+// @DocsId("actionsheet")
+// DocsWidget("ActionSheet 动作面板")
+
 class ActionSheetPage extends StatelessWidget {
   final Uri location;
   const ActionSheetPage(this.location, {super.key});
@@ -26,9 +29,9 @@ class ActionSheetPage extends StatelessWidget {
                     model.value = model.value.clone()..show = false;
                   })
                   ..actions = [
-                    const VanActionSheetItem("选项 1"),
-                    const VanActionSheetItem("选项 2"),
-                    const VanActionSheetItem("选项 3"),
+                    const ActionSheetItem("选项 1"),
+                    const ActionSheetItem("选项 2"),
+                    const ActionSheetItem("选项 3"),
                   ]
                   ..onSelect =
                       (item) => ToastStatic.show(context, message: item.name);
@@ -44,8 +47,8 @@ class ActionSheetPage extends StatelessWidget {
                     model.value = model.value.clone()..show = false;
                   })
                   ..actions = [
-                    const VanActionSheetItem("选项 1"),
-                    const VanActionSheetItem("选项 2"),
+                    const ActionSheetItem("选项 1"),
+                    const ActionSheetItem("选项 2"),
                   ]
                   ..cancelText = "取消"
                   ..onCancel = () {
@@ -65,8 +68,8 @@ class ActionSheetPage extends StatelessWidget {
                   ..description = "描述信息"
                   ..cancelText = "取消"
                   ..actions = [
-                    const VanActionSheetItem("选项 1"),
-                    const VanActionSheetItem("选项 2"),
+                    const ActionSheetItem("选项 1"),
+                    const ActionSheetItem("选项 2"),
                   ];
               },
             ),
@@ -84,11 +87,11 @@ class ActionSheetPage extends StatelessWidget {
                   })
                   ..description = "描述信息"
                   ..actions = [
-                    VanActionSheetItem(
+                    ActionSheetItem(
                       "option1",
                       child: TailTypo().text_color(Colors.red).Text("选项 1"),
                     ),
-                    const VanActionSheetItem(
+                    const ActionSheetItem(
                       "option2",
                       disabled: true,
                       child: Text("禁用选项"),
@@ -115,13 +118,13 @@ class ActionSheetPage extends StatelessWidget {
 
 class _State {
   bool? show;
-  List<VanActionSheetItem>? actions;
+  List<ActionSheetItem>? actions;
   String? description;
   String? cancelText;
   bool? closeOnClickAction;
   Function()? onClose;
   Function()? onCancel;
-  Function(VanActionSheetItem item)? onSelect;
+  Function(ActionSheetItem item)? onSelect;
   clone() {
     return _State()
       ..show = show

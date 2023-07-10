@@ -5,11 +5,18 @@ import '../_util/with_value.dart';
 import '../picker/toolbar.dart';
 import 'panel.dart';
 
+// @DocsId("time_picker")
+
 class TimePicker extends TimePickerPanel {
+  // @DocsProp("title", "Widget | String", "面板标题")
   final dynamic title;
+  // @DocsProp("confirmText", "String", "确认文本")
   final String? confirmText;
+  // @DocsProp("cancelText", "String", "取消文本")
   final String? cancelText;
+  // @DocsProp("onConfirm", "Function(List<int>)", "确认触发")
   final Function(List<int>? value)? onConfirm;
+  // @DocsProp("onCancel", "Function(List<int>)", "取消触发")
   final Function(List<int>? value)? onCancel;
 
   const TimePicker({

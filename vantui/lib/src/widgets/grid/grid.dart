@@ -7,11 +7,18 @@ import '../badge/badge.dart';
 import '../button/pressable.dart';
 import '../config/index.dart';
 
+// @DocsId("grid")
+
 class Grid extends StatelessWidget {
+  // @DocsProp("square", "bool", "使用宽高一致")
   final bool? square;
+  // @DocsProp("columnNum", "int", "列数")
   final int? columnNum;
+  // @DocsProp("gutter", "double", "间距")
   final double? gutter;
+  // @DocsProp("children", "List<GridItem>", "-")
   final List<GridItem>? children;
+
   const Grid({
     this.square,
     this.columnNum,

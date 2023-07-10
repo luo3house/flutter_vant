@@ -8,28 +8,52 @@ import '../config/index.dart';
 import '../form/types.dart';
 import '../../utils/nil.dart';
 
+// @DocsId("input")
+
 class Input extends StatefulWidget implements FormItemChild<String> {
+  // @DocsProp("value", "String", "当前值")
   final String? value;
+  // @DocsProp("autoFocus", "bool", "自动聚焦")
   final bool? autoFocus;
+  // @DocsProp("focusNode", "FocusNode", "聚焦对象")
   final FocusNode? focusNode;
+  // @DocsProp("obscureText", "bool", "隐藏文本")
   final bool? obscureText;
+  // @DocsProp("hint", "String", "输入提示")
   final String? hint;
+  // @DocsProp("minLines", "int", "最小行")
   final int? minLines;
+  // @DocsProp("maxLines", "int", "最大行")
   final int? maxLines;
+  // @DocsProp("disabled", "bool", "禁用状态")
   final bool? disabled;
+  // @DocsProp("maxLength", "int", "最大长度")
   final int? maxLength;
+  // @DocsProp("controller", "TextEditingController", "控制器")
   final TextEditingController? controller;
+  // @DocsProp("inputFormatters", "List<TextInputFormatter>", "文本格式化")
   final List<TextInputFormatter>? inputFormatters;
+  // @DocsProp("onChange", "Function(String value)", "值变化回调")
   final Function(String v)? onChange;
+  // @DocsProp("onFocus", "Function()", "聚焦时回调")
   final Function()? onFocus;
+  // @DocsProp("onBlur", "Function()", "失去焦点回调")
   final Function()? onBlur;
+  // @DocsProp("textStyle", "TextStyle", "文本样式")
   final TextStyle? textStyle;
+  // @DocsProp("keyboardType", "TextInputType", "系统键盘风格")
   final TextInputType? keyboardType;
+  // @DocsProp("textInputAction", "TextInputAction", "系统键盘「确认」键风格")
   final TextInputAction? textInputAction;
+  // @DocsProp("cursorColor", "Color", "光标颜色")
   final Color? cursorColor;
+  // @DocsProp("bgCursorColor", "Color", "背景光标颜色")
   final Color? bgCursorColor;
+  // @DocsProp("selectionColor", "Color", "框选浮层颜色")
   final Color? selectionColor;
+  // @DocsProp("bgColor", "Color", "背景颜色")
   final Color? bgColor;
+  // @DocsProp("as", "Widget Function(Widget input)", "绘制代理，可用于自定义绘制")
   final Widget Function(Widget input)? as;
 
   const Input({

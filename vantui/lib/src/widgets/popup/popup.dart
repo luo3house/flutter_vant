@@ -8,18 +8,29 @@ import 'content.dart';
 
 import 'types.dart';
 
+// @DocsId("popup")
+
 class Popup extends StatefulWidget {
+// @DocsProp("show", "ValueNotifier<bool> | bool", "是否展示弹出层，为 ValueNotifier 时可免 onClose 关闭")
   final dynamic show;
+// @DocsProp("overlay", "bool", "展示遮罩层")
   final bool? overlay;
+  // @DocsProp("position", "top | bottom | left | right | center", "弹出层位置")
   final PopupPosition? position;
+  // @DocsProp("padding", "EdgeInsets", "内间距")
   final EdgeInsets? padding;
+  // @DocsProp("round", "bool", "圆角风格")
   final bool? round;
+  // @DocsProp("closeOnClickOverlay", "bool", "点击遮罩层关闭弹出层")
   final bool? closeOnClickOverlay;
-  final Widget? child;
+  // @DocsProp("constraints", "BoxConstraints", "内容尺寸约束")
   final BoxConstraints? constraints;
+  // @DocsProp("onClose", "Function()", "关闭时回调")
   final Function()? onClose;
-  final Function()? onInvalidate;
+  // @DocsProp("teleport", "OverlayState | false | null", "传送目标，默认找最近的覆盖层绘制")
   final dynamic teleport;
+  final Function()? onInvalidate;
+  final Widget? child;
 
   Popup({
     this.show,

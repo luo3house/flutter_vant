@@ -4,15 +4,26 @@ import '../_util/has_next_widget.dart';
 import '_flex.dart';
 import 'package:tailstyle/tailstyle.dart';
 
+// @DocsId("cell")
+
 class Cell extends StatefulWidget {
+  // @DocsProp("title", "Widget | String | null", "标题")
   final dynamic title;
+  // @DocsProp("value", "Widget | String | null", "当前值")
   final dynamic value;
+  // @DocsProp("label", "String", "副标题")
   final String? label;
+  // @DocsProp("icon", "Widget | IconData", "左侧图标")
   final dynamic icon;
+  // @DocsProp("arrow", "true | Widget | IconData", "右侧箭头")
   final dynamic arrow;
+  // @DocsProp("center", "bool", "垂直居中")
   final bool? center;
+  // @DocsProp("prefix", "Widget", "左侧前缀")
   final Widget? prefix;
+  // @DocsProp("clickable", "bool", "可点击并触发")
   final bool? clickable;
+  // @DocsProp("onTap", "Function()", "点击回调")
   final Function()? onTap;
 
   const Cell({

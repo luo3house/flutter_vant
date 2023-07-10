@@ -9,15 +9,26 @@ enum TagType { primary, success, warning, danger }
 
 enum TagSize { small, medium, large }
 
+// @DocsId("tag")
+
 class Tag extends StatelessWidget {
+  // @DocsProp("child", "String", "标签文本")
   final String? child;
+  // @DocsProp("type", "primary | success | warning | danger", "类型")
   final TagType? type;
+  // @DocsProp("size", "small | medium | large", "大小")
   final TagSize? size;
+  // @DocsProp("plain", "bool", "朴素风格")
   final bool? plain;
+  // @DocsProp("round", "bool", "圆角风格")
   final bool? round;
+  // @DocsProp("color", "Color", "颜色")
   final Color? color;
+  // @DocsProp("textColor", "Color", "文本颜色")
   final Color? textColor;
+  // @DocsProp("icon", "Widget | IconDate", "右侧图标")
   final dynamic icon;
+  // @DocsProp("onIconTap", "Function()", "点击图标触发")
   final Function()? onIconTap;
 
   const Tag({

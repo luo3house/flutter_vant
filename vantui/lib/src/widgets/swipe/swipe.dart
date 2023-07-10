@@ -6,34 +6,48 @@ import 'package:flutter_vantui/src/widgets/config/index.dart';
 import 'package:tailstyle/tailstyle.dart';
 import 'package:tuple/tuple.dart';
 
+// @DocsId("swipe")
+
 class IndicatorStatus extends Tuple2<int, int> {
   IndicatorStatus(super.item1, super.item2);
   int get active => item1;
   int get total => item2;
 }
 
-class SwipeIndicatorBuilder {
-  final Widget Function(IndicatorStatus e) builder;
-  const SwipeIndicatorBuilder(this.builder);
-}
+typedef SwipeIndicatorBuilder = Widget Function(IndicatorStatus e);
 
 typedef HeightFromConstraint = double Function(BoxConstraints con);
 
 class Swipe extends StatefulWidget {
+  // @DocsProp("autoplay", "Duration", "自动播放间隔时间，默认 0 不自动播放")
   final Duration? autoplay;
+  // @DocsProp("duration", "Duration", "轮播速度，默认半秒")
   final Duration? duration;
+  // @DocsProp("initialIndex", "int", "初始位置")
   final int? initialIndex;
+  // @DocsProp("height", "double | double Function(BoxConstraints con)", "高度，或以宽度取高度；与 aspectRatio 互斥")
   final dynamic height;
+  // @DocsProp("aspectRatio", "double", "宽高比，与 height 互斥")
   final double? aspectRatio;
+  // @DocsProp("indicator", "Widget | Widget Function({active, total})", "当前位置指示器")
   final dynamic indicator;
+  // @DocsProp("gesture", "bool", "允许手势切换")
   final bool? gesture;
+  // @DocsProp("loop", "bool", "循环切换")
   final bool? loop;
+  // @DocsProp("count", "int", "滑块数量，配合 builder 使用")
   final int? count;
+  // @DocsProp("viewportFraction", "double", "滑块大小")
   final double? viewportFraction;
+  // @DocsProp("onChange", "Function(int index)", "切换时触发")
   final Function(int index)? onChange;
+  // @DocsProp("children", "List<Widget>", "滑块列表，与 builder 互斥")
   final List<Widget>? children;
+  // @DocsProp("builder", "Function(int index)", "构建滑块，与 children 互斥")
   final Widget Function(int index)? builder;
+  // @DocsProp("padEnds", "bool", "紧凑滑块，配合 viewportFraction 使用")
   final bool? padEnds;
+
   const Swipe({
     this.autoplay,
     this.duration,
@@ -201,7 +215,7 @@ class SwipeState extends State<Swipe> {
           return ValueListenableBuilder(
             valueListenable: indicatePage,
             builder: (_, p, __) => (widget.indicator as SwipeIndicatorBuilder)
-                .builder(IndicatorStatus(p, count)),
+                .call(IndicatorStatus(p, count)),
           );
         } else {
           return ValueListenableBuilder(

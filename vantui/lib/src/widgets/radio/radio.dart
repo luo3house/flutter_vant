@@ -3,8 +3,18 @@ import 'package:flutter/widgets.dart';
 import '../checkbox/checkbox.dart';
 import 'provider.dart';
 
+// @DocsId("radio")
+
 class Radio extends Checkbox {
+  // @DocsProp("name", "String", "单选框值")
   final String? name;
+  // @DocsProp("onChange", "Function(bool)", "选择时触发")
+  // @DocsProp("shape", "BoxShape", "选框形状")
+  // @DocsProp("icon", "Widget Function(bool checked)", "选框图标")
+  // @DocsProp("label", "(Widget | String | null) Function(bool checked) | Widget | String | null", "选框标题")
+  // @DocsProp("disabled", "bool", "禁用状态")
+  // @DocsProp("checkedColor", "Color", "选中颜色")
+
   const Radio({
     super.checked,
     super.onChange,

@@ -9,18 +9,30 @@ import '../config/index.dart';
 import '../form/types.dart';
 import '../icon/index.dart';
 
+// @DocsId("rate")
+
 class Rate extends StatefulWidget implements FormItemChild<double> {
+  // @DocsProp("value", "double", "当前值")
   @override
   final double? value;
+  // @DocsProp("onChange", "Function(double v)", "值变化触发")
   @override
   final Function(double v)? onChange;
+  // @DocsProp("count", "int", "最大值")
   final int? count;
+  // @DocsProp("size", "double", "大小")
   final double? size;
+  // @DocsProp("voidIcon", "Widget | Icon | String", "未选中图标")
   final dynamic voidIcon;
+  // @DocsProp("icon", "Widget | Icon | String", "选中图标")
   final dynamic icon;
+  // @DocsProp("color", "Color", "选中颜色")
   final Color? color;
+  // @DocsProp("voidColor", "Color", "未选中颜色")
   final Color? voidColor;
+  // @DocsProp("gap", "double", "间距")
   final double? gap;
+  // @DocsProp("allowHalf", "bool", "允许半星")
   final bool? allowHalf;
 
   const Rate({

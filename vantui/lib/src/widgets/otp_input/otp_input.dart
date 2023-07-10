@@ -9,12 +9,20 @@ import '../_util/hidden.dart';
 import '../config/index.dart';
 import '../input/input.dart';
 
+// @DocsId("otp_input")
+
 class OTPInput extends StatefulWidget {
+  // @DocsProp("value", "String", "当前值")
   final String? value;
+  // @DocsProp("length", "int", "最大长度")
   final int? length;
+  // @DocsProp("gutter", "double", "间距")
   final double? gutter;
+  // @DocsProp("obsecure", "bool", "隐藏文本")
   final bool? obsecure;
+  // @DocsProp("autoFocus", "bool", "自动聚焦")
   final bool? autoFocus;
+  // @DocsProp("onChange", "Function(String codes)", "值变化回调")
   final Function(String value)? onChange;
 
   const OTPInput({
