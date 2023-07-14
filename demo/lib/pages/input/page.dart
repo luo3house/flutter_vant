@@ -1,8 +1,10 @@
 import 'package:demo/doc/doc_title.dart';
 import 'package:demo/widgets/child.dart';
 import 'package:demo/widgets/with_value.dart';
+import 'package:flutter/material.dart' show Colors;
 import 'package:flutter_vantui/flutter_vantui.dart';
 import 'package:flutter/widgets.dart';
+import 'package:tailstyle/tailstyle.dart';
 
 // @DocsId("input")
 // @DocsWidget("Input 输入框")
@@ -14,13 +16,13 @@ class InputPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      const DocTitle("Basic Usage"),
+      const DocTitle("基本用法"),
       WithModel("", (model) {
         return Child(
           // @DocsDemo("基本用法")
           Input(
             onChange: print,
-            hint: "Multi Line Available",
+            hint: "支持多行",
             value: model.value,
             autoFocus: true,
           ),
@@ -28,7 +30,7 @@ class InputPage extends StatelessWidget {
         );
       }),
 
-      const DocTitle("Keyboard Type"),
+      const DocTitle("键盘类型"),
       WithModel("", (model) {
         return Child(
           // @DocsDemo("键盘类型: 文字")
@@ -95,15 +97,15 @@ class InputPage extends StatelessWidget {
       }),
 
       //
-      const DocTitle("Disabled"),
+      const DocTitle("禁用状态"),
       // @DocsDemo("禁用状态")
       const Input(
-        value: "Input Disabled",
+        hint: "无法输入内容和获取焦点",
         disabled: true,
       ),
       // @DocsDemo
 
-      const DocTitle("Max Length"),
+      const DocTitle("最大输入长度"),
       WithModel("", (model) {
         return Child(
           // @DocsDemo("最大输入长度")
@@ -115,6 +117,22 @@ class InputPage extends StatelessWidget {
           // @DocsDemo
         );
       }),
+
+      const DocTitle("自定义风格"),
+      DocPadding(
+        // @DocsDemo("自定义风格", "默认渲染朴素、接近 Web input 的风格。而通过 as 可自定义 Input 绘制，比如装饰到一个华丽的盒子里")
+        Input(
+          hint: "Placeholder",
+          bgColor: Colors.white,
+          as: (child) => TailBox()
+              .p(10)
+              .rounded(8)
+              .border(Colors.blue.shade800)
+              .bg(Colors.white)
+              .Container(child: child),
+        ),
+        // @DocsDemo
+      ),
     ]);
   }
 }

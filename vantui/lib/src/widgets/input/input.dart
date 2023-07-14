@@ -1,9 +1,11 @@
 // ignore_for_file: annotate_overrides
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tailstyle/tailstyle.dart';
 
+import 'selection_controls.dart';
 import '../config/index.dart';
 import '../form/types.dart';
 import '../../utils/nil.dart';
@@ -11,6 +13,11 @@ import '../../utils/nil.dart';
 // @DocsId("input")
 
 class Input extends StatefulWidget implements FormItemChild<String> {
+  static const defaultToolbarOptions =
+      ToolbarOptions(copy: true, cut: true, selectAll: true, paste: true);
+  static const obscureToolbarOptions =
+      ToolbarOptions(copy: false, cut: false, selectAll: false, paste: true);
+
   // @DocsProp("value", "String", "当前值")
   final String? value;
   // @DocsProp("autoFocus", "bool", "自动聚焦")
@@ -39,12 +46,20 @@ class Input extends StatefulWidget implements FormItemChild<String> {
   final Function()? onFocus;
   // @DocsProp("onBlur", "Function()", "失去焦点回调")
   final Function()? onBlur;
-  // @DocsProp("textStyle", "TextStyle", "文本样式")
-  final TextStyle? textStyle;
   // @DocsProp("keyboardType", "TextInputType", "系统键盘风格")
   final TextInputType? keyboardType;
   // @DocsProp("textInputAction", "TextInputAction", "系统键盘「确认」键风格")
   final TextInputAction? textInputAction;
+  // @DocsProp("toolbarOptions", "ToolbarOptions", "框选选项，可配置复制、粘贴、全选、剪切功能")
+  final ToolbarOptions? toolbarOptions;
+  // @DocsProp("selectionControls", "TextSelectionControls", "框选控制")
+  final TextSelectionControls? selectionControls;
+  // @DocsProp("textStyle", "TextStyle", "文本样式")
+  final TextStyle? textStyle;
+  // @DocsProp("showCursor", "bool", "展示光标"")
+  final bool? showCursor;
+  // @DocsProp("showSelectionHandles", "bool", "展示框选光标")
+  final bool? showSelectionHandles;
   // @DocsProp("cursorColor", "Color", "光标颜色")
   final Color? cursorColor;
   // @DocsProp("bgCursorColor", "Color", "背景光标颜色")
@@ -73,6 +88,10 @@ class Input extends StatefulWidget implements FormItemChild<String> {
     this.onChange,
     this.onFocus,
     this.onBlur,
+    this.toolbarOptions,
+    this.selectionControls,
+    this.showCursor,
+    this.showSelectionHandles,
     this.textStyle,
     this.cursorColor,
     this.bgCursorColor,
@@ -106,6 +125,10 @@ class Input extends StatefulWidget implements FormItemChild<String> {
       onChange: onChange,
       onFocus: onFocus,
       onBlur: onBlur,
+      toolbarOptions: toolbarOptions,
+      selectionControls: selectionControls,
+      showCursor: showCursor,
+      showSelectionHandles: showSelectionHandles,
       textStyle: textStyle,
       cursorColor: cursorColor,
       bgCursorColor: bgCursorColor,
@@ -123,6 +146,7 @@ class InputState extends State<Input>
   final focusNodeFocus = ValueNotifier(false);
   late TextEditingController controller;
   late TextSelectionGestureDetectorBuilder gestureDetectorBuilder;
+  var _showSelectionHandles = false;
 
   int? get maxLines => obscureText ? 1 : widget.maxLines;
   bool get autoFocus => widget.autoFocus ?? false;
@@ -188,6 +212,57 @@ class InputState extends State<Input>
     setState(() {});
   }
 
+  bool _shouldShowSelectionHandles(SelectionChangedCause? cause) {
+    // When the text field is activated by something that doesn't trigger the
+    // selection overlay, we shouldn't show the handles either.
+    if (!gestureDetectorBuilder.shouldShowSelectionToolbar) {
+      return false;
+    }
+
+    if (cause == SelectionChangedCause.keyboard) {
+      return false;
+    }
+
+    if (cause == SelectionChangedCause.longPress ||
+        cause == SelectionChangedCause.scribble) {
+      return true;
+    }
+
+    if (controller.text.isNotEmpty) {
+      return true;
+    }
+
+    return false;
+  }
+
+  _handleSelectionChanged(
+      TextSelection selection, SelectionChangedCause? cause) {
+    final bool willShowSelectionHandles = _shouldShowSelectionHandles(cause);
+    if (willShowSelectionHandles != _showSelectionHandles) {
+      setState(() {
+        _showSelectionHandles = willShowSelectionHandles;
+      });
+    }
+
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.iOS:
+      case TargetPlatform.macOS:
+        if (cause == SelectionChangedCause.longPress ||
+            cause == SelectionChangedCause.drag) {
+          editableTextKey.currentState?.bringIntoView(selection.extent);
+        }
+        return;
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.android:
+        if (cause == SelectionChangedCause.drag) {
+          editableTextKey.currentState?.bringIntoView(selection.extent);
+        }
+        return;
+    }
+  }
+
   TextInputFormatter maxLengthFormatter() {
     return LengthLimitingTextInputFormatter(
       widget.maxLength,
@@ -205,11 +280,20 @@ class InputState extends State<Input>
     final textStyle = () {
       var style = DefaultTextStyle.of(context).style;
       if (disabled) {
-        style = style.copyWith(color: theme.textColor3);
+        return style.copyWith(color: theme.textColor3);
       } else {
         return style.copyWith(color: theme.textColor);
       }
     }();
+
+    final toolbarOptions = widget.toolbarOptions ??
+        (obscureText
+            ? Input.obscureToolbarOptions
+            : Input.defaultToolbarOptions);
+
+    final selectionControls = widget.selectionControls ??
+        PlatformDefaultTextSelectionControls.decorateFromPlatform(
+            context, defaultTargetPlatform);
 
     final editable = EditableText(
       key: textKey,
@@ -230,6 +314,12 @@ class InputState extends State<Input>
       selectionColor: selectionColor,
       inputFormatters: [maxLengthFormatter(), ...?widget.inputFormatters],
       rendererIgnoresPointer: true,
+      toolbarOptions: toolbarOptions,
+      selectionControls: selectionControls,
+      showCursor: widget.showCursor,
+      showSelectionHandles:
+          widget.showSelectionHandles ?? _showSelectionHandles,
+      onSelectionChanged: _handleSelectionChanged,
     );
 
     final hint = () {
@@ -293,10 +383,25 @@ class VanInputStateSelectionBuilder
   @override
   void onSingleLongTapMoveUpdate(LongPressMoveUpdateDetails details) {
     if (delegate.selectionEnabled) {
-      renderEditable.selectPositionAt(
-        from: details.globalPosition,
-        cause: SelectionChangedCause.longPress,
-      );
+      switch (defaultTargetPlatform) {
+        case TargetPlatform.iOS:
+        case TargetPlatform.macOS:
+          renderEditable.selectPositionAt(
+            from: details.globalPosition,
+            cause: SelectionChangedCause.longPress,
+          );
+          break;
+        case TargetPlatform.android:
+        case TargetPlatform.fuchsia:
+        case TargetPlatform.linux:
+        case TargetPlatform.windows:
+          renderEditable.selectWordsInRange(
+            from: details.globalPosition - details.offsetFromOrigin,
+            to: details.globalPosition,
+            cause: SelectionChangedCause.longPress,
+          );
+          break;
+      }
     }
   }
 
@@ -310,10 +415,22 @@ class VanInputStateSelectionBuilder
   @override
   void onSingleLongTapStart(LongPressStartDetails details) {
     if (delegate.selectionEnabled) {
-      renderEditable.selectPositionAt(
-        from: details.globalPosition,
-        cause: SelectionChangedCause.longPress,
-      );
+      switch (defaultTargetPlatform) {
+        case TargetPlatform.iOS:
+        case TargetPlatform.macOS:
+          renderEditable.selectPositionAt(
+            from: details.globalPosition,
+            cause: SelectionChangedCause.longPress,
+          );
+          break;
+        case TargetPlatform.android:
+        case TargetPlatform.fuchsia:
+        case TargetPlatform.linux:
+        case TargetPlatform.windows:
+          renderEditable.selectWord(cause: SelectionChangedCause.longPress);
+          editableText.showToolbar();
+          break;
+      }
     }
   }
 }
