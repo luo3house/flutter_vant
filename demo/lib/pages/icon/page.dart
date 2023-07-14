@@ -16,7 +16,7 @@ class IconPage extends StatelessWidget {
     return Tabs(expands: true, children: [
       Tab(
         "用法",
-        child: IconTheme(
+        child: IconTheme.merge(
           data: const IconThemeData(size: 32),
           child: ListView(children: [
             const DocTitle("基本使用"),

@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_vantui/src/utils/nil.dart';
 import 'package:flutter_vantui/src/widgets/button/pressable.dart';
 import 'package:flutter_vantui/src/widgets/config/index.dart';
-import 'package:flutter_vantui/src/widgets/icon/index.dart';
 import 'package:tailstyle/tailstyle.dart';
 
 import 'types.dart';
@@ -63,8 +62,8 @@ class Button extends StatelessWidget {
     final theme = VanConfig.ofTheme(context);
 
     final bg = <dynamic, Color>{
-      "plain": theme.white,
-      null: theme.white,
+      "plain": const Color(0x00000000),
+      null: const Color(0x00000000),
       ButtonType.primary: theme.primaryColor,
       ButtonType.success: theme.successColor,
       ButtonType.danger: theme.dangerColor,

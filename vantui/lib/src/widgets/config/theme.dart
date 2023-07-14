@@ -6,7 +6,26 @@ part 'theme.g.dart';
 
 @JsonSerializable(includeIfNull: false, converters: [ColorJsonConverter()])
 class VanTheme {
-  static final VanTheme fallback = VanTheme();
+  static final VanTheme fallback = light;
+  static final VanTheme light = VanTheme();
+  static final VanTheme dark = fallback.clone()
+    ..textColor = const Color(0xFFF5F5F5)
+    ..textColor2 = const Color(0xFF707070)
+    ..textColor3 = const Color(0xFF4D4D4D)
+    ..borderColor = const Color(0xFF3A3A3C)
+    ..activeColor = const Color(0xFF3A3A3C)
+    ..background = const Color(0xFF000000)
+    ..background2 = const Color(0xFF1C1C1E)
+    ..gray8 = const Color(0xFFF7F8FA)
+    ..gray7 = const Color(0xFFF2F3F5)
+    ..gray6 = const Color(0xFFEBEDF0)
+    ..gray5 = const Color(0xFFDCDEE0)
+    ..gray4 = const Color(0xFFC8C9CC)
+    ..gray3 = const Color(0xFF969799)
+    ..gray2 = const Color(0xFF646566)
+    ..gray1 = const Color(0xFF323233)
+    ..isDark = true;
+
   Color gray1 = const Color(0xFFF7F8FA);
   Color gray2 = const Color(0xFFF2F3F5);
   Color gray3 = const Color(0xFFEBEDF0);
@@ -17,6 +36,7 @@ class VanTheme {
   Color gray8 = const Color(0xFF323233);
 
   Color white = const Color(0xFFFFFFFF);
+  Color black = const Color(0xFF000000);
   Color red = const Color(0xFFee0a24);
   Color blue = const Color(0xFF1989fa);
   Color orange = const Color(0xFFff976a);
@@ -69,8 +89,12 @@ class VanTheme {
   double radiusLg = 8;
   double radiusMax = 999;
 
+  //
+  bool isDark = false;
+
   static fromJson(Map<String, dynamic> json) => _$VanThemeFromJson(json);
   Map<String, dynamic> toJson() => _$VanThemeToJson(this);
+  VanTheme clone() => fromJson(_$VanThemeToJson(this));
 }
 
 class ColorJsonConverter extends JsonConverter<Color, String> {
@@ -79,10 +103,10 @@ class ColorJsonConverter extends JsonConverter<Color, String> {
   Color fromJson(String json) {
     json = json.padRight(9);
     return Color.fromARGB(
-      int.tryParse(json.substring(1, 3)) ?? 0,
-      int.tryParse(json.substring(3, 5)) ?? 0,
-      int.tryParse(json.substring(5, 7)) ?? 0,
-      int.tryParse(json.substring(7, 9)) ?? 0,
+      int.tryParse(json.substring(7, 9), radix: 16) ?? 0,
+      int.tryParse(json.substring(1, 3), radix: 16) ?? 0,
+      int.tryParse(json.substring(3, 5), radix: 16) ?? 0,
+      int.tryParse(json.substring(5, 7), radix: 16) ?? 0,
     );
   }
 

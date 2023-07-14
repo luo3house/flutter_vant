@@ -8,8 +8,9 @@ class DocTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = VanConfig.ofTheme(context);
     return TailBox().my(16).px(16).Container(
-          child: TailTypo().text_color(const Color(0xFF666666)).Text(title),
+          child: TailTypo().text_color(theme.textColor2).Text(title),
         );
   }
 }

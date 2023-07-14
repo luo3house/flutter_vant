@@ -166,14 +166,15 @@ class _PositionedGradientMask extends StatelessWidget {
   final PickerExtent extent;
   const _PositionedGradientMask(this.extent);
 
-  static const graident = [
-    Color.fromRGBO(255, 255, 255, .9),
-    Color.fromRGBO(255, 255, 255, .4),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final theme = VanConfig.ofTheme(context);
     final height = extent.getItemHeight();
+    final gradientBg = theme.isDark ? theme.black : theme.white;
+    final graident = [
+      gradientBg.withOpacity(.9),
+      gradientBg.withOpacity(.4),
+    ];
     return Positioned.fill(
       child: Column(children: [
         Expanded(

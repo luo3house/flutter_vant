@@ -49,11 +49,15 @@ GoRouterPageBuilder withTransition(LocationBuilder builder) {
 
 LocationBuilder withScaffold(LocationBuilder builder) {
   return (location) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF0F2F5),
-      appBar: const NavBar(title: "Flutter Vant UI"),
-      body: builder(location),
-    );
+    return Builder(builder: (context) {
+      final theme = VanConfig.ofTheme(context);
+      return Scaffold(
+        backgroundColor: theme.background,
+        appBar: const NavBar(title: "Flutter Vant UI"),
+        // scaffold overrides default textstyle & icon theme, should reassign
+        body: DemoLayout(location: location, child: builder(location)),
+      );
+    });
   };
 }
 

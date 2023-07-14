@@ -120,7 +120,7 @@ class TabPage extends StatelessWidget {
                   return false;
                 },
                 child: Container(
-                  color: const Color(0xFFFFFFFF),
+                  color: VanConfig.ofTheme(context).background2,
                   height: 100,
                   child: ListView(
                     controller: contentScroller,
