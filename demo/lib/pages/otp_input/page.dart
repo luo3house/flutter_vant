@@ -42,6 +42,16 @@ class OTPInputPage extends StatelessWidget {
         // @DocsDemo("隐藏文字")
         const OTPInput(obsecure: true, value: "123"),
         // @DocsDemo
+
+        const DocTitle("接收输入完成事件"),
+        // @DocsDemo("接收输入完成事件")
+        OTPInput(
+          obsecure: true,
+          value: "123",
+          onComplete: (chars) =>
+              ToastStatic.show(context, message: "Codes: $chars"),
+        ),
+        // @DocsDemo
       ],
     );
   }

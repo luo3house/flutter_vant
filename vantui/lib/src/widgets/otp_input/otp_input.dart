@@ -24,6 +24,8 @@ class OTPInput extends StatefulWidget {
   final bool? autoFocus;
   // @DocsProp("onChange", "Function(String codes)", "值变化回调")
   final Function(String value)? onChange;
+  // @DocsProp("onComplete", "Function(String codes)", "输入到达长度时触发")
+  final Function(String value)? onComplete;
 
   const OTPInput({
     this.value,
@@ -32,6 +34,7 @@ class OTPInput extends StatefulWidget {
     this.obsecure,
     this.autoFocus,
     this.onChange,
+    this.onComplete,
     super.key,
   });
 
@@ -48,6 +51,7 @@ class OTPInputState extends State<OTPInput> {
   var chars = "";
 
   bool get isFocusing => focusNode.hasFocus;
+  int get length => widget.length ?? 6;
 
   @override
   void initState() {
@@ -71,16 +75,18 @@ class OTPInputState extends State<OTPInput> {
   }
 
   handleCharsChange(String v) {
-    chars = v;
-    setState(() {});
-    widget.onChange?.call(chars);
+    if (chars != v) {
+      chars = v;
+      setState(() {});
+      widget.onChange?.call(chars);
+      if (chars.length >= length) widget.onComplete?.call(chars);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = VanConfig.ofTheme(context);
 
-    final length = widget.length ?? 6;
     final gutter = widget.gutter ?? 0.0;
     final obsecure = widget.obsecure == true;
     final autoFocus = widget.autoFocus ?? false;
@@ -101,6 +107,9 @@ class OTPInputState extends State<OTPInput> {
         value: chars,
         onChange: (v) => handleCharsChange(v),
         inputFormatters: [FilteringTextInputFormatter.allow(digitRE)],
+        showCursor: false,
+        showSelectionHandles: false,
+        toolbarOptions: Input.noToolbarOptions,
         as: (input) {
           return Stack(alignment: Alignment.bottomLeft, children: [
             // paint render box is required to get caret size to scrolling widget to screen
@@ -115,7 +124,8 @@ class OTPInputState extends State<OTPInput> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: List.generate(length, (index) {
                       final slotFocusing = index == chars.length ||
-                          (chars.length == length && index + 1 == length);
+                          // (chars.length == length && index + 1 == length);
+                          false;
                       final borderW = index == 0 ? 0.0 : 1.0;
                       return TailBox()
                           .ml(index == 0 ? 0.0 : gaps.subsequentLeft)

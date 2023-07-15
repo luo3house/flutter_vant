@@ -17,6 +17,8 @@ class Input extends StatefulWidget implements FormItemChild<String> {
       ToolbarOptions(copy: true, cut: true, selectAll: true, paste: true);
   static const obscureToolbarOptions =
       ToolbarOptions(copy: false, cut: false, selectAll: false, paste: true);
+  static const noToolbarOptions =
+      ToolbarOptions(copy: false, cut: false, selectAll: false, paste: false);
 
   // @DocsProp("value", "String", "当前值")
   final String? value;
