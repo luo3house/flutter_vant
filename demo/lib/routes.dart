@@ -4,6 +4,7 @@ import 'package:demo/pages/calendar/page.dart';
 import 'package:demo/pages/cascader/page.dart';
 import 'package:demo/pages/cell/page.dart';
 import 'package:demo/pages/checkbox/page.dart';
+import 'package:demo/pages/config/config.dart';
 import 'package:demo/pages/date_picker/page.dart';
 import 'package:demo/pages/dialog/page.dart';
 import 'package:demo/pages/divider/page.dart';
@@ -96,6 +97,11 @@ final kRoutes = [
     path: "/popup",
     name: "Popup",
     pageBuilder: withTransition(withScaffold((uri) => PopupPage(uri))),
+  ),
+  GoRoute(
+    path: "/config",
+    name: "Config",
+    pageBuilder: withTransition(withScaffold((uri) => ConfigPage(uri))),
   ),
   GoRoute(
     path: "/calendar",

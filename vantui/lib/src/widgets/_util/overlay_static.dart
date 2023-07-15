@@ -26,12 +26,8 @@ class OverlayStatic {
     BuildContext context,
     OverlayWidgetBuilder<W> builder,
   ) {
-    final overlayState = tryCatch(
-      () => Overlay.of(context),
-      orElse: (e) => VanConfig.ofOverlay(context),
-    );
-    assert(overlayState != null,
-        "should have either Overlay or VanConfigProvider");
+    final overlayState = Overlay.of(context);
+    assert(overlayState != null, "should have an Overlay");
     final key = GlobalKey<HideableWidgetState<W>>();
     OverlayEntry? entry;
     removeEntry() {

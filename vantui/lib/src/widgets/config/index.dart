@@ -8,6 +8,8 @@ import 'package:tailstyle/tailstyle.dart';
 import '../_util/glowless_scroll_behavior.dart';
 import 'theme.dart';
 
+// @DocsId("config")
+
 class VanConfig extends StatefulWidget {
   static VanConfigState of(BuildContext context) {
     return Provider.of<VanConfigState>(context);
@@ -21,10 +23,7 @@ class VanConfig extends StatefulWidget {
     return ofn(context)?.theme ?? defaultVal ?? VanTheme.fallback;
   }
 
-  static OverlayState? ofOverlay(BuildContext context) {
-    return ofn(context)?.overlayKey.currentState;
-  }
-
+  // @DocsProp("theme", "VanTheme", "主题配置")
   final VanTheme? theme;
   final Widget? child;
 
@@ -75,12 +74,7 @@ class VanConfigState extends State<VanConfig> {
                 },
               ),
             ),
-            child: Overlay(
-              key: overlayKey,
-              initialEntries: [
-                OverlayEntry(builder: (_) => widget.child ?? nil)
-              ],
-            ),
+            child: widget.child ?? nil,
           ),
         ),
       ),

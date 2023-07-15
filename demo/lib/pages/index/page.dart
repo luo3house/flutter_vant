@@ -35,6 +35,7 @@ class IndexPage extends StatelessWidget {
       "Layout 布局": () => push(context, "/layout"),
       "Toast 轻提示": () => push(context, "/toast"),
       "Popup 弹出层": () => push(context, "/popup"),
+      "Config 全局配置": () => push(context, "/config"),
       "Calendar 日历": () => push(context, "/calendar"),
       "Tab 标签页": () => push(context, "/tab"),
       "Swipe 轮播": () => push(context, "/swipe"),
