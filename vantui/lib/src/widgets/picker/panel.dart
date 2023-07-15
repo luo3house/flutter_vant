@@ -146,13 +146,14 @@ class _PositionedHairline extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = VanConfig.ofTheme(context);
+    final borderColor = theme.borderColor;
 
     return Positioned.fill(
       left: theme.paddingMd,
       right: theme.paddingMd,
       top: null,
       bottom: null,
-      child: TailBox().border_t(theme.gray3).border_b(theme.gray3).as((s) {
+      child: TailBox().border_t(borderColor).border_b(borderColor).as((s) {
         return Container(
           height: extent.getItemHeight(),
           decoration: EventInsensitiveBoxDecoration.from(s.BoxDecoration()),

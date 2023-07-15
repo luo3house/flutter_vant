@@ -38,6 +38,8 @@ class Button extends StatelessWidget {
   final Function()? onTap;
   // @DocsProp("borderColor", "Color", "边框颜色")
   final Color? borderColor;
+  // @DocsProp("bgColor", "Color", "背景颜色")
+  final Color? bgColor;
 
   const Button({
     this.type,
@@ -51,9 +53,10 @@ class Button extends StatelessWidget {
     this.loading,
     this.loadingText,
     this.loadingSize,
+    this.icon,
     this.onTap,
     this.borderColor,
-    this.icon,
+    this.bgColor,
     super.key,
   });
 
@@ -61,14 +64,15 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = VanConfig.ofTheme(context);
 
-    final bg = <dynamic, Color>{
-      "plain": const Color(0x00000000),
-      null: const Color(0x00000000),
-      ButtonType.primary: theme.primaryColor,
-      ButtonType.success: theme.successColor,
-      ButtonType.danger: theme.dangerColor,
-      ButtonType.warning: theme.warningColor,
-    }[plain == true ? "plain" : type];
+    final bg = bgColor ??
+        <dynamic, Color>{
+          "plain": const Color(0x00000000),
+          null: const Color(0x00000000),
+          ButtonType.primary: theme.primaryColor,
+          ButtonType.success: theme.successColor,
+          ButtonType.danger: theme.dangerColor,
+          ButtonType.warning: theme.warningColor,
+        }[plain == true ? "plain" : type];
 
     final borderWidth = theme.borderWidth;
 

@@ -26,6 +26,8 @@ class IndexPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = VanConfig.ofTheme(context);
+
     final links = <String, Function()>{
       "Button 按钮": () => push(context, "/button"),
       "Icon 图标": () => push(context, "/icon"),
@@ -98,6 +100,7 @@ class IndexPage extends StatelessWidget {
                   text: text,
                   onTap: onTap,
                   block: true,
+                  bgColor: theme.background2,
                 ),
               ),
             );
