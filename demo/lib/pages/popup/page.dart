@@ -19,58 +19,25 @@ class PopupPage extends StatefulWidget {
 }
 
 class _PopupPage extends State<PopupPage> {
-  final basicShow = ValueNotifier(false);
-
-  var pos = PopupPosition.center;
-  final posShow = ValueNotifier(false);
-
-  var roundPos = PopupPosition.center;
-  final roundShow = ValueNotifier(false);
-
-  final fitContentShow = ValueNotifier(false);
-  final listContentShow = ValueNotifier(false);
-
   @override
   Widget build(BuildContext context) {
-    NilChild(
-      // @DocsDemo("基本用法")
-      Builder(builder: (_) {
-        final model = ValueNotifier(false);
-        return Popup(show: model, child: const Text("内容"));
-      }),
-      // @DocsDemo
-    );
-
-    NilChild([
-      // @DocsDemo("弹出位置")
-      Popup(position: PopupPosition.center),
-      Popup(position: PopupPosition.top),
-      Popup(position: PopupPosition.bottom),
-      Popup(position: PopupPosition.left),
-      Popup(position: PopupPosition.right),
-      // @DocsDemo
-    ]);
-
-    NilChild(
-      // @DocsDemo("圆角弹窗")
-      Popup(round: true),
-      // @DocsDemo
-    );
-
     return Stack(children: [
       ListView(children: [
         const DocTitle("Basic Usage"),
         Cell(
           title: "展示弹出层",
           clickable: true,
-          onTap: () => basicShow.value = true,
+          // onTap: () => basicShow.value = true,
+          onTap: () {
+            // @DocsDemo("基本用法")
+            PopupStatic.show(
+              context,
+              padding: const EdgeInsets.all(64),
+              child: const Text("内容"),
+            );
+            // @DocsDemo
+          },
         ),
-        Popup(
-          show: basicShow,
-          padding: const EdgeInsets.all(64),
-          child: const Text("内容"),
-        ),
-        // @DocsDemo
 
         const DocTitle("弹出位置"),
         Grid(
@@ -81,8 +48,13 @@ class _PopupPage extends State<PopupPage> {
               icon: VanIcons.arrow_up,
               clickable: true,
               onTap: () {
-                pos = PopupPosition.top;
-                posShow.value = true;
+                // @DocsDemo("顶部弹出")
+                PopupStatic.show(
+                  context,
+                  position: PopupPosition.top,
+                  constraints: const BoxConstraints.tightFor(height: 100),
+                );
+                // @DocsDemo
               },
             ),
             GridItem(
@@ -90,8 +62,11 @@ class _PopupPage extends State<PopupPage> {
               icon: VanIcons.arrow_down,
               clickable: true,
               onTap: () {
-                pos = PopupPosition.bottom;
-                posShow.value = true;
+                PopupStatic.show(
+                  context,
+                  position: PopupPosition.bottom,
+                  constraints: const BoxConstraints.tightFor(height: 100),
+                );
               },
             ),
             GridItem(
@@ -99,8 +74,11 @@ class _PopupPage extends State<PopupPage> {
               icon: VanIcons.arrow_left,
               clickable: true,
               onTap: () {
-                pos = PopupPosition.left;
-                posShow.value = true;
+                PopupStatic.show(
+                  context,
+                  position: PopupPosition.left,
+                  constraints: const BoxConstraints.tightFor(width: 100),
+                );
               },
             ),
             GridItem(
@@ -108,24 +86,15 @@ class _PopupPage extends State<PopupPage> {
               icon: VanIcons.arrow,
               clickable: true,
               onTap: () {
-                pos = PopupPosition.right;
-                posShow.value = true;
+                PopupStatic.show(
+                  context,
+                  position: PopupPosition.right,
+                  constraints: const BoxConstraints.tightFor(width: 100),
+                );
               },
             ),
           ],
         ),
-        WatchModel(posShow, (model) {
-          return Popup(
-            show: posShow,
-            position: pos,
-            constraints: <PopupPosition, BoxConstraints?>{
-              PopupPosition.left: const BoxConstraints.tightFor(width: 100),
-              PopupPosition.right: const BoxConstraints.tightFor(width: 100),
-              PopupPosition.top: const BoxConstraints.tightFor(height: 100),
-              PopupPosition.bottom: const BoxConstraints.tightFor(height: 100),
-            }[pos],
-          );
-        }),
 
         //
         const DocTitle("圆角弹窗"),
@@ -134,30 +103,30 @@ class _PopupPage extends State<PopupPage> {
             title: "圆角弹窗 (居中)",
             clickable: true,
             onTap: () {
-              roundPos = PopupPosition.center;
-              roundShow.value = true;
+              // @DocsDemo("圆角弹窗")
+              PopupStatic.show(
+                context,
+                round: true,
+                padding: const EdgeInsets.all(64),
+                child: const Text("内容"),
+              );
+              // @DocsDemo
             },
           ),
           Cell(
             title: "圆角弹窗 (底部)",
             clickable: true,
             onTap: () {
-              roundPos = PopupPosition.bottom;
-              roundShow.value = true;
+              PopupStatic.show(
+                context,
+                round: true,
+                position: PopupPosition.bottom,
+                constraints: const BoxConstraints.tightFor(height: 100),
+                child: const Center(child: Text("内容")),
+              );
             },
           ),
         ]),
-        WatchModel(roundShow, (model) {
-          return Popup(
-            show: roundShow,
-            round: true,
-            position: roundPos,
-            child: SizedBox.fromSize(
-              size: const Size.square(100),
-              child: const Center(child: Text("内容")),
-            ),
-          );
-        }),
 
         //
         const DocTitle("内容"),
@@ -165,50 +134,69 @@ class _PopupPage extends State<PopupPage> {
           Cell(
             title: "内容自适应",
             clickable: true,
-            onTap: () => fitContentShow.value = true,
+            onTap: () {
+              late Function() close;
+              close = PopupStatic.show(
+                context,
+                round: true,
+                position: PopupPosition.bottom,
+                child: Builder(builder: (_) {
+                  var taller = true;
+                  return StatefulBuilder(builder: (_, setState) {
+                    final double height = taller ? 400 : 200;
+                    return SizedBox(
+                      height: height,
+                      child: Column(children: [
+                        const Expanded(child: nil),
+                        Button(
+                          type: ButtonType.primary,
+                          size: ButtonSize.small,
+                          text: "Height: $height",
+                          onTap: () => setState(() => taller = !taller),
+                        ),
+                        const SizedBox(height: 20),
+                        Button(
+                          text: "Close Popup",
+                          size: ButtonSize.small,
+                          onTap: close,
+                        ),
+                        const SizedBox(height: 50),
+                      ]),
+                    );
+                  });
+                }),
+              );
+            },
           ),
           Cell(
             title: "内容溢出",
             clickable: true,
-            onTap: () => listContentShow.value = true,
-          ),
-        ]),
-      ]),
-      Popup(
-        show: fitContentShow,
-        position: PopupPosition.bottom,
-        round: true,
-        child: WithModel(false, (model) {
-          final height = model.value ? 200.0 : 400.0;
-          return TweenAnimationBuilder(
-            tween: Tween(begin: height, end: height),
-            duration: const Duration(milliseconds: 200),
-            builder: (_, x, __) {
-              return SizedBox(
-                height: x,
-                child: Center(
-                  child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    Text("Height: $height"),
-                    Switch(
-                      value: model.value,
-                      onChange: (v) => model.value = v,
-                    ),
-                  ]),
+            onTap: () {
+              PopupStatic.show(
+                context,
+                round: true,
+                position: PopupPosition.bottom,
+                constraints: const BoxConstraints.tightFor(height: 400),
+                padding: const EdgeInsets.all(20),
+                child: ListView(
+                  itemExtent: 40,
+                  padding: EdgeInsets.zero,
+                  children: List.generate(100, (i) {
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        Text("Flutter Vant UI"),
+                        Icon(VanIcons.good_job_o),
+                      ],
+                    );
+                  }),
                 ),
               );
             },
-          );
-        }),
-      ),
-      Popup(
-        show: listContentShow,
-        constraints: const BoxConstraints.tightFor(height: 400),
-        position: PopupPosition.bottom,
-        child: ListView(
-          itemExtent: 40,
-          children: List.generate(100, (i) => Center(child: Text("$i"))),
-        ),
-      ),
+          ),
+        ]),
+      ]),
     ]);
   }
 }

@@ -18,6 +18,8 @@ class VanMask extends StatelessWidget {
 }
 
 class MaskBody extends StatelessWidget {
+  static const defaultBg = Color(0xB3000000);
+
   final Color? bg;
   final Function()? onTap;
   const MaskBody({
@@ -27,7 +29,7 @@ class MaskBody extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final bg = this.bg ?? const Color(0xB3000000);
+    final bg = this.bg ?? defaultBg;
     return GestureDetector(
       onTap: () => onTap?.call(),
       child: Container(color: bg),

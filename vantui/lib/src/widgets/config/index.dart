@@ -10,12 +10,19 @@ import 'theme.dart';
 
 // @DocsId("config")
 
-class VanConfig extends StatefulWidget {
-  static VanConfigState of(BuildContext context) {
-    return Provider.of<VanConfigState>(context);
+class VanConfig extends StatelessWidget {
+  static VanConfig of(BuildContext context) {
+    return Provider.of<VanConfig>(context);
   }
 
-  static VanConfigState? ofn(BuildContext context) {
+  static Widget tryCopy(BuildContext context, {required Widget child}) {
+    final config = ofn(context);
+    return config != null
+        ? VanConfig(theme: config.theme, child: child)
+        : child;
+  }
+
+  static VanConfig? ofn(BuildContext context) {
     return tryCatch(() => of(context));
   }
 
@@ -34,16 +41,9 @@ class VanConfig extends StatefulWidget {
   });
 
   @override
-  createState() => VanConfigState();
-}
-
-class VanConfigState extends State<VanConfig> {
-  final overlayKey = GlobalKey<OverlayState>();
-
-  VanTheme get theme => widget.theme ?? VanTheme.fallback;
-
-  @override
   Widget build(BuildContext context) {
+    final theme = this.theme ?? VanTheme.fallback;
+
     final defaultTextStyle = TailTypo()
         .no_underline()
         .font_size(theme.fontSizeLg)
@@ -55,7 +55,7 @@ class VanConfigState extends State<VanConfig> {
       size: theme.fontSizeMd,
     );
 
-    return Provider<VanConfigState>.value(
+    return Provider<VanConfig>.value(
       value: this,
       updateShouldNotify: (pre, cur) => true,
       child: DefaultTextStyle(
@@ -74,7 +74,7 @@ class VanConfigState extends State<VanConfig> {
                 },
               ),
             ),
-            child: widget.child ?? nil,
+            child: child ?? nil,
           ),
         ),
       ),

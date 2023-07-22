@@ -23,3 +23,8 @@ List<int> range(int min, int max) {
   }
   return List.generate(max - min + 1, (index) => min + index);
 }
+
+class ValueHolder<T> {
+  T value;
+  ValueHolder(this.value);
+}

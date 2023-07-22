@@ -104,19 +104,23 @@ class CascaderPageState extends State<CascaderPage> {
           return Text(formatValues(kAreaNamedOptions, model.value));
         }),
       ),
-      Popup(
-        show: basicShow,
-        position: PopupPosition.bottom,
-        round: true,
-        child: Cascader(
-          title: "请选择地区",
-          expands: true,
-          onClose: () => basicShow.value = false,
-          options: kAreaNamedOptions,
-          onCascadeEnd: (v) {
-            basicShow.value = false;
-            basicValues.value = v;
-          },
+      WatchModel(
+        basicShow,
+        (basicShow) => Popup(
+          show: basicShow.value,
+          onAfterClose: () => basicShow.value = false,
+          position: PopupPosition.bottom,
+          round: true,
+          child: Cascader(
+            title: "请选择地区",
+            expands: true,
+            onClose: () => basicShow.value = false,
+            options: kAreaNamedOptions,
+            onCascadeEnd: (v) {
+              basicShow.value = false;
+              basicValues.value = v;
+            },
+          ),
         ),
       ),
       const DocTitle("异步加载"),
@@ -131,37 +135,41 @@ class CascaderPageState extends State<CascaderPage> {
           });
         }),
       ),
-      Popup(
-        show: asyncShow,
-        position: PopupPosition.bottom,
-        round: true,
-        child: WatchModel(asyncOptions, (mOptions) {
-          return Cascader(
-            title: "请选择地区",
-            expands: true,
-            onClose: () => asyncShow.value = false,
-            options: mOptions.value,
-            onCascadeEnd: (v) {
-              asyncShow.value = false;
-              asyncValues.value = v;
-            },
-            onOptionChange: (values, selected) {
-              if (selected.children?.isEmpty == true) {
-                if (selected.value == 'Zhejiang') {
-                  Timer(const Duration(seconds: 1), () {
-                    selected.children = [
-                      NamedValueOption("杭州市", "Hangzhou"),
-                      NamedValueOption("宁波市", "Ningbo"),
-                    ];
-                    // refresh options
-                    mOptions.value = List.of(mOptions.value);
-                  });
+      WatchModel(
+        asyncShow,
+        (asyncShow) => Popup(
+          show: asyncShow.value,
+          onAfterClose: () => asyncShow.value = false,
+          position: PopupPosition.bottom,
+          round: true,
+          child: WatchModel(asyncOptions, (mOptions) {
+            return Cascader(
+              title: "请选择地区",
+              expands: true,
+              onClose: () => asyncShow.value = false,
+              options: mOptions.value,
+              onCascadeEnd: (v) {
+                asyncShow.value = false;
+                asyncValues.value = v;
+              },
+              onOptionChange: (values, selected) {
+                if (selected.children?.isEmpty == true) {
+                  if (selected.value == 'Zhejiang') {
+                    Timer(const Duration(seconds: 1), () {
+                      selected.children = [
+                        NamedValueOption("杭州市", "Hangzhou"),
+                        NamedValueOption("宁波市", "Ningbo"),
+                      ];
+                      // refresh options
+                      mOptions.value = List.of(mOptions.value);
+                    });
+                  }
                 }
-              }
-            },
-          );
-        }),
-      )
+              },
+            );
+          }),
+        ),
+      ),
     ]);
   }
 }

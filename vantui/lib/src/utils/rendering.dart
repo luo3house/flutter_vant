@@ -5,8 +5,13 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 /// Request a callback After Frame
-raf(Function() cb) =>
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) => {cb()});
+Function() raf(Function() cb) {
+  var flag = true;
+  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    if (flag) cb();
+  });
+  return () => flag = false;
+}
 
 /// Get child offset from sliver list
 double? getChildOffsetInSliverList(

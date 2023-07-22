@@ -24,7 +24,7 @@ class DialogPage extends StatelessWidget {
               onTap: () {
                 model.value = _State()
                   ..show = true
-                  ..onClose = (() {
+                  ..onAfterClose = (() {
                     model.value = model.value.clone()..show = false;
                   })
                   ..title = "Title"
@@ -37,7 +37,7 @@ class DialogPage extends StatelessWidget {
               onTap: () {
                 model.value = _State()
                   ..show = true
-                  ..onClose = (() {
+                  ..onAfterClose = (() {
                     model.value = model.value.clone()..show = false;
                   })
                   ..message = "生命远不止连轴转和忙到极限，人类的体验远比这辽阔、丰富得多。";
@@ -49,7 +49,7 @@ class DialogPage extends StatelessWidget {
               onTap: () {
                 model.value = _State()
                   ..show = true
-                  ..onClose = (() {
+                  ..onAfterClose = (() {
                     model.value = model.value.clone()..show = false;
                   })
                   ..action = DialogConfirm(
@@ -71,7 +71,7 @@ class DialogPage extends StatelessWidget {
               onTap: () {
                 model.value = _State()
                   ..show = true
-                  ..onClose = (() {
+                  ..onAfterClose = (() {
                     model.value = model.value.clone()..show = false;
                   })
                   ..action = DialogConfirm(
@@ -92,8 +92,7 @@ class DialogPage extends StatelessWidget {
             action: model.value.action,
             constraints: model.value.constraints,
             closeOnClickOverlay: model.value.closeOnClickOverlay,
-            onClose: model.value.onClose,
-            onInvalidate: model.value.onInvalidate,
+            onAfterClose: model.value.onAfterClose,
           ),
         ],
       );
@@ -108,8 +107,7 @@ class _State {
   DialogActionLike? action;
   BoxConstraints? constraints;
   bool? closeOnClickOverlay;
-  Function()? onClose;
-  Function()? onInvalidate;
+  Function()? onAfterClose;
   clone() {
     return _State()
       ..show = show
@@ -118,7 +116,6 @@ class _State {
       ..action = action
       ..constraints = constraints
       ..closeOnClickOverlay = closeOnClickOverlay
-      ..onClose = onClose
-      ..onInvalidate = onInvalidate;
+      ..onAfterClose = onAfterClose;
   }
 }

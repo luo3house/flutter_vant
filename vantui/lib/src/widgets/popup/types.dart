@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+
 enum PopupPosition { top, bottom, left, right, center }
 
 class NullableSize {
@@ -9,3 +11,7 @@ class NullableSize {
   final double? height;
   const NullableSize(this.width, this.height);
 }
+
+typedef PopupDisposeFn = Future<dynamic> Function();
+
+typedef BoxConstraintsGetter = BoxConstraints Function(BoxConstraints con);

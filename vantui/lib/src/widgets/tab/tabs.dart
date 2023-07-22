@@ -268,7 +268,7 @@ class TabsState extends State<Tabs> {
   @override
   void didUpdateWidget(covariant Tabs oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.active != _active) {
+    if (widget.active != null && widget.active != _active) {
       setActive(widget.active);
     }
   }

@@ -87,32 +87,33 @@ class PickerPageState extends State<PickerPage> {
 
       //
       const DocTitle("搭配弹出层使用"),
-      // @DocsDemo("搭配弹出层使用")
       ValueListenableBuilder(
         valueListenable: popupValues,
         builder: (_, values, __) {
           return Cell(
             title: "选择城市: ${values.join('')}",
             clickable: true,
-            onTap: () => popupShow.value = true,
+            onTap: () {
+              // @DocsDemo("搭配弹出层使用")
+              PopupStatic.show(
+                context,
+                round: true,
+                position: PopupPosition.bottom,
+                child: WatchModel(popupValues, (model) {
+                  return Picker(
+                    onCancel: (_) => popupShow.value = false,
+                    onConfirm: (_) => popupShow.value = false,
+                    columns: citiesColumns,
+                    values: model.value,
+                    onChange: (values) => popupValues.value = values,
+                  );
+                }),
+              );
+              // @DocsDemo
+            },
           );
         },
       ),
-      Popup(
-        show: popupShow,
-        round: true,
-        position: PopupPosition.bottom,
-        child: WatchModel(popupValues, (model) {
-          return Picker(
-            onCancel: (_) => popupShow.value = false,
-            onConfirm: (_) => popupShow.value = false,
-            columns: citiesColumns,
-            values: model.value,
-            onChange: (values) => popupValues.value = values,
-          );
-        }),
-      ),
-      // @DocsDemo
 
       const DocTitle("多列选择"),
       // @DocsDemo("多列选择")

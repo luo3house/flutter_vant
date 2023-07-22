@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:demo/widgets/dialog_state.dart';
-import 'package:demo/widgets/watch_model.dart';
 import 'package:demo/widgets/with_value.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
@@ -77,36 +75,34 @@ class FormPage extends StatelessWidget {
               label: "Slider", name: 'slider', child: Slider(step: 1)),
 
           // TimePicker
-          VanField(
-            label: "TimePicker",
-            clickable: true,
-            onTap: () => timePickerShow.value = true,
-            child: VanFormItem<List<int>>(
-              name: "time_picker",
-              builder: (model) {
-                return Stack(
-                  children: [
-                    Text(model.value?.toString() ?? '选择时间'),
-                    Popup(
-                      show: timePickerShow,
-                      round: true,
-                      position: PopupPosition.bottom,
-                      child: WithModel(model.value, (tmp) {
-                        return TimePicker(
-                          value: tmp.value,
-                          onChange: (v) => tmp.value = v,
-                          onCancel: (_) => timePickerShow.value = false,
-                          onConfirm: (v) {
-                            timePickerShow.value = false;
-                            model.setValue(v ?? const []);
-                          },
-                        );
-                      }),
-                    ),
-                  ],
-                );
-              },
-            ),
+          VanFormItem<List<int>>(
+            name: "time_picker",
+            builder: (model) {
+              return VanField(
+                label: "TimePicker",
+                clickable: true,
+                child: Text(model.value?.toString() ?? '选择时间'),
+                onTap: () {
+                  late PopupDisposeFn disposePopup;
+                  disposePopup = PopupStatic.show(
+                    context,
+                    round: true,
+                    position: PopupPosition.bottom,
+                    child: WithModel(model.value, (tmp) {
+                      return TimePicker(
+                        value: tmp.value,
+                        onChange: (v) => tmp.value = v,
+                        onCancel: (_) => disposePopup(),
+                        onConfirm: (v) {
+                          disposePopup();
+                          model.setValue(v ?? const []);
+                        },
+                      );
+                    }),
+                  );
+                },
+              );
+            },
           ),
 
           // Custom

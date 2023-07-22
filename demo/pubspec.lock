@@ -8,13 +8,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.9.0"
-  back_button_interceptor:
-    dependency: transitive
-    description:
-      name: back_button_interceptor
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "6.0.2"
   boolean_selector:
     dependency: transitive
     description:

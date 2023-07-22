@@ -88,9 +88,9 @@ class IndexBarState extends State<IndexBar> {
           ),
         ));
       } else {
-        sliverChunk.add(WithDelayed(
-          () => child,
+        sliverChunk.add(ConstrainedBox(
           constraints: BoxConstraints.tightFor(height: cellExtent),
+          child: child,
         ));
       }
     }

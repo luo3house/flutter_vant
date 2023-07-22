@@ -1,7 +1,6 @@
 import 'package:demo/doc/doc_title.dart';
 import 'package:demo/widgets/child.dart';
 import 'package:demo/widgets/watch_model.dart';
-import 'package:demo/widgets/with_value.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
 import 'package:flutter/widgets.dart';
 
@@ -85,22 +84,26 @@ class CalendarPageState extends State<CalendarPage> {
               return Text(dates.isEmpty ? '' : dates.first.format("y/M/d"));
             }),
           ),
-          Popup(
-            show: singleShow,
-            round: true,
-            constraints: BoxConstraints.tightFor(height: height),
-            position: PopupPosition.bottom,
-            child: WatchModel(singleValues, (model) {
-              return Calendar(
-                expands: true,
-                value: model.value,
-                onCancel: (_) => singleShow.value = false,
-                onConfirm: (value) {
-                  singleShow.value = false;
-                  singleValues.value = value ?? const [];
-                },
-              );
-            }),
+          WatchModel(
+            singleShow,
+            (singleShow) => Popup(
+              show: singleShow.value,
+              onAfterClose: () => singleShow.value = false,
+              round: true,
+              constraints: BoxConstraints.tightFor(height: height),
+              position: PopupPosition.bottom,
+              child: WatchModel(singleValues, (model) {
+                return Calendar(
+                  expands: true,
+                  value: model.value,
+                  onCancel: (_) => singleShow.value = false,
+                  onConfirm: (value) {
+                    singleShow.value = false;
+                    singleValues.value = value ?? const [];
+                  },
+                );
+              }),
+            ),
           ),
           Cell(
             clickable: true,
@@ -112,23 +115,27 @@ class CalendarPageState extends State<CalendarPage> {
               return Text(dates.isEmpty ? '' : '已选 ${dates.length} 个日期');
             }),
           ),
-          Popup(
-            show: multipleShow,
-            round: true,
-            constraints: BoxConstraints.tightFor(height: height),
-            position: PopupPosition.bottom,
-            child: WatchModel(multipleValues, (model) {
-              return Calendar(
-                expands: true,
-                value: model.value,
-                type: CalendarType.multiple,
-                onCancel: (_) => multipleShow.value = false,
-                onConfirm: (value) {
-                  multipleShow.value = false;
-                  multipleValues.value = value ?? const [];
-                },
-              );
-            }),
+          WatchModel(
+            multipleShow,
+            (multipleShow) => Popup(
+              show: multipleShow.value,
+              onAfterClose: () => multipleShow.value = false,
+              round: true,
+              constraints: BoxConstraints.tightFor(height: height),
+              position: PopupPosition.bottom,
+              child: WatchModel(multipleValues, (model) {
+                return Calendar(
+                  expands: true,
+                  value: model.value,
+                  type: CalendarType.multiple,
+                  onCancel: (_) => multipleShow.value = false,
+                  onConfirm: (value) {
+                    multipleShow.value = false;
+                    multipleValues.value = value ?? const [];
+                  },
+                );
+              }),
+            ),
           ),
           Cell(
             clickable: true,
@@ -142,23 +149,27 @@ class CalendarPageState extends State<CalendarPage> {
                   : '${dates.first.format('M/d')} - ${dates.last.format('M/d')}');
             }),
           ),
-          Popup(
-            show: rangeShow,
-            round: true,
-            constraints: BoxConstraints.tightFor(height: height),
-            position: PopupPosition.bottom,
-            child: WatchModel(rangeValues, (model) {
-              return Calendar(
-                expands: true,
-                value: model.value,
-                type: CalendarType.range,
-                onCancel: (_) => rangeShow.value = false,
-                onConfirm: (value) {
-                  rangeShow.value = false;
-                  rangeValues.value = value ?? const [];
-                },
-              );
-            }),
+          WatchModel(
+            rangeShow,
+            (rangeShow) => Popup(
+              show: rangeShow.value,
+              onAfterClose: () => rangeShow.value = false,
+              round: true,
+              constraints: BoxConstraints.tightFor(height: height),
+              position: PopupPosition.bottom,
+              child: WatchModel(rangeValues, (model) {
+                return Calendar(
+                  expands: true,
+                  value: model.value,
+                  type: CalendarType.range,
+                  onCancel: (_) => rangeShow.value = false,
+                  onConfirm: (value) {
+                    rangeShow.value = false;
+                    rangeValues.value = value ?? const [];
+                  },
+                );
+              }),
+            ),
           ),
         ]),
 
@@ -173,24 +184,28 @@ class CalendarPageState extends State<CalendarPage> {
             return Text(dates.isEmpty ? '' : dates.first.format("y/M/d"));
           }),
         ),
-        Popup(
-          show: minmaxShow,
-          round: true,
-          constraints: BoxConstraints.tightFor(height: height),
-          position: PopupPosition.bottom,
-          child: WatchModel(minmaxValues, (model) {
-            return Calendar(
-              minDate: DateTime(2010, 1).startOfMonth,
-              maxDate: DateTime(2010, 1).endOfMonth,
-              expands: true,
-              value: model.value,
-              onCancel: (_) => minmaxShow.value = false,
-              onConfirm: (value) {
-                minmaxShow.value = false;
-                minmaxValues.value = value ?? const [];
-              },
-            );
-          }),
+        WatchModel(
+          minmaxShow,
+          (minmaxShow) => Popup(
+            show: minmaxShow.value,
+            onAfterClose: () => minmaxShow.value = false,
+            round: true,
+            constraints: BoxConstraints.tightFor(height: height),
+            position: PopupPosition.bottom,
+            child: WatchModel(minmaxValues, (model) {
+              return Calendar(
+                minDate: DateTime(2010, 1).startOfMonth,
+                maxDate: DateTime(2010, 1).endOfMonth,
+                expands: true,
+                value: model.value,
+                onCancel: (_) => minmaxShow.value = false,
+                onConfirm: (value) {
+                  minmaxShow.value = false;
+                  minmaxValues.value = value ?? const [];
+                },
+              );
+            }),
+          ),
         ),
 
         const DocTitle("平铺展示"),
