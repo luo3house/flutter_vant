@@ -59,6 +59,13 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+    splits {
+        abi {
+            enable true
+            universalApk true
+        }
+    }
 }
 
 flutter {
