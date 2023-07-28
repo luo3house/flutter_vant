@@ -187,7 +187,7 @@ class InputState extends State<Input>
   @override
   void didUpdateWidget(covariant Input oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (controller.text != widget.value) {
+    if (oldWidget.value != widget.value && controller.text != widget.value) {
       controller.text = widget.value ?? '';
     }
   }
@@ -308,7 +308,7 @@ class InputState extends State<Input>
       focusNode: disabled ? FocusNode(canRequestFocus: false) : focusNode,
       autofocus: disabled ? false : autoFocus,
       onChanged: handleChanged,
-      style: textStyle ?? const TextStyle(),
+      style: textStyle,
       cursorColor: widget.cursorColor ?? theme.textColor,
       backgroundCursorColor: widget.bgCursorColor ?? theme.primaryColor,
       cursorWidth: 1.5,
@@ -354,12 +354,9 @@ class InputState extends State<Input>
       );
     }));
 
-    return FocusTrapArea(
-      focusNode: focusNode,
-      child: gestureDetectorBuilder.buildGestureDetector(
-        behavior: HitTestBehavior.translucent,
-        child: wrap,
-      ),
+    return gestureDetectorBuilder.buildGestureDetector(
+      behavior: HitTestBehavior.translucent,
+      child: wrap,
     );
   }
 }
@@ -408,7 +405,7 @@ class VanInputStateSelectionBuilder
   }
 
   @override
-  void onSingleTapUp(TapUpDetails details) {
+  void onSingleTapUp(TapDragUpDetails details) {
     editableText.hideToolbar();
     super.onSingleTapUp(details);
     editableText.requestKeyboard();

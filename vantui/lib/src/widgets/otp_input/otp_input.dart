@@ -97,55 +97,52 @@ class OTPInputState extends State<OTPInput> {
     final borderW = gutter > 0 ? 0.0 : 1.0;
     final borderC = theme.borderColor;
 
-    return FocusTrapArea(
+    return Input(
+      keyboardType: const TextInputType.numberWithOptions(),
+      autoFocus: autoFocus,
       focusNode: focusNode,
-      child: Input(
-        keyboardType: const TextInputType.numberWithOptions(),
-        autoFocus: autoFocus,
-        focusNode: focusNode,
-        maxLength: length,
-        value: chars,
-        onChange: (v) => handleCharsChange(v),
-        inputFormatters: [FilteringTextInputFormatter.allow(digitRE)],
-        showCursor: false,
-        showSelectionHandles: false,
-        toolbarOptions: Input.noToolbarOptions,
-        as: (input) {
-          return Stack(alignment: Alignment.bottomLeft, children: [
-            // paint render box is required to get caret size to scrolling widget to screen
-            // but Opacity(opacity: 0) skips painting and only performs layout, and Offstage as well
-            Hidden(child: input),
-            TailBox().border(borderC, borderW).mx(mx).as((s) {
-              return s.Container(
-                height: height,
-                child: LayoutBuilder(builder: (_, con) {
-                  final gaps = GridUtil.gutter(con.maxWidth, length, gutter);
-                  return Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: List.generate(length, (index) {
-                      final slotFocusing = index == chars.length ||
-                          // (chars.length == length && index + 1 == length);
-                          false;
-                      final borderW = index == 0 ? 0.0 : 1.0;
-                      return TailBox()
-                          .ml(index == 0 ? 0.0 : gaps.subsequentLeft)
-                          .border_l(borderC, borderW)
-                          .Container(
-                            width: gaps.itemDim,
-                            child: _OTPInputSlot(
-                              obsecure: obsecure,
-                              focusing: isFocusing && slotFocusing,
-                              char: chars.length > index ? chars[index] : '',
-                            ),
-                          );
-                    }),
-                  );
-                }),
-              );
-            }),
-          ]);
-        },
-      ),
+      maxLength: length,
+      value: chars,
+      onChange: (v) => handleCharsChange(v),
+      inputFormatters: [FilteringTextInputFormatter.allow(digitRE)],
+      showCursor: false,
+      showSelectionHandles: false,
+      toolbarOptions: Input.noToolbarOptions,
+      as: (input) {
+        return Stack(alignment: Alignment.bottomLeft, children: [
+          // paint render box is required to get caret size to scrolling widget to screen
+          // but Opacity(opacity: 0) skips painting and only performs layout, and Offstage as well
+          Hidden(child: input),
+          TailBox().border(borderC, borderW).mx(mx).as((s) {
+            return s.Container(
+              height: height,
+              child: LayoutBuilder(builder: (_, con) {
+                final gaps = GridUtil.gutter(con.maxWidth, length, gutter);
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: List.generate(length, (index) {
+                    final slotFocusing = index == chars.length ||
+                        // (chars.length == length && index + 1 == length);
+                        false;
+                    final borderW = index == 0 ? 0.0 : 1.0;
+                    return TailBox()
+                        .ml(index == 0 ? 0.0 : gaps.subsequentLeft)
+                        .border_l(borderC, borderW)
+                        .Container(
+                          width: gaps.itemDim,
+                          child: _OTPInputSlot(
+                            obsecure: obsecure,
+                            focusing: isFocusing && slotFocusing,
+                            char: chars.length > index ? chars[index] : '',
+                          ),
+                        );
+                  }),
+                );
+              }),
+            );
+          }),
+        ]);
+      },
     );
   }
 }

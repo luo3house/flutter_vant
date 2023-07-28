@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/gestures.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 class GlowlessScrollBehavior extends ScrollBehavior {
@@ -10,13 +11,6 @@ class GlowlessScrollBehavior extends ScrollBehavior {
     this.glowless = true,
     this.parent,
   });
-
-  @override
-  Widget buildViewportChrome(
-      BuildContext context, Widget child, AxisDirection axisDirection) {
-    return (parent?.buildViewportChrome ?? super.buildViewportChrome)(
-        context, child, axisDirection);
-  }
 
   @override
   GestureVelocityTrackerBuilder velocityTrackerBuilder(BuildContext context) {
@@ -56,15 +50,17 @@ class GlowlessScrollBehavior extends ScrollBehavior {
   ScrollBehavior copyWith({
     bool? scrollbars,
     bool? overscroll,
+    Set<PointerDeviceKind>? dragDevices,
+    Set<LogicalKeyboardKey>? pointerAxisModifiers,
     ScrollPhysics? physics,
     TargetPlatform? platform,
-    Set<PointerDeviceKind>? dragDevices,
     AndroidOverscrollIndicator? androidOverscrollIndicator,
   }) {
     return GlowlessScrollBehavior(
       parent: parent?.copyWith(
         scrollbars: scrollbars,
         overscroll: overscroll,
+        pointerAxisModifiers: pointerAxisModifiers,
         physics: physics,
         platform: platform,
         dragDevices: dragDevices,
