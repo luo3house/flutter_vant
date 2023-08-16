@@ -11,7 +11,7 @@ class Dialog extends StatelessWidget {
   final bool? show;
   // @DocsProp("title", "Widget | String | null", "标题")
   final dynamic title;
-  // @DocsProp("title", "Widget | String", "内容")
+  // @DocsProp("message", "Widget | String", "内容")
   final dynamic message;
   // @DocsProp("action", "DialogConfirm", "确认栏，提供确认、取消、或二者")
   final DialogActionLike? action;
@@ -19,6 +19,8 @@ class Dialog extends StatelessWidget {
   final BoxConstraints? constraints;
   // @DocsProp("closeOnClickOverlay", "bool", "点击遮罩层关闭面板")
   final bool? closeOnClickOverlay;
+  // @DocsProp("expands", "bool", "是否拉长内容，用于嵌入 ListView 内容")
+  final bool? expands;
   // @DocsProp("onAfterClose", "bool", "完全关闭后触发")
   final Function()? onAfterClose;
 
@@ -29,6 +31,7 @@ class Dialog extends StatelessWidget {
     this.action,
     this.constraints,
     this.closeOnClickOverlay,
+    this.expands,
     this.onAfterClose,
     super.key,
   });
@@ -44,6 +47,7 @@ class Dialog extends StatelessWidget {
         action: action,
         constraints: constraints,
         closeOnClickOverlay: closeOnClickOverlay,
+        expands: expands,
         onAfterClose: onAfterClose,
       ),
     );

@@ -1,5 +1,4 @@
 import 'package:demo/doc/doc_title.dart';
-import 'package:demo/widgets/with_value.dart';
 import 'package:flutter_vantui/flutter_vantui.dart';
 import 'package:tailstyle/tailstyle.dart';
 import 'package:flutter/widgets.dart';
@@ -13,109 +12,93 @@ class DialogPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WithModel<_State>(_State(), (model) {
-      return Stack(
-        children: [
-          ListView(children: [
-            const DocTitle("Basic Usage"),
-            Cell(
-              title: "Basic Usage",
-              clickable: true,
-              onTap: () {
-                model.value = _State()
-                  ..show = true
-                  ..onAfterClose = (() {
-                    model.value = model.value.clone()..show = false;
-                  })
-                  ..title = "Title"
-                  ..message = "如果解决方法是丑陋的，那就肯定还有更好的解决方法，只是还没有发现而已。";
-              },
+    return ListView(children: [
+      const DocTitle("基本用法"),
+      Cell(
+        title: "基本用法",
+        clickable: true,
+        onTap: () {
+          // @DocsDemo("基本用法")
+          DialogStatic.show(
+            context,
+            title: "标题",
+            message: "如果解决方法是丑陋的，那就肯定还有更好的解决方法，只是还没有发现而已。",
+          );
+          // @DocsDemo
+        },
+      ),
+      Cell(
+        title: "无标题",
+        clickable: true,
+        onTap: () {
+          // @DocsDemo("无标题")
+          DialogStatic.show(
+            context,
+            title: "无标题",
+            message: "生命远不止连轴转和忙到极限，人类的体验远比这辽阔、丰富得多。",
+          );
+          // @DocsDemo
+        },
+      ),
+      Cell(
+        title: "确定取消按钮",
+        clickable: true,
+        onTap: () {
+          // @DocsDemo("确定取消按钮")
+          DialogStatic.show(
+            context,
+            title: "标题",
+            message: "如果解决方法是丑陋的，那就肯定还有更好的解决方法，只是还没有发现而已。",
+            action: DialogConfirm(
+              onOK: () => ToastStatic.show(context, message: "确定了"),
+              onCancel: () => ToastStatic.show(context, message: "取消了"),
+              okText: "确定",
+              cancelText: "取消",
             ),
-            Cell(
-              title: "Untitled",
-              clickable: true,
-              onTap: () {
-                model.value = _State()
-                  ..show = true
-                  ..onAfterClose = (() {
-                    model.value = model.value.clone()..show = false;
-                  })
-                  ..message = "生命远不止连轴转和忙到极限，人类的体验远比这辽阔、丰富得多。";
-              },
-            ),
-            Cell(
-              title: "Confirm (Cancel + OK)",
-              clickable: true,
-              onTap: () {
-                model.value = _State()
-                  ..show = true
-                  ..onAfterClose = (() {
-                    model.value = model.value.clone()..show = false;
-                  })
-                  ..action = DialogConfirm(
-                    onOK: () => ToastStatic.show(context, message: "Yep"),
-                    onCancel: () => ToastStatic.show(context, message: "Not"),
-                    okText: "Yep",
-                    cancelText: "Not",
-                  )
-                  ..title = "Title"
-                  ..message = "如果解决方法是丑陋的，那就肯定还有更好的解决方法，只是还没有发现而已。";
-              },
-            ),
+          );
+          // @DocsDemo
+        },
+      ),
 
-            //
-            const DocTitle("Custom"),
-            Cell(
-              title: "Custom",
-              clickable: true,
-              onTap: () {
-                model.value = _State()
-                  ..show = true
-                  ..onAfterClose = (() {
-                    model.value = model.value.clone()..show = false;
-                  })
-                  ..action = DialogConfirm(
-                    onCancel: () {},
-                  )
-                  ..title = "Title"
-                  ..message = TailBox().p(20).Container(
-                        child: Image.network(
-                            "https://fastly.jsdelivr.net/npm/@vant/assets/apple-3.jpeg"),
-                      );
-              },
-            ),
-          ]),
-          Dialog(
-            show: model.value.show,
-            title: model.value.title,
-            message: model.value.message,
-            action: model.value.action,
-            constraints: model.value.constraints,
-            closeOnClickOverlay: model.value.closeOnClickOverlay,
-            onAfterClose: model.value.onAfterClose,
-          ),
-        ],
-      );
-    });
-  }
-}
+      //
+      const DocTitle("自定义渲染"),
+      Cell(
+        title: "自定义渲染",
+        clickable: true,
+        onTap: () {
+          // @DocsDemo("自定义渲染")
+          DialogStatic.show(
+            context,
+            title: "标题",
+            message: TailBox().p(20).as((s) {
+              return s.Container(
+                child: Image.network(
+                    "https://fastly.jsdelivr.net/npm/@vant/assets/apple-3.jpeg"),
+              );
+            }),
+          );
+          // @DocsDemo
+        },
+      ),
 
-class _State {
-  bool? show;
-  dynamic title;
-  dynamic message;
-  DialogActionLike? action;
-  BoxConstraints? constraints;
-  bool? closeOnClickOverlay;
-  Function()? onAfterClose;
-  clone() {
-    return _State()
-      ..show = show
-      ..title = title
-      ..message = message
-      ..action = action
-      ..constraints = constraints
-      ..closeOnClickOverlay = closeOnClickOverlay
-      ..onAfterClose = onAfterClose;
+      Cell(
+        title: "长内容渲染",
+        clickable: true,
+        onTap: () {
+          // @DocsDemo("长内容渲染")
+          DialogStatic.show(
+            context,
+            title: "标题",
+            expands: true,
+            message: ListView.builder(
+              itemCount: 999,
+              itemBuilder: (_, i) => Text("Item $i"),
+            ),
+            action: DialogConfirm(onOK: () {}, onCancel: () {}),
+          );
+          // @DocsDemo
+        },
+      ),
+    ]);
   }
 }

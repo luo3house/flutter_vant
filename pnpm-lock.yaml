@@ -35,6 +35,8 @@ importers:
         specifier: 3.2.44
         version: 3.2.44
 
+  icons: {}
+
   vantui: {}
 
 packages:

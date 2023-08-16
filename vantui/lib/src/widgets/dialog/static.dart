@@ -15,6 +15,7 @@ class DialogStatic {
     DialogActionLike? action,
     dynamic constraints,
     bool? closeOnClickOverlay,
+    bool? expands,
     Function()? onAfterClose,
   }) {
     late PopupDisposeFn disposeFn;
@@ -32,6 +33,7 @@ class DialogStatic {
       child: VanDialogBody(
         title: title,
         message: message,
+        expands: expands,
         action: (action ?? const DialogConfirm()).cloneWithDialogActionLike(
           tryClose: () {
             disposeFn();

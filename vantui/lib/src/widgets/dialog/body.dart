@@ -8,11 +8,13 @@ class VanDialogBody extends StatelessWidget {
   final dynamic title;
   final dynamic message;
   final Widget? action;
+  final bool? expands;
 
   const VanDialogBody({
     this.title,
     this.message,
     this.action,
+    this.expands,
     super.key,
   });
 
@@ -77,7 +79,7 @@ class VanDialogBody extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           header,
-          content,
+          Expanded(flex: expands == true ? 1 : 0, child: content),
           action ?? nil,
         ]),
       );
