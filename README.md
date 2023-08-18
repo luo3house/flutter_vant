@@ -35,8 +35,9 @@ dependencies:
 dependencies:
   flutter_vantui:
     git:
-      url: https://github.com/luo3house/flutter_vant.git
-      # ref: <branch or commit hash>
+      url: https://github.com/luo3house/flutter_vant
+      path: vantui
+      ref: <latest commit hash>
 ```
 
 ## 辅助开发
