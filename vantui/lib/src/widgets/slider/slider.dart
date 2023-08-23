@@ -122,9 +122,7 @@ class SliderState extends State<Slider> {
         widget.onChange?.call(value);
       }
     }
-    if (value != widget.value) {
-      widget.onChangeEnd?.call(value);
-    }
+    widget.onChangeEnd?.call(value);
     this.pointer = null;
     lastReportedValue = null;
   }
